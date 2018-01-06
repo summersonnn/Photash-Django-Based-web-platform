@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Rankings{% endblock %}
+
+{% block body %}
+    <div class="container" style="margin-top: 100px;">
+        <h1 class="display-3">RANKINGS</h1>
+        <table id="propertable" class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Rank</th>
+              <th scope="col">Username</th>
+              <th scope="col">Photo</th>
+              <th scope="col">Average points taken</th>
+              <th scope="col">Votes gotten</th>
+              <th scope="col">Uploading time</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          {% for photo in photos %}
+            <tr>
+                <td></td>
+                <td>{{ photo.ownername.username }}</td>
+                <td><a href="{{ photo.photoItself  }}">Photo</a></td>
+                <td>{% for rating in photo.ratings.all %}{{ rating.average }}{% endfor %}</td>
+                <td>{% for rating in photo.ratings.all %}{{ rating.count }}{% endfor %}</td>
+                <td>{{ photo.uploading_date }}</td>
+            </tr>
+          {% endfor %}
+
+        </tbody>
+        </table>
+    </div>
+{% endblock %}

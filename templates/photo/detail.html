@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load ratings %}
+
+{% block title %} Photo Detail {% endblock %}
+
+{% block body %}
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<div class="content">
+    <!--BU KOD İLE İSTEDİĞİMİZ FOTOĞRAFIN ORT PUANINA ULASABILIYORUZ. RATING MODELINDEKI TUM FIELDLARA ULASIRIZ.-->
+    <p>Photo id:{{ photo.id }}</p><br/>
+    <p>Number of votes that the photo has gotten: {{  rating.count }} </p><br/>
+    <p>Average point of photo: {{  rating.average }} </p><br/>
+</div>
+
+{% endblock %}
+
+
+

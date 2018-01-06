@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Contests{% endblock %}
+
+{% block body %}
+
+<!--CONTEST LİSTELEME-->
+<div id="contesttop" class="container">
+
+       <h1>Ongoing Contests</h1><br>
+
+        <form method="GET" action="">
+            <input type="text" name="q" placeholder="Search Contests" value="{{ request.GET.q }}"/>
+            <input type="submit" value="Search"/>
+        </form>
+        <br><br>
+
+       <table id="propertable" class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Contest Name</th>
+              <th scope="col">Contest Tag</th>
+              <th scope="col">Start Date</th>
+              <th scope="col">End Date</th>
+              <th scope="col">Photos</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          {% for contest in contests %}
+            <tr>
+                <td></td>
+                <td> <a href={% url "contest:detail" slug=contest.slug %} >{{ contest.contest_name }}  </a></td>
+                <td>{{ contest.tag }}</td>
+                <td>{{ contest.start_date }}</td>
+                <td>{{ contest.end_date }}</td>
+                <td> x{{ contest.photos.count }}  </td>  <!--Foreignkey ile bağlandığın modelden, foreign key yazdığın modele ulaşma şekli -->
+            </tr>
+          {% endfor %}
+
+        </tbody>
+        </table>
+
+
+
+    <!--Sayfalama (Pagination)-->
+    <div class="row">
+        <div class="pagination">
+                <span class="step-links">
+                    {% if contests.has_previous %}
+                        <a href="?page={{ contests.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        Page {{ contests.number }} of {{ contests.paginator.num_pages }}.
+                    </span>
+                    {% if contests.has_next %}
+                        <a href="?page={{ contests.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
+                    {% endif %}
+                </span>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}

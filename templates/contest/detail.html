@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contest Features{% endblock %}
+
+{% block body %}
+
+
+<section class="info">
+    <div class="container">
+        <div class="inner-more">
+            <table  class="table table-hover">
+                  <tbody>
+                    <tr>
+                        <th>Contest Name</th>
+                            <td>{{ contest.contest_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Contest Tag</th>
+                            <td>{{ contest.tag }} </td>
+                    </tr>
+                    <tr>
+                        <th>Start Date</th>
+                            <td>{{  contest.start_date }}</td>
+                    </tr>
+                    <tr>
+                        <th>End Date</th>
+                            <td>{{ contest.end_date }}</td>
+                    </tr>
+                    <tr>
+                        <th>Minimum amount of votes you need to distribute</th>
+                            <td>{{  contest.min_must_votes }} {% if request.user.is_authenticated %}(You've distributed {{ contender.howmany_voted }}){% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th>Number of photos in photopool</th>
+                            <td>{{ contest.photos.count }}</td>
+                    </tr>
+                    <tr>
+                        <th>Maximum number of photos you can send to photopool</th>
+                            <td>{{  contest.max_photos_per_Reguser }}</td>
+                    </tr>
+                    <tr>
+                        <th>Prize distributions</th>
+                            <td>{{  contest.prize_distributions }}</td>
+                    </tr>
+                  <!--Buraya daha çok detay eklenebilir, aşağıdaki kısımda fazla detaylar var-->
+                </tbody>
+            </table>
+            {% if request.user.is_authenticated %}
+                <form style="display: inline;" action={% url "photo:create" contestslug=contest.slug %}>
+                    <input class="btn btn-success btn-lg" type="submit" value="Send photo to Contest" >
+                </form>
+            {% endif %}
+            <form style="display: inline;" action={% url "photo:index" contestslug=contest.slug %}>
+                    <input class="btn btn-primary btn-lg" type="submit" value="See the Photopool">
+            </form>
+            <form style="display: inline;" action={% url "contest:rankings" slug=contest.slug %}>
+                    <input class="btn btn-danger btn-lg" type="submit" value="Rankings">
+            </form>
+        </div>
+    </div>
+</section>
+
+<section style="margin-bottom: 50px;" class="examples">
+    <div class="container">
+        <div class="examples-top">
+            <h3>{{ contest.contest_name }} Example Photos</h3>
+        </div>
+        <div class="examples-content">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="card" style="border-color: black;">
+                        <img src="{% static 'images/yvonnegenç.jpg'%}" alt="Example Photo">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card" style="border-color: black;">
+                        <img src="{% static 'images/yvonnechuck.jpg'%}" alt="Example Photo">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card" style="border-color: black;">
+                        <img src="{% static 'images/yvonne24.jpg'%}" alt="Example Photo">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!--<section class="white">
+      <div class="inner-more">
+        <div class="container">
+          <div class="section-title text-center">
+            <h3>Upgrade to gold membership and gain some advantages.<br> {{ contest.contest_name }} contest.</h3>
+          </div>
+          <table class="table comp-table">
+            <thead>
+              <tr>
+                <td class="features-title">
+                  <div class="title-height-add"></div>
+                  <div>
+                    <h2>FEATURES</h2>
+                    <h5>COMPARISON</h5>
+                  </div>
+                </td>
+                <td class="premium-title">
+                  <div class="title-height-add"></div>
+                  <span class="arrow-down"></span>
+                  <h2>GOLD USER</h2>
+                  <h3>7$<span>per month</span></h3>
+                </td>
+                <td class="regular-title">
+                  <div class="title-height-add"></div>
+                  <span class="arrow-down"></span>
+                  <h2>FREE USER</h2>
+                  <h3>0$</h3>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Minimum amount of votes you need to distribute<br> in order to take part in rankings</td>
+                <td>5 {% if request.user.is_authenticated %}(You've distributed {{ contender.howmany_voted }}){% endif %}</td> <!--şimdilik 5 yazdım cunku databasede olusturmadım -
+                <td>{{  contest.min_must_votes }} {% if request.user.is_authenticated %}(You've distributed {{ contender.howmany_voted }}){% endif %}</td>
+              </tr>
+              <tr>
+                <td>Maximum number of photos you can send to photopool</td>
+                <td>{{  contest.max_photos_per_Preuser }}</td>
+                <td>{{  contest.max_photos_per_Reguser }}</td>
+              </tr>
+              <tr>
+                <td>Min average of given points a contender must provide</td>
+                <td>{{  contest.min_total_points_given }}</td>
+                <td>{{  contest.min_total_points_given }}</td>
+              </tr>
+              <tr>
+                <td>Free photo uploading for the first photo </td>
+                <td ><i class="fa fa-check" aria-hidden="true"></i></td>
+                <td ><i class="fa fa-check" aria-hidden="true"></i></td>
+              </tr>
+              <tr>
+                <td>Free photo uploading after the first photo</td>
+                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                <td><i class="fa fa-times" aria-hidden="true"></i></td>
+              </tr>
+              <tr>
+                <td>Stats Whisperer <a style="font-size:10px;" href="#">What is this?</a></td>
+                <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                <td><i class="fa fa-times" aria-hidden="true"></i></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td class="last-child-td-btn premium"><a href="#" class="plan-btn">Upgrade</a></td>
+                <td class="last-child-td-btn regular"><a href="#" class="plan-btn">Sign Up</a></td>
+              </tr>
+            <tbody>
+          </table>
+        </div>
+      </div>
+    </section>-->
+
+{% endblock %}

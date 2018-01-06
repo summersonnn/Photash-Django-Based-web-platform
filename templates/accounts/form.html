@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} Photo upload {% endblock %}
+
+{% block body %}
+
+    <div class="content">
+        <div class="col-sm-6 offset-3">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <h1>{{ title }}</h1>
+                {{ form|crispy }} <!--altı çizi olması pycharm kaynaklı-->
+                <input class="btn btn-primary" type="submit" value="{{ title }}">
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+

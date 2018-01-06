@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Sorry...{% endblock %}
+
+{% block body %}
+    <div class="container" style="margin-top: 100px;">
+        <p> You have already reached maximum allowed uploaded photo number for a standard user. <br> You should upgarede your account to upload more photos.</p>
+        <form style="display: inline;">
+                <input class="btn btn-primary btn-lg" type="submit" value="Upgrade your membership">
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load ratings %}
+
+
+
+    {% block title %}Photo pool{% endblock %}
+
+
+{% block body %}
+
+<div style="margin-top: 100px; position: relative;" class="container justify-content-center align-items-center">
+     <div class="section-title text-center">
+        <h3>Photo pool</h3>
+     </div>
+
+   <div class="slide-control-2" id="control-1"></div>
+   <div class="owl-carousel owl-theme card-slider text-center">
+    {% for photo in photos %}
+
+       <div class="card-body">
+           <a href="{{ photo.photoItself.url }}" data-fancybox data-caption="My caption">
+            <img class="card-img-top" src="{{ photo.photoItself.url }}">
+           </a>
+            <div class="card-block text-center">
+                <p>Click on image to see its original size.</p>
+                <h4 class="card-title">Photo tag: {{ photo.contest.tag }} </h4>
+                {% ratings photo %} <br>
+            </div>
+       </div>
+
+   {% endfor %}
+   </div>
+</div>
+
+
+
+
+{% endblock %}
+
+<!--<div class="container">
+   <div class="section-title text-center">
+    <h3>Cards with <span>Carousesl</span></h3>
+   </div>
+   <div class="slide-control-2" id="control-1"></div>
+   <div class="owl-carousel owl-theme card-slider">
+    <div class="card-body">
+     <img class="card-img-top" src="images/test/harley1.jpg">
+     <div class="card-block">
+      <h4 class="card-title">First Card</h4>
+      <p class="card-text"> This is some info about the card </p>
+      <a href="#" class="button round border no-shadow small first-stop-btn">Take me somewhere</a>
+     </div>
+    </div>
+
+    <div class="card-body">
+     <img class="card-img-top" src="images/test/harley2.jpg">
+     <div class="card-block">
+      <h4 class="card-title">Second Card</h4>
+      <p class="card-text"> This is some info about the card </p>
+      <a href="#" class="button round border no-shadow small">Take me somewhere</a>
+     </div>
+    </div>
+   </div>
+  </div>-->
+
+<!--<div style="margin-top: 100px;" class="container">
+        <div class="slide-control-2" id="control-1"></div>
+        <div class="owl-carousel owl-theme card-slider">
+            <div class="card-body">
+                <a href="{{ photo.photoItself.url }}" data-fancybox data-caption="My caption">
+                      <img class="card-img-top" src="{{ photo.photoItself.url }}" alt="img" >
+                </a>
+                <div class="card-block">
+                    <h4 class="card-title">Photo tag: {{ photo.contest.tag }} </h4>
+                    {% ratings photo %} <br>
+                </div>
+            </div>
+        </div>
+    </div>-->
+

@@ -1,0 +1,44 @@
+{% load static %}
+
+
+    <div class="row">
+      <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+          <div class="container">
+              <a class="navbar-brand" href="#"><img id="logom" src="{% static 'images/logo.png' %}" alt="Photash"/></a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                  <ul class="navbar-nav">
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'home' %}">HOME</a>
+                        <!---<span class="sr-only">(current)</span></a>-->
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">ABOUT</a>
+                    </li>
+                    <li class="nav-item">
+                     <a class="nav-link" href="{% url "contest:index" %}">CONTESTS</a>
+                    </li>
+
+                     {% if not request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'user:register' %}">SIGN UP</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'user:login' %}">LOGIN</a>
+                        </li>
+                     {% else %}
+                         <li class="nav-item">
+                            <a class="nav-link" href="{% url 'user:profile' %}">MY PROFILE</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'user:logout' %}">LOGOUT</a>
+                        </li>
+                     {% endif %}
+
+                  </ul>
+              </div>
+          </div>
+      </nav>
+    </div>

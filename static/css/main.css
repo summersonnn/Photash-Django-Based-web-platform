@@ -1,0 +1,191 @@
+﻿.navbar-nav > li{
+  padding-left:15px;
+  padding-right:15px;
+}
+
+#logom {
+	width:50px;
+	height:auto;
+}
+
+#cover {
+	height:95vh;
+	width: 99vw;
+	background: url('../images/mainBg.jpeg') no-repeat center center;
+	background-size: cover;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+
+}
+
+
+#cover .row{
+	/*TEHLIKE!!! Responsive tasarım yaparken window size küçülünce font-size'ı düşürüp, navbar yüksekliğini aynı bırakırsan bu yazılar navbarın altına kayar. Çünkü margin direk font-size'a bağlı!*/
+	margin-top: 3.5em;
+	color: black;
+	font-family: 'Raleway', sans-serif;
+}
+
+/*Photash ia web service that...*/
+#goal{
+    background-color: rgba(255, 255, 255, 0.0); /* 0.0 olması background'un %100 saydam olması, bir nevi olmaması anlamına geliyor, 1.0 tam opak demek */
+    color: #1C1C1C;
+	font-style: italic;
+	font-size: 25px;
+	font-weight: 200;
+}
+
+.btn-primary{
+	font-family: 'Raleway', sans-serif;
+	border-style:none;
+	padding: 8px 16px;
+	font-size: 20px;
+}
+
+.btn-primary:hover{
+	background-color: #000000;
+	color:white;
+}
+
+a.nav-link{
+	font-family: 'Raleway', sans-serif;
+	font-size: 14px;
+	color: grey;
+	-webkit-transition: color 0.5s ease;
+	-moz-transition: color 0.5s ease;
+	-o-transition: color 0.5s ease;
+}
+
+a.nav-link:hover{
+	color: #000000 !important;
+}
+
+
+/* Steplerden önceki "Do you..." kısmı*/
+.steps #top-text{
+	padding: 2em 0;
+	font-family: 'Raleway', sans-serif;
+}
+
+/* STEP yazısının üstündeki küçük boşluğu bırakır ve STEP yazısına stil verir.*/
+.steps h1, #helpVideo h1{
+	padding: 1em 0;
+	font-family: 'Raleway', sans-serif;
+}
+
+.inner {
+	padding: 50px 0;
+}
+
+.inner-more {
+	padding: 120px 0;
+}
+
+#steps0{
+	background-color: white;
+}
+
+#steps1 , #steps3 {
+	color: white;
+	background-color: black;
+}
+
+#steps2 , #steps4{
+	background-color: white;
+}
+
+#borderimg2{
+	border: 1px solid;
+    padding: 5px;
+}
+
+.col-sm-6 img{
+	max-width:100%;
+	max-height:100%;
+}
+
+/*h5'in sütunu ortalamasını, dolayısıyla image ile ortalanmış bir şekilde görünmesini sağlıyor.*/
+.col-sm-6 h5{
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	
+}
+
+/*BACK TOP TOP OF THE HOME PAGE*/
+.back-to-top{
+	display:none;
+	position:fixed;
+	bottom:20px;
+	right: 20px;
+	background-color: blue;
+	padding: 20px;
+	color: white;
+}
+
+.navbar{
+	border-bottom: grey 2px solid;
+}
+
+#basics li:hover{
+	text-decoration: none;
+	background-color: #e0e0e0;
+	color: #101010;
+}
+
+/*-------------STAR RATINGS-------------------------*/
+
+.star-ratings-rating-user{
+	font-family: 'Raleway', sans-serif;
+}
+
+/*-----------CONTEST INDEX SAYFASI ----------*/
+
+#contesttop {
+	/*TEHLIKE!!! Responsive tasarım yaparken window size küçülünce font-size'ı düşürüp, navbar yüksekliğini aynı bırakırsan bu yazılar navbarın altına kayar. Çünkü margin direk font-size'a bağlı!*/
+	margin-top: 7em;
+	font-family: 'Raleway', sans-serif;
+}
+
+#contesttop h1{
+	font-family: 'Raleway', sans-serif;
+}
+
+/*----------------RANKINGS PAGE(aynı zamanda contest indexdeki table için)---------------------*/
+#propertable
+{
+    counter-reset: rowNumber;
+}
+
+#propertable tr > td:first-child
+{
+    counter-increment: rowNumber;
+}
+
+#propertable tr td:first-child::before
+{
+    content: counter(rowNumber);
+    min-width: 1em;
+    margin-right: 0.5em;
+}
+
+/*----------------contest detail---------------------*/
+.info{
+	font-family: 'Raleway', sans-serif;
+}
+
+.examples h3{
+	font-family: 'Raleway', sans-serif;
+}
+
+/************GENEL***************/
+.container h1{
+	font-family: 'Raleway', sans-serif;
+}
+
+.container p{
+	font-family: 'Raleway', sans-serif;
+}
+
+

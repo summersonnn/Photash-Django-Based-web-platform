@@ -1,0 +1,2 @@
+﻿Bu klasörü Ratings modelinin içini görebilmek için github'dan indirdim. 
+İndirmeden de çalışıyordu. (pip)

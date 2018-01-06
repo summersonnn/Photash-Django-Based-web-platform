@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Rankings{% endblock %}
+
+{% block body %}
+    <div class="container" style="margin-top: 100px;">
+        <h1 class="display-2"> Not so fast cowboy! </h1><br>
+        <p>Contest is still in progress, come back here when the contest ends.</p>
+        <form style="display: inline;" action="{% url "contest:detail" slug=thecontest.slug %}">
+            <input class="btn btn-primary btn-lg" type="submit" value="Click to go to contest detail page">
+        </form>
+    </div>
+{% endblock %}
