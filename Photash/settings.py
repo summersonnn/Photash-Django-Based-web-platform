@@ -43,10 +43,12 @@ INSTALLED_APPS = [
     'user',
     'contest',
     'photo',
+    'reportedPhotos',
     #3. parti uygulamalar
     'star_ratings',
     'crispy_forms',
     'captcha',
+    'rest_framework',
 
 ]
 
@@ -151,3 +153,10 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 RECAPTCHA_PUBLIC_KEY  = '6LcPxzwUAAAAAP1Oz-VlEtxrBaUAo8J9NsVmyHFZ'
 RECAPTCHA_PRIVATE_KEY = '6LcPxzwUAAAAANQU8KLT5z4xfoR5kzrTAXSf85pY'
+
+# şirket maili aldıktan sonra değiştirilecek, şimdilik kendi mailimi yazdım.
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'mtunerr32@gmail.com'
+EMAIL_HOST_PASSWORD = 'memolimemoli405' # yourpassword
+EMAIL_PORT = 587

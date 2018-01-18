@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from reportedPhotos.models import ReportedPhotos
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Username")
@@ -11,6 +13,7 @@ class Profile(models.Model):
     achievements = models.TextField(blank = True)
     aboutme = models.TextField(blank = True)
     is_premium = models.BooleanField(blank = False, default = False, verbose_name = 'Premium status')
+    reported_photos = models.ManyToManyField(ReportedPhotos)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

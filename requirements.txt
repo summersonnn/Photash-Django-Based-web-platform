@@ -61,3 +61,4 @@ virtualenv==15.1.0
 virtualenv-clone==0.2.6
 Werkzeug==0.12.2
 WTForms==2.1
+django_rest_framework
