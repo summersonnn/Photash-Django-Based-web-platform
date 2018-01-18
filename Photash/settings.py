@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'star_ratings',
     'crispy_forms',
     'captcha',
+    'rest_framework',
 
 ]
 

@@ -20,6 +20,8 @@ urlpatterns = [
 
     url(r'^ratings/', include('star_ratings.urls', namespace = 'ratings', app_name = 'ratings')),
 
+    url(r'^api/report-photo/', include('reportedPhotos.api.urls', namespace='reportedPhotos_api', app_name='reportedPhotos_api')),
+
 ]
 
 if settings.DEBUG:
