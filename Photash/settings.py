@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'user',
     'contest',
     'photo',
+    'reportedPhotos',
     #3. parti uygulamalar
     'star_ratings',
     'crispy_forms',
