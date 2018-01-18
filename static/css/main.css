@@ -22,7 +22,7 @@
 
 #cover .row{
 	/*TEHLIKE!!! Responsive tasarım yaparken window size küçülünce font-size'ı düşürüp, navbar yüksekliğini aynı bırakırsan bu yazılar navbarın altına kayar. Çünkü margin direk font-size'a bağlı!*/
-	margin-top: 3.5em;
+	margin-top: 3em;
 	color: black;
 	font-family: 'Raleway', sans-serif;
 }
@@ -32,7 +32,7 @@
     background-color: rgba(255, 255, 255, 0.0); /* 0.0 olması background'un %100 saydam olması, bir nevi olmaması anlamına geliyor, 1.0 tam opak demek */
     color: #1C1C1C;
 	font-style: italic;
-	font-size: 25px;
+	font-size: 18px;
 	font-weight: 200;
 }
 

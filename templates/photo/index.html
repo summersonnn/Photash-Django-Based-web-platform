@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load ratings %}
+{% load checkandincrease %}
 
 
 
@@ -26,6 +27,10 @@
                 <p>Click on image to see its original size.</p>
                 <h4 class="card-title">Photo tag: {{ photo.contest.tag }} </h4>
                 {% ratings photo %} <br>
+                <br>
+                <form style="display: inline;" onclick="{{ photo.id|checkandincrease }}">
+                    <input class="btn btn-danger btn-lg" type="submit" value="Report" >
+                </form>
             </div>
        </div>
 
