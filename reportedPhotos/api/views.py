@@ -17,18 +17,17 @@ class ReportPhotoAPIView(APIView):
 
     def get(self, request, id, format=None):
         try:
+            _ = Photo.objects.get(id=id) # check if photo exists
             if ReportedPhotos.objects.filter(photoid=id).count() != 0:
                 report = ReportedPhotos.objects.get(photoid=id)
             else:
                 report = ReportedPhotos(photoid=id)
 
-
-
             report.howmany_reports += 1
             report.save()
 
         except Exception as error:
-            return Response({'error': error})
+            return Response({'error': str(error)})
 
         return Response({'success': 'success'})
 
