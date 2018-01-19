@@ -5,3 +5,4 @@ photopool/
 *.pyc
 contest/migrations
 home/migrations
+photo/migrations
