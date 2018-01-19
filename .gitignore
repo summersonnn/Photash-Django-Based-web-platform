@@ -4,3 +4,4 @@ sanal/
 photopool/
 *.pyc
 contest/migrations
+home/migrations
