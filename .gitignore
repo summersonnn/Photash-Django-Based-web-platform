@@ -6,3 +6,4 @@ photopool/
 contest/migrations
 home/migrations
 photo/migrations
+reportedPhotos/migrations
