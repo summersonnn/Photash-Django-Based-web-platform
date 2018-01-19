@@ -28,7 +28,7 @@
                 <h4 class="card-title">Photo tag: {{ photo.contest.tag }} </h4>
                 {% ratings photo %} <br>
                 <br>
-                <form style="display: inline;" onclick="{{ photo.id|checkandincrease }}">
+                <form style="display: inline;" onclick="report('{{ photo.id }}', event)">
                     <input class="btn btn-danger btn-lg" type="submit" value="Report" >
                 </form>
             </div>
@@ -38,7 +38,22 @@
    </div>
 </div>
 
-
+<script>
+    function report(photoId, event){
+        var url = "http://127.0.0.1:8000/api/report-photo/" + photoId;
+        event.preventDefault();
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function(result){
+                alert('Successfuly reported this photo.');
+            },
+            error: function(result){
+                alert('error' + result);
+            }
+        })
+    }
+</script>
 
 
 {% endblock %}

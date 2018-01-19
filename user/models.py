@@ -5,7 +5,6 @@ from django.dispatch import receiver
 
 from reportedPhotos.models import ReportedPhotos
 
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Username")
     location = models.CharField(max_length=30, blank=True, verbose_name="Location")
