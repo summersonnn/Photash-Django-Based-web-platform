@@ -13,7 +13,7 @@ from django.contrib import messages
 def photo_create(request, contestslug):
     # Fotoğrafın hangi contest'in pool'una gideceği bilgisini çektik. Bu bilgi contest detail'indeki Join Contest butonu ile verilmişti.
     contest_record = Contest.objects.get(slug=contestslug)
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
         return Http404()
 
     if request.method == 'POST':
@@ -52,8 +52,9 @@ def photo_create(request, contestslug):
 
 def photo_index(request, contestslug):
     #O contest'e ait fotoğrafları contestid'sinden tanıyıp, ayrıştırıp öyle veriyoruz photo/index.html dosyasına.
-    contestz = Contest.objects.filter(slug=contestslug)
+    contestz = Contest.objects.get(slug=contestslug)
     photos = Photo.objects.filter(contest=contestz)
+    print("PHOTOSSSSSSSSS:", photos)
     context = {
         'photos': photos,
     }
@@ -66,7 +67,7 @@ def photo_detail(request, id):
     rating = Rating.objects.get(content_type = content_type, object_id = object_id)
     context = {
         'photo': photo,
-        'rating' : rating,
+        'rating': rating,
     }
     return render(request, "photo/detail.html", context)
 

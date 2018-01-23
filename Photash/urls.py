@@ -18,9 +18,9 @@ urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
 
-    url(r'^ratings/', include('star_ratings.urls', namespace = 'ratings', app_name = 'ratings')),
+    url(r'^ratings/', include('star_ratings.urls', namespace = 'ratings')),
 
-    url(r'^api/report-photo/', include('reportedPhotos.api.urls', namespace='reportedPhotos_api', app_name='reportedPhotos_api')),
+    url(r'^api/report-photo/', include('reportedPhotos.api.urls', namespace='reportedPhotos_api')),
 
 ]
 
