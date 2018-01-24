@@ -33,10 +33,10 @@ def register_view(request):
         user.save()
         #mail verification
         token = account_activation_token.make_token(user)
-        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        uid = urlsafe_base64_encode(force_bytes(user.pk)).decode()
         send_mail(
             'Please confirm your photash account',
-            'Click the link belox \n http://127.0.0.1:8000{}'.format(reverse('user:activate_account', kwargs={'uidb64': uid, 'token': token})),
+            'Click the link belox \n http://127.0.0.1:8000/user/activate/{}/{}'.format(uid, token),
             'altunerism@gmail.com',
             [user.email, ],
             fail_silently=False,
@@ -48,7 +48,7 @@ def register_view(request):
 
 @login_required
 def activate_account(request, uidb64, token):
-    uid = force_text(urlsafe_base64_decode(uidb64))
+    uid = urlsafe_base64_decode(uidb64).decode()
     user = get_object_or_404(User, id=uid)
 
     if request.user != user or not account_activation_token.check_token(user, token):
