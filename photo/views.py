@@ -54,7 +54,6 @@ def photo_index(request, contestslug):
     #O contest'e ait fotoğrafları contestid'sinden tanıyıp, ayrıştırıp öyle veriyoruz photo/index.html dosyasına.
     contestz = Contest.objects.get(slug=contestslug)
     photos = Photo.objects.filter(contest=contestz)
-    print("PHOTOSSSSSSSSS:", photos)
     context = {
         'photos': photos,
     }
