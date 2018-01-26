@@ -30,6 +30,7 @@
                 <br>
                 <form style="display: inline;" onclick="report('{{ photo.id }}', event)">
                     <input class="btn btn-danger btn-lg" type="submit" value="Report" >
+
                 </form>
             </div>
        </div>
@@ -39,6 +40,12 @@
 </div>
 
 <script>
+
+    $(document).ready(function(){
+       $(".")
+    });
+
+
     function report(photoId, event){
         var url = "http://127.0.0.1:8000/api/report-photo/" + photoId;
         event.preventDefault();
