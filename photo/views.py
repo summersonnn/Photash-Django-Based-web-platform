@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404, HttpResponseRedirect, redirect, Http404
 from django.db.models import Max
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.decorators import login_required
 from .forms import PhotoForm
 from .models import Photo
 from contest.models import Contest, Contender
@@ -50,12 +51,18 @@ def photo_create(request, contestslug):
         }
     return render(request, 'photo/form.html', context)
 
+@login_required
+def get_photo_rating(request, id):
+    object = Photo.objects.get(id=id)
+    return render(request, 'photo/ratings.html', context={"photo": object})
+
 def photo_index(request, contestslug):
     #O contest'e ait fotoğrafları contestid'sinden tanıyıp, ayrıştırıp öyle veriyoruz photo/index.html dosyasına.
     contestz = Contest.objects.get(slug=contestslug)
     photos = Photo.objects.filter(contest=contestz)
     context = {
         'photos': photos,
+        'contest': contestz,
     }
     return render(request, "photo/index.html", context)
 

@@ -10,7 +10,7 @@ urlpatterns = [
 
     url(r'^learnmore/$', learnmore_view, name = 'learnmore'),
 
-    url(r'^photo/', include('photo.urls')),
+    url(r'^photo/', include('photo.urls', namespace="photo")),
 
     url(r'^contest/', include('contest.urls')),
 

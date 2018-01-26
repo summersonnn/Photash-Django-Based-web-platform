@@ -1,13 +1,6 @@
+
 {% load static %}
 {% load ratings %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{% block title %}{% endblock %}</title>
-
     <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}"/>
     <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
@@ -21,32 +14,21 @@
     <link rel="stylesheet" href="{% static 'fonts/fontawesome/css/font-awesome.min.css' %} "/>
     <link href="https://fonts.googleapis.com/css?family=Raleway:200i,400" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Titillium+Web:200,200i,300,300i,400,400i" rel="stylesheet">
-</head>
-<body>
+<div class="container">
+    <div class="col-md-6 col-md-offset-3 col-xs-12">
+        {% ratings photo %}
+    </div>
+</div>
 
-{% include 'header.html' %}
-{% include 'messages.html' %}
 
-{% block body %}
 
-{% endblock %}
-    <!-- Bootstrap CSS -->
-
-    <script src="{% static 'js/jquery-3.2.1.min.js'%}"></script>
-    <script src="{% static 'js/jquery.fancybox.min.js'%}"></script>
-    <script src="{% static 'js/jquery.mobile.custom.min.js' %}"></script>
-    <script src="{% static 'js/owl.carousel.min.js'%}"></script>s
     <script src="{% static 'js/main.js' %}"></script> <!-- faq -->
     <script src="{% static 'js/modernizr.js' %}"></script> <!-- faqModernizr -->
     <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.js'%}"></script>
+    <script src="{% static 'js/owl.carousel.min.js'%}"></script>
     <script src="{% static 'js/scrollingeffect.js'%}"></script>
     <script src="{% static 'js/scripts.js'%}"></script>
     <script src="{% static 'js/main-script.js'%}"></script>
     <script src="{% static 'js/myjsfile.js'%}"></script>
 
-{% block js %}
-{% endblock %}
-
-</body>
-</html>

@@ -1,6 +1,7 @@
 from rest_framework.generics import ListAPIView
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.pagination import PageNumberPagination
 from .serializers import PhotoSerializer
 from rest_framework.response import Response
 from photo.models import Photo
@@ -11,10 +12,11 @@ class PhotoListAPIView(ListAPIView):
     queryset = Photo.objects.all()
     authentication_classes = (SessionAuthentication, )
     permission_classes = (IsAuthenticated, )
+    paginate_by = 4
 
 
     def get_queryset(self):
-        slug=self.kwargs["contestslug"]
+        slug=self.kwargs["contest"]
         print("abs:", slug)
 
         contest = Contest.objects.get(slug=slug)
@@ -31,7 +33,6 @@ class PhotoListAPIView(ListAPIView):
         return Queryset
 
     def list(self, request, *args, **kwargs):
-        print("url kwarg: ", kwargs["contestslug"])
         queryset = self.filter_queryset(self.get_queryset())
 
         page = self.paginate_queryset(queryset)
