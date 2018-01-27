@@ -15,28 +15,25 @@
      </div>
 
    <div class="slide-control-2" id="control-1"></div>
-   <div class="owl-carousel owl-theme card-slider text-center owl-loaded" id="photoPool">
-
+   <div class="" id="photoPool">
    </div>
 </div>
-{% endblock %}
 
-{% block js %}
 <script>
 
     function getPhotos(){
         $.ajax({
-            url: '{% url 'photo:index_api' contest=contest.slug %}',
+            url: '{% url 'index_api' contest=contest.slug %}',
             type: 'GET',
             success: function(result){
                 console.log(result);
                 var count = result["count"];
                 var next_page = result["next"];
                 var previous_page = result["previous"];
-
+                var html = "";
                 $.each(result["results"], function(index, value){
 
-                    var html = "<div class='owl-item'><div class='card-body'>\n" +
+                    html = "<div class='owl-item'><div class=\"card-body\">\n" +
                         "           <a href=\'" + value["photoItself"] + "\' data-fancybox data-caption=\"My caption\">\n" +
                         "            <img class=\"card-img-top\" src=\'" + value["photoItself"] + "\'>\n" +
                         "           </a>\n" +
@@ -52,9 +49,8 @@
                         "            </div>\n" +
                         "       </div></div>";
 
-                    //$('#photoPool').owlCarousel().trigger('add.owl.carousel', [jQuery(html)])
-                    //.trigger('refresh.owl.carousel');
-                    $('#photoPool').trigger('add.owl.carousel', [jQuery(html)]).trigger('refresh.owl.carousel');
+                    $('#photoPool').trigger('add.owl.carousel', [jQuery(html)])
+                    .trigger('refresh.owl.carousel');
 
 
                 });
@@ -83,7 +79,7 @@
         })
     }
 
-
+    jQuery(function($){
         $(document).ready(function(){
         console.log("hahahahaha");
         //$(".owl-prev").css('visibility', 'hidden');
@@ -91,15 +87,12 @@
 
         console.log("asdasdad");
 
-
-
         getPhotos();
-        $("#photoPool").owlCarousel();
 
 
         //alert(owlCarousel());
         });
-
+    });
 
 
 
@@ -135,18 +128,4 @@
    </div>
   </div>-->
 
-<!--<div style="margin-top: 100px;" class="container">
-        <div class="slide-control-2" id="control-1"></div>
-        <div class="owl-carousel owl-theme card-slider">
-            <div class="card-body">
-                <a href="{{ photo.photoItself.url }}" data-fancybox data-caption="My caption">
-                      <img class="card-img-top" src="{{ photo.photoItself.url }}" alt="img" >
-                </a>
-                <div class="card-block">
-                    <h4 class="card-title">Photo tag: {{ photo.contest.tag }} </h4>
-                    {% ratings photo %} <br>
-                </div>
-            </div>
-        </div>
-    </div>-->
 

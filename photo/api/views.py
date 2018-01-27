@@ -14,7 +14,6 @@ class PhotoListAPIView(ListAPIView):
     permission_classes = (IsAuthenticated, )
     paginate_by = 4
 
-
     def get_queryset(self):
         slug=self.kwargs["contest"]
         print("abs:", slug)
@@ -30,11 +29,11 @@ class PhotoListAPIView(ListAPIView):
             if query not in user_voted:
                 Queryset.append(query)
 
+
         return Queryset
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
