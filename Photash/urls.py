@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^ratings/', include('star_ratings.urls', namespace = 'ratings')),
 
     url(r'^api/report-photo/', include('reportedPhotos.api.urls', namespace='reportedPhotos_api')),
+
     path('api/<slug:contest>/index/', api_views.PhotoListAPIView.as_view(), name="index_api"),
 ]
 

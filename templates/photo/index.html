@@ -15,54 +15,29 @@
      </div>
 
    <div class="slide-control-2" id="control-1"></div>
-   <div class="" id="photoPool">
+   <div class="owl-carousel owl-theme card-slider text-center">
+    {% for photo in photos %}
+
+       <div class="card-body">
+           <a href="{{ photo.photoItself.url }}" data-fancybox data-caption="My caption">
+            <img class="card-img-top" src="{{ photo.photoItself.url }}">
+           </a>
+            <div class="card-block text-center">
+                <p>Click on image to see its original size.</p>
+                <h4 class="card-title">Photo tag: {{ photo.contest.tag }} </h4>
+                {% ratings photo %} <br>
+                <br>
+                <form style="display: inline;" onclick="report('{{ photo.id }}', event)">
+                    <input class="btn btn-danger btn-lg" type="submit" value="Report" >
+                </form>
+            </div>
+       </div>
+
+   {% endfor %}
    </div>
 </div>
 
 <script>
-
-    function getPhotos(){
-        $.ajax({
-            url: '{% url 'index_api' contest=contest.slug %}',
-            type: 'GET',
-            success: function(result){
-                console.log(result);
-                var count = result["count"];
-                var next_page = result["next"];
-                var previous_page = result["previous"];
-                var html = "";
-                $.each(result["results"], function(index, value){
-
-                    html = "<div class='owl-item'><div class=\"card-body\">\n" +
-                        "           <a href=\'" + value["photoItself"] + "\' data-fancybox data-caption=\"My caption\">\n" +
-                        "            <img class=\"card-img-top\" src=\'" + value["photoItself"] + "\'>\n" +
-                        "           </a>\n" +
-                        "            <div class=\"card-block text-center\">\n" +
-                        "                <p>Click on image to see its original size.</p>\n" +
-                        "                <h4 class=\"card-title\">Photo tag: " + value["contest"] + " </h4>\n" +
-                        "                <div class='col-md-12 col-xs-12'><iframe style=\"width:100%; border: none;\" src=\"http://127.0.0.1:8000/photo/get-rating/" + value["id"] + "\"></iframe></div>  <br>\n" +
-                        "                <br>\n" +
-                        "                <form style=\"display: inline;\" onclick=\"report('"+ value["id"] + "', event)\">\n" +
-                        "                    <input class=\"btn btn-danger btn-lg\" type=\"submit\" value=\"Report\" >\n" +
-                        "\n" +
-                        "                </form>\n" +
-                        "            </div>\n" +
-                        "       </div></div>";
-
-                    $('#photoPool').trigger('add.owl.carousel', [jQuery(html)])
-                    .trigger('refresh.owl.carousel');
-
-
-                });
-
-
-
-            },
-            error: function(result){
-                alert(result);
-            }
-        })
-    }
 
     function report(photoId, event){
         var url = "http://127.0.0.1:8000/api/report-photo/" + photoId;

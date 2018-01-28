@@ -60,8 +60,17 @@ def photo_index(request, contestslug):
     #O contest'e ait fotoğrafları contestid'sinden tanıyıp, ayrıştırıp öyle veriyoruz photo/index.html dosyasına.
     contestz = Contest.objects.get(slug=contestslug)
     photos = Photo.objects.filter(contest=contestz)
+
+    user_voted = [user_rating.rating.content_object for user_rating in request.user.userrating_set.all() if
+                  user_rating.rating.content_object.contest == contestz]
+    Queryset = []
+    for query in photos:
+        if query not in user_voted:
+            Queryset.append(query)
+
+
     context = {
-        'photos': photos,
+        'photos':Queryset[:5],
         'contest': contestz,
     }
     return render(request, "photo/index.html", context)

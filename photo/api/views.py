@@ -29,7 +29,6 @@ class PhotoListAPIView(ListAPIView):
             if query not in user_voted:
                 Queryset.append(query)
 
-
         return Queryset
 
     def list(self, request, *args, **kwargs):
