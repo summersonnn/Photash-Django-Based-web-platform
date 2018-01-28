@@ -10,9 +10,10 @@ from django.db.models import Avg, Count, Sum
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext as _
 from model_utils.models import TimeStampedModel
-from contest.models import Contest, Contender
+# from contest.models import Contest, Contender
 from . import app_settings
 from django.apps import apps
+
 
 def _clean_user(user):
     if not app_settings.STAR_RATINGS_ANONYMOUS:
@@ -48,15 +49,14 @@ class RatingManager(models.Manager):
             existing_rating.save()
             return existing_rating.rating
         else:
-            # OY VERDIGINDE CONTENDER TABLOSUNU GÜNCELLEME ISLEMLERI (voted sayısı ve dağıtılan puan sayısı)
-            contest_record = Contest.objects.get(id=instance.contest.id)
-            if Contender.objects.filter(user=instance.ownername, contest=contest_record).count() != 0:
-                contender = Contender.objects.get(user=instance.ownername, contest=contest_record)
-            else:
-                contender = Contender(user=request.user, contest=contest_record)
-            contender.howmany_voted += 1
-            contender.total_points_given += int(score)
-            contender.save()
+            # contest ile star_rating app'lerinin foreign key gibi bir bağlantısı yok ancak
+            # circular import var. O yüzden apps.get_model() kullanmak lazım
+
+            # Değişken isimlerini model isimleriyle aynı yaptım. İleride bir zaman import sorununu aşarsak
+            # isim değişikliğine gerek kalmaz. Gerek kalmadı gerçi
+            # Contest = apps.get_model('contest.Contest')
+            # Contender = apps.get_model('contest.Contender')
+
             rating, created = self.get_or_create(content_type=ct, object_id=instance.pk)
             return UserRating.objects.create(user=user, score=score, rating=rating, ip=ip).rating
 
@@ -70,7 +70,7 @@ class Rating(models.Model):
     count = models.PositiveIntegerField(default=0)
     average = models.DecimalField(max_digits=6, decimal_places=3, default=Decimal(0.0))
 
-    content_type = models.ForeignKey(ContentType, null=True, blank=True, on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
     object_id = models.PositiveIntegerField(null=True, blank=True)
     content_object = GenericForeignKey()
 
@@ -111,7 +111,7 @@ class UserRatingManager(models.Manager):
         user = _clean_user(user)
 
         if user:
-           return self.filter(rating__content_type=ct, rating__object_id=instance.pk, user=user).first()
+            return self.filter(rating__content_type=ct, rating__object_id=instance.pk, user=user).first()
         else:
             return None
 
@@ -134,10 +134,10 @@ class UserRating(TimeStampedModel):
     """
     An individual rating of a user against a model.
     """
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True, related_name='votes')
     ip = models.GenericIPAddressField(blank=True, null=True)
     score = models.PositiveSmallIntegerField()
-    rating = models.ForeignKey(Rating, related_name='user_ratings', on_delete=models.CASCADE)
+    rating = models.ForeignKey(Rating, on_delete=models.CASCADE, related_name='user_ratings')
 
     objects = UserRatingManager()
 

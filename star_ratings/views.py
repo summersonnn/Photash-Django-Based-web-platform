@@ -29,7 +29,7 @@ class Rate(View):
                 ip = self.request.META['REMOTE_ADDR']
             data = json.loads(request.body.decode())
             score = data.get('score')
-            user = request.user.is_authenticated and request.user or None
+            user = request.user.is_authenticated() and request.user or None
             try:
                 rating = self.model.objects.rate(self.get_object(), score, user=user, ip=ip)
                 if request.is_ajax():

@@ -29,7 +29,27 @@
                     </tr>
                     <tr>
                         <th>Minimum amount of votes you need to distribute</th>
-                            <td>{{  contest.min_must_votes }} {% if request.user.is_authenticated %}(You've distributed {{ contender.howmany_voted }}){% endif %}</td>
+                            <td>{{  contest.min_must_votes }}
+                                {% if request.user.is_authenticated %}
+                                    (You've distributed {{ vote_count }})
+                                {% endif %}
+                            </td>
+                    </tr>
+                    <tr>
+                        <th>Minimum average</th>
+                            <td>{{  contest.min_avg }}
+                                {% if request.user.is_authenticated %}
+                                    (Your's is {{ vote_avg }})
+                                {% endif %}
+                            </td>
+                    </tr>
+                    <tr>
+                        <th>Minimum standart deviation</th>
+                            <td>{{  contest.min_stddev }}
+                                {% if request.user.is_authenticated %}
+                                    (Your's is {{ vote_stddev }})
+                                {% endif %}
+                            </td>
                     </tr>
                     <tr>
                         <th>Number of photos in photopool</th>
@@ -37,7 +57,15 @@
                     </tr>
                     <tr>
                         <th>Maximum number of photos you can send to photopool</th>
-                            <td>{{  contest.max_photos_per_Reguser }}</td>
+                            <td>{{ contest.max_photos_per_Reguser }}
+                                {% if request.user.is_authenticated %}
+                                    (You have uploaded {{ num_of_uploaded_photos }})
+
+                                    {% if num_of_uploaded_photos == 0 %}
+                                        <a href="{% url "contest:photo_upload" slug=contest.slug %}">Join now!</a>
+                                    {% endif %}
+                                {% endif %}
+                            </td>
                     </tr>
                     <tr>
                         <th>Prize distributions</th>
@@ -47,11 +75,11 @@
                 </tbody>
             </table>
             {% if request.user.is_authenticated %}
-                <form style="display: inline;" action={% url "photo:create" contestslug=contest.slug %}>
+                <form style="display: inline;" action={% url "contest:photo_upload" slug=contest.slug %}>
                     <input class="btn btn-success btn-lg" type="submit" value="Send photo to Contest" >
                 </form>
             {% endif %}
-            <form style="display: inline;" action={% url "photo:index" contestslug=contest.slug %}>
+            <form style="display: inline;" action={% url "contest:photopool" slug=contest.slug %}>
                     <input class="btn btn-primary btn-lg" type="submit" value="See the Photopool">
             </form>
             <form style="display: inline;" action={% url "contest:rankings" slug=contest.slug %}>

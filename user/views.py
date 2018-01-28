@@ -11,27 +11,28 @@ from django.utils.encoding import force_bytes, force_text
 from django.db import transaction
 from django.urls import reverse
 from django.contrib import messages
-#from .models import Profile
+# from .models import Profile
 
-# Create your views here.
+
 def login_view(request):
     form = LoginForm(request.POST or None)
     if form.is_valid():
         username = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password')
-        user = authenticate(username = username, password = password)
+        user = authenticate(username=username, password=password)
         login(request, user)
         return redirect('home')
     return render(request, 'accounts/form.html', {'form': form, 'title': 'Login'})
 
+
 def register_view(request):
     form = RegisterForm(request.POST or None)
     if form.is_valid():
-        user = form.save(commit = False)
+        user = form.save(commit=False)
         password = form.cleaned_data.get('password1')
         user.set_password(password)
         user.save()
-        #mail verification
+        # mail verification
         token = account_activation_token.make_token(user)
         uid = urlsafe_base64_encode(force_bytes(user.pk)).decode()
         send_mail(
@@ -41,10 +42,11 @@ def register_view(request):
             [user.email, ],
             fail_silently=False,
         )
-        new_user = authenticate(username = user.username, password = password)
+        new_user = authenticate(username=user.username, password=password)
         login(request, new_user)
         return redirect('home')
     return render(request, 'accounts/form.html', {'form': form, 'title': 'Sign up'})
+
 
 @login_required
 def activate_account(request, uidb64, token):
@@ -59,13 +61,16 @@ def activate_account(request, uidb64, token):
     profile.save()
     return HttpResponseRedirect('/')
 
+
 def logout_view(request):
     logout(request)
     return redirect('home')
 
-#--------------------------------------------------------------------------------------------
+
+# --------------------------------------------------------------------------------------------
 def profile_view(request):
     return render(request, 'user/profile.html')
+
 
 @login_required
 @transaction.atomic

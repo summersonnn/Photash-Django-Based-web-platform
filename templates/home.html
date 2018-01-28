@@ -10,7 +10,7 @@
             {% include 'header.html' %}
             <div class="row text-center">
               <div class="col">
-                <h1 class="display-3">WELCOME TO PHOTASH{% if user.is_authenticated %}<br>{{ request.user.get_full_name }}{% endif %}!</h1>
+                <h1 class="display-3">WELCOME TO PHOTASH{% if user.is_authenticated %}<br>{{ request.user.get_name_or_username }}{% endif %}!</h1>
                   <p id="goal">Photash is a web service that allows you to compete with other people through photographs</p>
               </div>
               <div id="buttontellme" class="col-sm-12">
