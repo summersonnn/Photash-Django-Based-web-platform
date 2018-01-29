@@ -129,7 +129,7 @@ def contest_photopool(request, slug):
 
         query_set = []
         for query in photos:
-            if query not in already_voted_instances:
+            if query not in already_voted_instances and query.ownername != user:
                 query_set.append(query)
 
         context = {
@@ -141,7 +141,6 @@ def contest_photopool(request, slug):
             'photos': photos[:5],
             'contest': contest,
         }
-    print(photos)
     return render(request, "contest/photopool.html", context)
 
 
