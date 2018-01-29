@@ -120,8 +120,7 @@ def contest_photopool(request, slug):
 
     # display the photos that are not voted nor uploaded by the user
     if user.is_authenticated:  # and user.votes:
-        already_voted_instances = [user_rating.rating.content_object for user_rating in user.votes.all()
-                                   if user_rating.rating.content_object.contest == contest]
+        already_voted_instances = [user_rating.rating.content_object for user_rating in user.votes.all() if user_rating.rating.content_object.contest == contest]
                                   # and not user_rating.rating.content_object.ownername == user]
 
         # voted_instances_ids = user.votes.
@@ -142,7 +141,7 @@ def contest_photopool(request, slug):
             'photos': photos[:5],
             'contest': contest,
         }
-
+    print(photos)
     return render(request, "contest/photopool.html", context)
 
 
