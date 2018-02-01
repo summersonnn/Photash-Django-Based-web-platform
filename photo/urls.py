@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^(?P<id>\d+)/$', photo_detail, name='detail'),
     # url(r'^(?P<contestslug>[\w-]+)/create/$', photo_create, name="create"),
     url(r'^(?P<id>\d+)/delete/$', photo_delete),
+    path('star_ratings/<int:id>/', star_ratings, name="star_ratings"),
 
 
 ]

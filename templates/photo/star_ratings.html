@@ -1,6 +1,5 @@
-{% load static %}
 {% load ratings %}
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,18 +22,9 @@
     <link href="https://fonts.googleapis.com/css?family=Titillium+Web:200,200i,300,300i,400,400i" rel="stylesheet">
 </head>
 <body>
-
-{% include 'header.html' %}
-{% include 'messages.html' %}
-
-    <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js'%}"></script>
-    <script type="text/javascript" src="{% static 'js/jquery.fancybox.min.js'%}"></script>
-    <script type="text/javascript" src="{% static 'js/jquery.mobile.custom.min.js' %}"></script>
-
-{% block body %}
-
-{% endblock %}
-
+    <center>
+        {% ratings photo %}
+    </center>
 
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script> <!-- faq -->
     <script type="text/javascript" src="{% static 'js/modernizr.js' %}"></script> <!-- faqModernizr -->
@@ -46,6 +36,4 @@
     <script type="text/javascript" src="{% static 'js/main-script.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/myjsfile.js'%}"></script>
 
-
 </body>
-</html>

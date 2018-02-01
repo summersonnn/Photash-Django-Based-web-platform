@@ -33,3 +33,7 @@ def photo_delete(request, id):
     photo = get_object_or_404(Photo, id=id)
     photo.delete()
     return redirect("photo:index")
+
+def star_ratings(request, id):
+    photo = get_object_or_404(Photo, id=id)
+    return render(request, 'photo/star_ratings.html', context={'photo': photo})

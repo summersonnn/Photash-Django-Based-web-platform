@@ -6,6 +6,7 @@ from .serializers import PhotoSerializer
 from rest_framework.response import Response
 from photo.models import Photo
 from contest.models import Contest
+from star_ratings.models import UserRating
 
 class PhotoListAPIView(ListAPIView):
     serializer_class = PhotoSerializer
@@ -20,8 +21,8 @@ class PhotoListAPIView(ListAPIView):
 
         contest = Contest.objects.get(slug=slug)
         queryset = self.queryset.filter(contest=contest)
-
-        user_voted = [user_rating.rating.content_object for user_rating in self.request.user.userrating_set.all() if user_rating.rating.content_object.contest == contest]
+        user_ratings = UserRating.objects.filter(user=self.request.user)
+        user_voted = [user_rating.rating.content_object for user_rating in user_ratings if user_rating.rating.content_object.contest == contest]
         print("voted:", user_voted)
         Queryset = []
 

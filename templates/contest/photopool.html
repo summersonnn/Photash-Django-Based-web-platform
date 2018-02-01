@@ -16,32 +16,13 @@
 
    <div class="slide-control-2" id="control-1"></div>
    <div class="owl-carousel owl-theme card-slider text-center">
-        {% for photo in photos %}
-
-       <div class="card-body">
-           <a href="{{ photo.photoItself.url }}" data-fancybox data-caption="My caption">
-            <img class="card-img-top" src="{{ photo.photoItself.url }}">
-           </a>
-            <div class="card-block text-center">
-                <p>Click on image to see its original size.</p>
-                <h4 class="card-title">Photo tag: {{ photo.contest.tag }} </h4>
-                {% ratings photo %} <br>
-                <br>
-                <form style="display: inline;" onclick="report('{{ photo.id }}', event)">
-                    <input class="btn btn-danger btn-lg" type="submit" value="Report" >
-                </form>
-            </div>
-       </div>
-        {% endfor %}
-
-
    </div>
 </div>
 
 <script>
 
     $(document).ready(function(){
-       //getPhotos();
+       getPhotos();
     });
 
     function report(photoId, event){
@@ -59,7 +40,7 @@
         })
     }
 
-        /*function getPhotos(Url){
+        function getPhotos(Url){
         var url = "";
         if(!Url){
             url = '{% url "index_api" contest=contest %}';
@@ -76,6 +57,7 @@
                 var next = result["next"];
                 var pre = result["previous"];
                 var owl = $('.owl-carousel').owlCarousel({items:2, nav:true, loop: false});
+                alert(result);
                 $.each(result['results'], function(index, value){
                     console.log(value);
                     counter += 1;
@@ -106,12 +88,28 @@
 
 
 
-    }*/
+    }
 
 
 </script>
 
 {% endblock %}
 
-<!--      -->
+<!--           {% for photo in photos %}
+
+       <div class="card-body">
+           <a href="{{ photo.photoItself.url }}" data-fancybox data-caption="My caption">
+            <img class="card-img-top" src="{{ photo.photoItself.url }}">
+           </a>
+            <div class="card-block text-center">
+                <p>Click on image to see its original size.</p>
+                <h4 class="card-title">Photo tag: {{ photo.contest.tag }} </h4>
+                {% ratings photo %} <br>
+                <br>
+                <form style="display: inline;" onclick="report('{{ photo.id }}', event)">
+                    <input class="btn btn-danger btn-lg" type="submit" value="Report" >
+                </form>
+            </div>
+       </div>
+        {% endfor %}   -->
 
