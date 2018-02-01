@@ -27,7 +27,7 @@ class PhotoListAPIView(ListAPIView):
         Queryset = []
 
         for query in queryset:
-            if query not in user_voted or query.ownername != self.request.user :
+            if query not in user_voted and query.ownername != self.request.user:
                 Queryset.append(query)
 
         return Queryset
