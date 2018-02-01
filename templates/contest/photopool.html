@@ -16,8 +16,7 @@
 
    <div class="slide-control-2" id="control-1"></div>
    <div class="owl-carousel owl-theme card-slider text-center">
-
-    {% for photo in photos %}
+        {% for photo in photos %}
 
        <div class="card-body">
            <a href="{{ photo.photoItself.url }}" data-fancybox data-caption="My caption">
@@ -33,13 +32,17 @@
                 </form>
             </div>
        </div>
+        {% endfor %}
 
-   {% endfor %}
 
    </div>
 </div>
 
 <script>
+
+    $(document).ready(function(){
+       //getPhotos();
+    });
 
     function report(photoId, event){
         var url = "http://127.0.0.1:8000/api/report-photo/" + photoId;
@@ -56,7 +59,59 @@
         })
     }
 
+        /*function getPhotos(Url){
+        var url = "";
+        if(!Url){
+            url = '{% url "index_api" contest=contest %}';
+        }else{
+            url = Url;
+        }
+
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function(result){
+                var count = result["count"];
+                var counter = 0;
+                var next = result["next"];
+                var pre = result["previous"];
+                var owl = $('.owl-carousel').owlCarousel({items:2, nav:true, loop: false});
+                $.each(result['results'], function(index, value){
+                    console.log(value);
+                    counter += 1;
+                    owl.trigger('add.owl.carousel', [jQuery("<div class=\"card-body\" id='" + counter + "'>\n" +
+                       "           <a href='" + value['photoItself'] + "' data-fancybox data-caption=\"My caption\">\n" +
+                       "            <img class=\"card-img-top\" src='" + value['photoItself'] + "'>\n" +
+                       "           </a>\n" +
+                       "            <div class=\"card-block text-center\">\n" +
+                       "                <p>Click on image to see its original size.</p>\n" +
+                       "                <h4 class=\"card-title\">Photo tag: " + value["contest"]["tag"] + " </h4>\n" +
+                       "                <br>\n" +
+                       "                <iframe src='http://127.0.0.1:8000/photo/star_ratings/" + value['id'] + "' style='border: none; width: 100%'></iframe><br>\n" +
+                       "                <form style=\"display: inline;\" onclick=\"report('"+ value['id'] + "', event)\">\n" +
+                       "                    <input class=\"btn btn-danger btn-lg\" type=\"submit\" value=\"Report\" >\n" +
+                       "                </form>\n" +
+                       "            </div>\n" +
+                       "       </div>")]);
+
+                });
+
+                owl.trigger('refresh.owl.carousel', {nav: false, loop:true});
+
+            },
+            error: function(result){
+                console.log(result);
+            }
+        });
+
+
+
+    }*/
+
+
 </script>
 
 {% endblock %}
+
+<!--      -->
 

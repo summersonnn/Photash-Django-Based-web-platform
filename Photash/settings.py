@@ -158,8 +158,8 @@ RECAPTCHA_PRIVATE_KEY = '6LcPxzwUAAAAANQU8KLT5z4xfoR5kzrTAXSf85pY'
 # şirket maili aldıktan sonra değiştirilecek, şimdilik kendi mailimi yazdım.
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'kyazogluu@gmail.com'
-EMAIL_HOST_PASSWORD = '5317107404Ky' # yourpassword
+EMAIL_HOST_USER = 'yourmail@gmail.com' # yourmail
+EMAIL_HOST_PASSWORD = 'yourpassword' # yourpassword
 EMAIL_PORT = 587
 
 REST_FRAMEWORK = {
