@@ -13,6 +13,4 @@ def home_view(request):
     '''
     return render(request, 'home.html', {})
 
-def learnmore_view(request):
-    return render(request, 'learnmore.html', {})
 

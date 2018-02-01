@@ -60,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'Photash.login_logout_middleware.LoginRequiredMiddleware'
 ]
 
 ROOT_URLCONF = 'Photash.urls'
@@ -157,11 +158,34 @@ RECAPTCHA_PRIVATE_KEY = '6LcPxzwUAAAAANQU8KLT5z4xfoR5kzrTAXSf85pY'
 # şirket maili aldıktan sonra değiştirilecek, şimdilik kendi mailimi yazdım.
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'your@mail.com'
-EMAIL_HOST_PASSWORD = 'yourpassword' # yourpassword
+EMAIL_HOST_USER = 'kyazogluu@gmail.com'
+EMAIL_HOST_PASSWORD = '5317107404Ky' # yourpassword
 EMAIL_PORT = 587
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 5
 }
+
+#Logged in userların redirect edileceği sayfa urli
+LOGIN_REDIRECT_URL = '/user/profile'
+
+LOGIN_URL = '/user/login/'
+
+#Logged in user'ların erişemeyeceği urller. Yani sadece misafirlerin erişebileceği urller.
+LOGIN_EXEMPT_URLS= (
+    r'^user/logout/$',
+    r'^user/register/$'
+)
+
+#Hem logged in userların hem logged out userların ulaşabileceği urller
+COMMON_URLS = (
+    r'^$',
+    r'^contest/(?P<slug>[\w-]+)/photos/$',  #Contest photopool
+    r'^contest/index/$',            #Contest index
+    r'^contest/(?P<slug>[\w-]+)/$', #Contest detail
+    r'^photo/(?P<id>\d+)/$', #Photo detail
+    r'^ratings/(?P<content_type_id>\d+)/(?P<object_id>\d+)/', #Ratings
+    r'^media/(?P<path>.*)$',
+    r'^static/(?P<path>.*)$',
+)

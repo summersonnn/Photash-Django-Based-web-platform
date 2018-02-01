@@ -9,7 +9,6 @@ from star_ratings.models import *
 from django.contrib import messages
 
 
-@login_required
 def get_photo_rating(request, id):
     object = Photo.objects.get(id=id)
     return render(request, 'photo/ratings.html', context={"photo": object})

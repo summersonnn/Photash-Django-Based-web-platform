@@ -42,7 +42,7 @@ $(document).ready(function(){
   --------------------------------------------------*/
 
 $('.card-slider').owlCarousel({
-    loop: true,
+    loop: false,
     margin:1,
     items: 1,
     dots: false,
