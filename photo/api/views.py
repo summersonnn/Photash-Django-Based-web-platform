@@ -16,7 +16,7 @@ class PhotoListAPIView(ListAPIView):
     paginate_by = 4
 
     def get_queryset(self):
-        slug=self.kwargs["contest"]
+        slug=self.kwargs["slug"]
         print("abs:", slug)
 
         contest = Contest.objects.get(slug=slug)

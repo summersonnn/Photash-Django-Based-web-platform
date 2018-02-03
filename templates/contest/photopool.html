@@ -78,7 +78,7 @@
             var url = "";
             //alert("get this: " + Url);
             if(Url === null){
-                url = '{% url "index_api" contest=contest %}';
+                url = '{% url "index_api" slug=contest.slug %}';
             }else{
                 url = Url;
 
