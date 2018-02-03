@@ -97,21 +97,13 @@
         </div>
         <div class="examples-content">
             <div class="row">
-                <div class="col-sm-4">
-                    <div class="card" style="border-color: black;">
-                        <img src="{% static 'images/yvonnegenç.jpg'%}" alt="Example Photo">
+                {% for example in examples %}
+                    <div class="col-sm-4">
+                        <div class="card" style="border-color: black;">
+                            <img src="{{ example.photoItself.url }}" alt="Example Photo" style="width: 350px; height: 200px;">
+                        </div>
                     </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="card" style="border-color: black;">
-                        <img src="{% static 'images/yvonnechuck.jpg'%}" alt="Example Photo">
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="card" style="border-color: black;">
-                        <img src="{% static 'images/yvonne24.jpg'%}" alt="Example Photo">
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

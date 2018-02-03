@@ -6,6 +6,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 from django.contrib import messages
 from .forms import PhotoForm
+from django.db.models.aggregates import Count
+from random import randint
 
 
 def contest_index(request):
@@ -41,9 +43,24 @@ def contest_detail(request, slug):
     # request.POST.get('slug')
     contest = get_object_or_404(Contest, slug=slug)
     user = request.user
+    examples = []
+    count = Photo.objects.filter(contest=contest).count()
+
+    if count > 2:
+        random_index = randint(0, count-1)
+        while True:
+            random_index2 = randint(0, count - 1)
+            random_index3 = randint(0, count - 1)
+            if (random_index2 != random_index and random_index3!= random_index and random_index2 != random_index3):
+                break
+
+        examples.append(Photo.objects.filter(contest=contest)[random_index])
+        examples.append(Photo.objects.filter(contest=contest)[random_index2])
+        examples.append(Photo.objects.filter(contest=contest)[random_index3])
 
     context = {
         'contest': contest,
+        'examples': examples,
     }
 
     if user.is_authenticated:
