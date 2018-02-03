@@ -82,8 +82,6 @@ def photo_upload(request, slug):
     # Fotoğrafın hangi contest'in pool'una gideceği bilgisini çektik.
     # Bu bilgi contest detail'indeki Join Contest butonu ile verilmişti.
     contest_record = Contest.objects.get(slug=slug)
-    if not request.user.is_authenticated:
-        return Http404()  # Http404 yerine bir message ile signup sayfasına yönlendirilmeli
 
     if request.method == 'POST':
         form = PhotoForm(request.POST, request.FILES)
@@ -108,6 +106,8 @@ def photo_upload(request, slug):
             return HttpResponseRedirect(request.path_info)  # redirect to the same page
 
     else:  # GET
+        if timezone.now() > contest_record.end_date:
+            return render(request, 'contest/contest_ended.html')
         try:  # if there is not any Contender object, get() will raise an exception
             the_contender = Contender.objects.get(user=request.user, contest=contest_record)
 
@@ -122,11 +122,6 @@ def photo_upload(request, slug):
         }
 
         return render(request, 'photo/form.html', context)
-
-
-
-
-
 
 def contest_photopool(request, slug):
     # O contest'e ait fotoğrafları contestid'sinden tanıyıp, ayrıştırıp öyle veriyoruz photo/index.html dosyasına.
