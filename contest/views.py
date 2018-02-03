@@ -111,22 +111,21 @@ def photo_upload(request, slug):
         try:  # if there is not any Contender object, get() will raise an exception
             the_contender = Contender.objects.get(user=request.user, contest=contest_record)
 
-            if the_contender.get_number_of_photos_uploaded() < contest_record.max_photos_per_Reguser:
-                form = PhotoForm()
-                context = {
-                    'form': form,
-                }
-                return render(request, 'photo/form.html', context)
-            else:
+            if the_contender.get_number_of_photos_uploaded() >= contest_record.max_photos_per_Reguser:
                 return render(request, 'contest/maxreached.html')
-
         except Contender.DoesNotExist:
-            form = PhotoForm()
-            context = {
-                'form': form,
-            }
+            pass
 
-            return render(request, 'photo/form.html', context)
+        form = PhotoForm()
+        context = {
+            'form': form,
+        }
+
+        return render(request, 'photo/form.html', context)
+
+
+
+
 
 
 def contest_photopool(request, slug):
