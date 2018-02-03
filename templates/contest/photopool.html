@@ -26,6 +26,9 @@
        var owl = $('.owl-carousel').owlCarousel();
             owl.on('changed.owl.carousel', function(event){
                 var itemIndex = event.item.index + 1;
+                if(photoCount == 10){
+                    itemIndex += 3;
+                }
                 if(itemIndex === (lastItemIndex)){
                     //owl.trigger('destroy.owl.carousel');
                     //owl.trigger('add.owl.carousel', [jQuery("<div class='card-body'>You have reached the end. Reorganizing photos.</div>")]);
@@ -72,6 +75,7 @@
         }
 
         var lastItemIndex = 0; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
+        var photoCount = 0; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
         var next = ""; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
 
         function getPhotos(Url){
@@ -89,16 +93,10 @@
                 type: "GET",
                 success: function(result){
                     var count = result["count"];
-
                     next = result["next"];
                     var pre = result["previous"];
-                    if(result['count'] > 10){
-                        lastItemIndex += (result['results'].length-3);
-                    }else{
-                        lastItemIndex += result['results'].length;
-                    }
-
-
+                    lastItemIndex += result['results'].length;
+                    photoCount = result['results'].length;
                     var owl = $('.owl-carousel').owlCarousel({items:2, nav:true, loop: false, lazyLoad: true});
                     writeResults(result, owl);
 
