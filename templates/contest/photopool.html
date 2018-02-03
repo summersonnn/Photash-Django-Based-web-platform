@@ -26,9 +26,9 @@
        var owl = $('.owl-carousel').owlCarousel();
             owl.on('changed.owl.carousel', function(event){
                 var itemIndex = event.item.index + 1;
-                if(itemIndex === lastItemIndex){
+                if(itemIndex === (lastItemIndex)){
                     //owl.trigger('destroy.owl.carousel');
-                    owl.trigger('add.owl.carousel', [jQuery("<div class='card-body'>You have reached the end. Reorganizing photos.</div>")]);
+                    //owl.trigger('add.owl.carousel', [jQuery("<div class='card-body'>You have reached the end. Reorganizing photos.</div>")]);
                     getPhotos(next);
                 }
             });
@@ -92,7 +92,12 @@
 
                     next = result["next"];
                     var pre = result["previous"];
-                    lastItemIndex += result['results'].length;
+                    if(result['count'] > 10){
+                        lastItemIndex += (result['results'].length-3);
+                    }else{
+                        lastItemIndex += result['results'].length;
+                    }
+
 
                     var owl = $('.owl-carousel').owlCarousel({items:2, nav:true, loop: false, lazyLoad: true});
                     writeResults(result, owl);
