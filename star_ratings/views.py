@@ -31,8 +31,6 @@ class Rate(View):
             score = data.get('score')
             user = request.user.is_authenticated and request.user or None
             try:
-                if score == 0:
-                    return JsonResponse(data={'error': 'error'}, status=400)
                 rating = self.model.objects.rate(self.get_object(), score, user=user, ip=ip)
 
                 if request.is_ajax():
