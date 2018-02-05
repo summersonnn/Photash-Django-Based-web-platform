@@ -132,12 +132,6 @@ def contest_photopool(request, slug):
     # display the photos that are not voted nor uploaded by the user
     if user.is_authenticated:  # and user.votes:
         already_voted_instances = [user_rating.rating.content_object for user_rating in user.votes.all() if user_rating.rating.content_object.contest == contest]
-                                  # and not user_rating.rating.content_object.ownername == user]
-
-        # voted_instances_ids = user.votes.
-
-        # not_voted_nor_owned_instances = photos.exclude(ratings=user).exclude(ownername=user)
-
         query_set = []
         for query in photos:
             if query not in already_voted_instances and query.ownername != user:

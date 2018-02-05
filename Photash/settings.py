@@ -182,10 +182,13 @@ LOGIN_EXEMPT_URLS= (
 COMMON_URLS = (
     r'^$',
     r'^contest/(?P<slug>[\w-]+)/photos/$',  #Contest photopool
+    r'^api/(?P<slug>[\w-]+)/index/$', #Contest photopool (api)
     r'^contest/index/$',            #Contest index
     r'^contest/(?P<slug>[\w-]+)/$', #Contest detail
     r'^photo/(?P<id>\d+)/$', #Photo detail
+    r'^photo/star_ratings/(?P<id>\d+)/$', #Star rating bar
     r'^ratings/(?P<content_type_id>\d+)/(?P<object_id>\d+)/', #Ratings
     r'^media/(?P<path>.*)$',
     r'^static/(?P<path>.*)$',
+
 )

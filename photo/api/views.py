@@ -12,18 +12,22 @@ class PhotoListAPIView(ListAPIView):
     serializer_class = PhotoSerializer
     queryset = Photo.objects.all()
     authentication_classes = (SessionAuthentication, )
-    permission_classes = (IsAuthenticated, )
+    #permission_classes = (IsAuthenticated, )
     paginate_by = 4
 
     def get_queryset(self):
         slug=self.kwargs["slug"]
-        print("abs:", slug)
 
         contest = Contest.objects.get(slug=slug)
         queryset = self.queryset.filter(contest=contest)
-        user_ratings = UserRating.objects.filter(user=self.request.user)
-        user_voted = [user_rating.rating.content_object for user_rating in user_ratings if user_rating.rating.content_object.contest == contest]
-        print("voted:", user_voted)
+
+        if  self.request.user.is_authenticated:
+            user_ratings = UserRating.objects.filter(user=self.request.user)
+            user_voted = [user_rating.rating.content_object for user_rating in user_ratings if
+                          user_rating.rating.content_object.contest == contest]
+        else:
+            user_ratings = []
+            user_voted = []
         Queryset = []
 
         for query in queryset:
