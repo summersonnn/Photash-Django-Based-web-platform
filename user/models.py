@@ -6,6 +6,7 @@ from django.apps import apps
 from django.db.models import Sum
 
 from reportedPhotos.models import ReportedPhotos
+from photo.models import Photo
 
 
 class Profile(models.Model):
@@ -16,6 +17,7 @@ class Profile(models.Model):
     aboutme = models.TextField(blank=True)
     is_premium = models.BooleanField(blank=False, default=False, verbose_name='Premium status')
     reported_photos = models.ManyToManyField(ReportedPhotos)
+    photos_will_be_shown = models.ManyToManyField(Photo)
 
 
 @receiver(post_save, sender=User)

@@ -12,6 +12,11 @@
                     {% csrf_token %}
                     <h3>Choose your photo.</h3>
                     {{ form|crispy }} <!--altı çizi olması pycharm kaynaklı-->
+                      <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="show">
+                        <label class="form-check-label" for="exampleCheck1">I want this photo to be shown on my profile.</label>
+                    </div>
+
                     <input class="btn btn-primary" type="submit" value="Upload">
                 </form>
             </div>
