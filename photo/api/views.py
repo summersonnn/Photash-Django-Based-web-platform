@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from photo.models import Photo
 from contest.models import Contest
 from star_ratings.models import UserRating
+from random import shuffle
 
 class PhotoListAPIView(ListAPIView):
     serializer_class = PhotoSerializer
@@ -33,8 +34,11 @@ class PhotoListAPIView(ListAPIView):
         for query in queryset:
             if query not in user_voted and query.ownername != self.request.user:
                 Queryset.append(query)
+        #Shuffling the photos so that every user will see the pool in different order
+        shuffle(Queryset)
 
         return Queryset
+
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
