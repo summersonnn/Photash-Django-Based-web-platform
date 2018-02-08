@@ -1,13 +1,18 @@
-from rest_framework.generics import ListAPIView
-from rest_framework.authentication import SessionAuthentication
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
+from rest_framework import status
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from .serializers import PhotoSerializer
 from rest_framework.response import Response
 from photo.models import Photo
+from star_ratings.models import Rating, ContentType
 from contest.models import Contest
 from star_ratings.models import UserRating
+from star_ratings.serializers import RatingSerializer
 from random import shuffle
+from django.shortcuts import get_object_or_404
 
 class PhotoListAPIView(ListAPIView):
     serializer_class = PhotoSerializer
@@ -49,6 +54,40 @@ class PhotoListAPIView(ListAPIView):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+
+#For a possible future mobile app, it is now useless.
+class PhotoDetailAPIView(RetrieveAPIView):
+    queryset = Photo.objects.all()
+    serializer_class = PhotoSerializer
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (IsAuthenticated, )
+    lookup_url_kwarg = 'id'
+    lookup_field = 'id'
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        data = serializer.data
+        content_type = ContentType.objects.get_for_model(Photo)
+        object_id = instance.id
+        rating = Rating.objects.get(content_type=content_type, object_id=object_id)
+        data['rating'] = RatingSerializer(rating).data
+
+        return Response(data, status=status.HTTP_200_OK)
+
+
+#For a possible future mobile app, it is now useless.
+@api_view(['GET'])
+@authentication_classes((SessionAuthentication, TokenAuthentication))
+@permission_classes((IsAuthenticated, ))
+def api_photo_delete(request, id):
+    photo = get_object_or_404(Photo, id=id)
+    if request.user == photo.ownername:
+        photo.delete()
+        return Response({'success': '{} is deleted'.format(id)}, status=status.HTTP_200_OK)
+
+    return Response({'error': 'Not authorized'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 

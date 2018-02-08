@@ -24,7 +24,9 @@ urlpatterns = [
 
     path('api/<slug:slug>/index/', api_views.PhotoListAPIView.as_view(), name="index_api"),
 
+    path('api/photo/', include('photo.api.urls', namespace='photo_api')),
     path('api/user/', include('user.api.urls', namespace='user_api')),
+    path('api/contest/', include('contest.api.urls', namespace='contest_api')),
 ]
 
 if settings.DEBUG:

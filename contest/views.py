@@ -11,77 +11,18 @@ from random import randint
 
 
 def contest_index(request):
-    contest_list = Contest.objects.all()
-
-    query = request.GET.get("q")
-    if query:
-        # Sadece contest_name ile kalmayıp başka fieldlar içinde arama yapmasını sağlayabiliriz.
-        # Detay: https://www.youtube.com/watch?v=eyAIAZr5Q3w
-        contest_list = contest_list.filter(contest_name__icontains=query)
-
-    # Show 5 contacts per page
-    paginator = Paginator(contest_list, 5)
-
-    page = request.GET.get('page')
-    try:
-        contests = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        contests = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        contests = paginator.page(paginator.num_pages)
-
-    context = {
-        'contests': contests,
-    }
-
-    return render(request, "contest/index.html", context)
+    return render(request, "contest/index.html", context={})
 
 
 def contest_detail(request, slug):
-    # request.POST.get('slug')
-    contest = get_object_or_404(Contest, slug=slug)
-    user = request.user
-    examples = []
-    count = Photo.objects.filter(contest=contest).count()
-
-    if count > 2:
-        random_index = randint(0, count-1)
-        while True:
-            random_index2 = randint(0, count - 1)
-            random_index3 = randint(0, count - 1)
-            if (random_index2 != random_index and random_index3!= random_index and random_index2 != random_index3):
-                break
-
-        examples.append(Photo.objects.filter(contest=contest)[random_index])
-        examples.append(Photo.objects.filter(contest=contest)[random_index2])
-        examples.append(Photo.objects.filter(contest=contest)[random_index3])
-
-    context = {
-        'contest': contest,
-        'examples': examples,
-    }
-
-    if user.is_authenticated:
-        context['vote_count'], context['vote_avg'], context['vote_stddev'] \
-            = user.get_vote_count_avg_stddev_for_contest(contest)
-        try:  # if there is not any Contender object, get() will raise an exception
-            contender = Contender.objects.get(user=request.user, contest=contest)
-            # context['contender'] = contender
-            context['num_of_uploaded_photos'] = contender.get_number_of_photos_uploaded()
-            # context['is_uploaded'] = 1  # True
-        except Contender.DoesNotExist:
-            context['num_of_uploaded_photos'] = 0
-            # context['is_uploaded'] = 0  # False
-
-    return render(request, "contest/detail.html", context)
+    return render(request, "contest/detail.html", context={})
 
 
 def photo_upload(request, slug):
     # Fotoğrafın hangi contest'in pool'una gideceği bilgisini çektik.
     # Bu bilgi contest detail'indeki Join Contest butonu ile verilmişti.
     contest_record = Contest.objects.get(slug=slug)
+    print("THIS PART WORKS!")
 
     if request.method == 'POST':
         form = PhotoForm(request.POST, request.FILES)
@@ -126,27 +67,7 @@ def photo_upload(request, slug):
 def contest_photopool(request, slug):
     # O contest'e ait fotoğrafları contestid'sinden tanıyıp, ayrıştırıp öyle veriyoruz photo/index.html dosyasına.
     contest = Contest.objects.get(slug=slug)
-    photos = Photo.objects.filter(contest=contest)
-    user = request.user
-
-    # display the photos that are not voted nor uploaded by the user
-    if user.is_authenticated:  # and user.votes:
-        already_voted_instances = [user_rating.rating.content_object for user_rating in user.votes.all() if user_rating.rating.content_object.contest == contest]
-        query_set = []
-        for query in photos:
-            if query not in already_voted_instances and query.ownername != user:
-                query_set.append(query)
-
-        context = {
-            'photos': query_set[:5],
-            'contest': contest,
-        }
-    else:
-        context = {
-            'photos': photos[:5],
-            'contest': contest,
-        }
-    return render(request, "contest/photopool.html", context)
+    return render(request, "contest/photopool.html", context={'contest': contest})
 
 
 def contest_delete(request, id):
