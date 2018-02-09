@@ -1,14 +1,20 @@
+from rest_framework import status
 from rest_framework.generics import ListAPIView, RetrieveAPIView
-from rest_framework.authentication import SessionAuthentication
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from contest.models import Contest, Contender
 from .serializers import ContestSerializer
+from photo.api.serializers import PhotoSerializer
 from photo.models import Photo
+from star_ratings.serializers import UserRatingSerializer, RatingSerializer
+from star_ratings.models import UserRating, Rating
 
 from random import randint
+from django.utils import timezone
 
 from django.shortcuts import get_object_or_404
 
@@ -63,5 +69,44 @@ class ContestDetailAPIView(RetrieveAPIView):
             except Contender.DoesNotExist:
                 context['num_of_uploaded_photos'] = 0
                 # context['is_uploaded'] = 0  # False
+
+
+class VotersListAPIView(RetrieveAPIView):
+    queryset = Contest.objects.all()
+    serializer_class = ContestSerializer
+    permission_class = SessionAuthentication
+    authentication_class = IsAuthenticated
+    lookup_url_kwarg = 'slug'
+    lookup_field = 'slug'
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if timezone.now() > instance.end_date:
+            return Response({'error': 'This contest has not come to an end yet! End date is {}'.format(instance.end_date)})
+        try:
+            _ = Contender.objects.get(contest=instance, user=request.user)
+        except Contender.DoesNotExist:
+            return Response({'error': 'You are not a contender for this contest!'}, status=status.HTTP_403_FORBIDDEN)
+
+        data = self.get_serializer(instance).data
+        data['photos'] = []
+
+        photos = Photo.objects.filter(contest=instance, ownername=request.user)
+
+        for photo in photos:
+            for rating_info in Rating.objects.filter(object_id=photo.id):
+                if rating_info.content_object == photo:
+                    rating = rating_info
+                    break
+            photo_data = PhotoSerializer(photo).data
+            photo_data['rating'] = RatingSerializer(rating).data
+            photo_data['voters'] = UserRatingSerializer(UserRating.objects.filter(rating=rating), many=True).data
+            photo_data.pop('contest', None)
+            photo_data.pop('ownername', None)
+            data['photos'].append(photo_data)
+
+        return Response(data, status=status.HTTP_200_OK)
+
+
 
 
