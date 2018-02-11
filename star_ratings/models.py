@@ -10,7 +10,6 @@ from django.db.models import Avg, Count, Sum
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext as _
 from model_utils.models import TimeStampedModel
-# from contest.models import Contest, Contender
 from . import app_settings
 from django.apps import apps
 
@@ -49,13 +48,14 @@ class RatingManager(models.Manager):
             existing_rating.save()
             return existing_rating.rating
         else:
-            # contest ile star_rating app'lerinin foreign key gibi bir bağlantısı yok ancak
-            # circular import var. O yüzden apps.get_model() kullanmak lazım
-
-            # Değişken isimlerini model isimleriyle aynı yaptım. İleride bir zaman import sorununu aşarsak
-            # isim değişikliğine gerek kalmaz. Gerek kalmadı gerçi
-            # Contest = apps.get_model('contest.Contest')
-            # Contender = apps.get_model('contest.Contender')
+            # Oylanan fotoğrafın sahibinin profil bilgisini çekip bazı özelliklerini updateledik.
+            Profile = apps.get_model('user.Profile')
+            profile = Profile.objects.get(user=instance.ownername)
+            total_Points = profile.voted_x_times * profile.all_time_average
+            total_Points += int(score)
+            profile.voted_x_times += 1
+            profile.all_time_average = total_Points / profile.voted_x_times
+            profile.save()
 
             rating, created = self.get_or_create(content_type=ct, object_id=instance.pk)
             return UserRating.objects.create(user=user, score=score, rating=rating, ip=ip).rating
