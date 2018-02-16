@@ -4,19 +4,21 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 
 from contest.models import Contest, Contender
 from .serializers import ContestSerializer
 from photo.api.serializers import PhotoSerializer
 from photo.models import Photo
 from star_ratings.serializers import UserRatingSerializer, RatingSerializer
-from star_ratings.models import UserRating, Rating
+from star_ratings.models import UserRating, Rating, ContentType
 
-from random import randint
 from django.utils import timezone
 
 from django.shortcuts import get_object_or_404
+
+from random import randint, shuffle, choice
+
 
 class ContestListAPIView(ListAPIView):
     queryset = Contest.objects.all()
@@ -108,5 +110,59 @@ class VotersListAPIView(RetrieveAPIView):
         return Response(data, status=status.HTTP_200_OK)
 
 
+class FeedAPIView(APIView):
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (IsAuthenticated, )
+    http_method_names = [u'get', ]
+    queryset = Contest.objects.all()
+    paginate_by = 10
 
+    def get_queryset(self):
+        if self.queryset.count() < 3:
+            limit = self.queryset.count()
+        else:
+            limit = 3
+
+        integers = list(range(limit))
+        queryset = []
+        while len(integers) > 0:
+            random_integer = choice(integers)
+            query = self.queryset[random_integer]
+            if Photo.objects.filter(contest=query).count() > 0:
+                queryset.append(query)
+            integers.remove(random_integer)
+
+        return queryset
+
+    def get(self, request, format=None):
+        data = ContestSerializer(self.get_queryset(), many=True).data 
+
+        for contest_data in data:
+            contest = Contest.objects.get(id=contest_data['id'])
+            photos = Photo.objects.filter(contest=contest)
+            if photos.count() > 3:
+                random_integer = randint(0, photos.count() - 4)
+                add = 3
+            else:
+                random_integer = 0
+                add = photos.count()
+
+            start_index = random_integer
+            finish_index = random_integer + add
+            photo_data = PhotoSerializer(photos[start_index:finish_index], many=True).data
+            for photo in photo_data:
+                current_photo = Photo.objects.get(id=photo['id'])
+                content_type = ContentType.objects.get_for_model(Photo)
+                photo['rating'] = RatingSerializer(Rating.objects.get(content_type=content_type, object_id=current_photo.id)).data
+
+            contest_data['photos'] = photo_data
+
+        return Response(data, status=status.HTTP_200_OK)
+
+
+
+
+
+        
+        
 
