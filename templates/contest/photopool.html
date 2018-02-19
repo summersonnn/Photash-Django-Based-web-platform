@@ -62,9 +62,22 @@
         var photosSeen = []; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
 
         function writeResults(result, owl){
+            {% if query %}
+                var query = '{{ query }}';
+
+                $.each(result['results'], function(index, value){
+                    if(parseInt(value["id"]) == parseInt(query)) {
+                        var index = result['results'].indexOf(value);
+                        console.log("First pick photo id: " + index);
+                        var current_first = result['results'][0];
+                        result['results'][0] = value;
+                        result['results'][index] = current_first;
+                    }
+                });
+
+            {% endif %}
             $.each(result['results'], function(index, value){
                 console.log(value);
-
                 if(!photosSeen.includes(value['id'])){
                     owl.trigger('add.owl.carousel', [jQuery("<div class=\"card-body\" id='" + value["id"] + "'>\n" +
                    "           <a href='" + value['photoItself'] + "' data-fancybox data-caption=\"My caption\">\n" +
@@ -83,8 +96,6 @@
                 }
 
                 photosSeen.push(value['id']);
-
-
 
             });
         }

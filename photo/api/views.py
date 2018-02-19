@@ -22,17 +22,17 @@ class PhotoListAPIView(ListAPIView):
     paginate_by = 4
 
     def get_queryset(self):
-        slug=self.kwargs["slug"]
+        slug = self.kwargs["slug"]
 
         contest = Contest.objects.get(slug=slug)
         queryset = self.queryset.filter(contest=contest)
 
-        if  self.request.user.is_authenticated:
+        if self.request.user.is_authenticated:
             user_ratings = UserRating.objects.filter(user=self.request.user)
             user_voted = [user_rating.rating.content_object for user_rating in user_ratings if
                           user_rating.rating.content_object.contest == contest]
         else:
-            user_ratings = []
+            #user_ratings = []
             user_voted = []
         Queryset = []
 
@@ -42,8 +42,18 @@ class PhotoListAPIView(ListAPIView):
         #Shuffling the photos so that every user will see the pool in different order
         shuffle(Queryset)
 
-        return Queryset
+        if self.request.GET.get('p'):
+            query = self.request.GET['p']
+            query = Photo.objects.get(id=query)
 
+            if query in Queryset:
+                print('Query in queryset')
+            else:
+                print('Query is not in queryset')
+        else:
+            print('There is no photo query for first pick')
+
+        return Queryset
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())

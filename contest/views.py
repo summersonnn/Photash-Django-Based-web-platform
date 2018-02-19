@@ -67,7 +67,13 @@ def photo_upload(request, slug):
 def contest_photopool(request, slug):
     # O contest'e ait fotoğrafları contestid'sinden tanıyıp, ayrıştırıp öyle veriyoruz photo/index.html dosyasına.
     contest = Contest.objects.get(slug=slug)
-    return render(request, "contest/photopool.html", context={'contest': contest})
+    context = {'contest': contest}
+    if request.GET.get('p'):
+        query = request.GET.get('p')
+        if int(query) in [photo.id for photo in Photo.objects.filter(contest=contest)]:
+            context['query'] = query
+            
+    return render(request, "contest/photopool.html", context)
 
 
 def contest_delete(request, id):

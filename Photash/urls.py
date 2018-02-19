@@ -22,7 +22,7 @@ urlpatterns = [
 
     url(r'^api/report-photo/', include('reportedPhotos.api.urls', namespace='reportedPhotos_api')),
 
-    path('api/<slug:slug>/index/', api_views.PhotoListAPIView.as_view(), name="index_api"),
+    path('api/<slug:slug>/index', api_views.PhotoListAPIView.as_view(), name="index_api"),
 
     path('api/photo/', include('photo.api.urls', namespace='photo_api')),
     path('api/user/', include('user.api.urls', namespace='user_api')),
