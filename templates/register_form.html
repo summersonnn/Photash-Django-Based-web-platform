@@ -1,0 +1,23 @@
+{% load bootstrap3 %}
+<form class="form-group">
+    {% for field in register_form %}
+        {% if field.label == "First Name" %}
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="first_name">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+
+        {% endif %}
+        {% if field.label == 'Last Name' %}
+                <div class="col-md-6">
+                    <label for="last_name">{{ field.label }}</label>
+                    {{ field }}
+
+                </div>
+
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% bootstrap_form register_form exclude='first_name, last_name, password2' %}
+</form>

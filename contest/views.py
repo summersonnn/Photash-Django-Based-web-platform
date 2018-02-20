@@ -72,7 +72,7 @@ def contest_photopool(request, slug):
         query = request.GET.get('p')
         if int(query) in [photo.id for photo in Photo.objects.filter(contest=contest)]:
             context['query'] = query
-            
+
     return render(request, "contest/photopool.html", context)
 
 

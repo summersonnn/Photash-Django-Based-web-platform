@@ -23,18 +23,18 @@ class LoginForm(forms.Form):
 class RegisterForm(forms.ModelForm):
     username = forms.CharField(max_length=20, label="Username")
     email = forms.CharField(max_length=40, label="E-mail")
-    first_name = forms.CharField(max_length=20, label="First Name")
-    last_name = forms.CharField(max_length=30, label="Last Name")
+    first_name = forms.CharField(max_length=20, label="First Name", widget=forms.TextInput(attrs={'class': 'first_name', 'style': 'width: 75%'}))
+    last_name = forms.CharField(max_length=30, label="Last Name", widget=forms.TextInput(attrs={'class': 'last_name', 'style': 'width: 75%'}))
     password1 = forms.CharField(max_length=20, label="Password", widget=forms.PasswordInput)
     password2 = forms.CharField(max_length=20, label="Password validation", widget=forms.PasswordInput)
 
     class Meta:
         model = User
         fields = [
-            'username',
-            'email',
             'first_name',
             'last_name',
+            'username',
+            'email',
             'password1',
             'password2',
         ]

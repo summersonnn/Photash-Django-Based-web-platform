@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse
+from user.forms import RegisterForm
 
 def home_view(request):
     #Dinamik template için
@@ -11,6 +12,6 @@ def home_view(request):
             'isim': 'Misafir',
         }
     '''
-    return render(request, 'home.html', {})
+    return render(request, 'home.html', {'register_form': RegisterForm})
 
 
