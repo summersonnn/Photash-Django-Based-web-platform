@@ -1,16 +1,17 @@
 {% load bootstrap3 %}
+{% load static %}
 <form class="form-group">
     {% for field in register_form %}
         {% if field.label == "First Name" %}
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-sm-6">
                     <label for="first_name">{{ field.label }}</label>
                     {{ field }}
                 </div>
 
         {% endif %}
         {% if field.label == 'Last Name' %}
-                <div class="col-md-6">
+                <div class="col-sm-6">
                     <label for="last_name">{{ field.label }}</label>
                     {{ field }}
 
@@ -20,4 +21,20 @@
         {% endif %}
     {% endfor %}
     {% bootstrap_form register_form exclude='first_name, last_name, password2' %}
+    <div class="home-form-btn-wrapper">
+        <p class="agreement-info">By clicking Join now you agree to the Photash User Agreement,<br> Privacy Policy, and Cookie Policy.</p>
+        <button class="btn btn-fill btn-full">Join Now</button>
+        <span>Already have a Photash account? <a href="{% url 'user:login' %}">Log In</a></span>
+        <div class="signup-with-wrapper">
+            <p>
+                <a href="#">Sign Up</a> with 
+                <a href="#" class="social-link">
+                    <img src="{% static 'images/icons/fb.png' %}">
+                </a>
+                <a href="#" class="social-link">
+                    <img src="{% static 'images/icons/google.png' %}">
+                </a>
+            </p>
+        </div>
+    </div>
 </form>

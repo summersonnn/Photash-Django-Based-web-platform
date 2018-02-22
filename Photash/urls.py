@@ -10,6 +10,8 @@ urlpatterns = [
 
     url(r'^$', home_view, name = 'home'),
 
+    url(r'^home/', include('home.urls', namespace="home")),
+
     url(r'^photo/', include('photo.urls', namespace="photo")),
 
     url(r'^contest/', include('contest.urls')),
