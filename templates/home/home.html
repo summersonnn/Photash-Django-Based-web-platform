@@ -1,0 +1,149 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Welcome to Photash{% endblock %}
+
+{% block body %}
+{% include 'header.html' %}
+    <a href ="#" class="back-to-top">BACK TO TOP</a>
+
+<section class="home-main-section">
+    <div class="inner-more">
+        <div class="container home-cont">
+            <div class="row">
+                <div class="col-lg-7 col-md-8 img-col-wrapper">
+                    <div class="row">
+                        <div class="col-sm-2 imgs-col">
+                            <div class="img-holder lg" style='background-image:url("{% static 'images/home-images/1.jpg' %}")'></div>
+                            <div class="img-holder md" style='background-image:url("{% static 'images/home-images/6.jpg' %}")'></div>
+                            <div class="img-holder sm" style='background-image:url("{% static 'images/home-images/9.jpg' %}")'></div>
+                        </div>
+                       
+                        <div class="col-sm-2 imgs-col">
+                            <div class="img-holder xs" style='background-image:url("{% static 'images/home-images/2.jpg' %}")'></div>
+                            <div class="img-holder sm" style='background-image:url("{% static 'images/home-images/4.jpg' %}")'></div>
+                            <div class="img-holder sm" style='background-image:url("{% static 'images/home-images/9.jpg' %}")'></div>
+                            <div class="img-holder lg" style='background-image:url("{% static 'images/home-images/10.jpg' %}")'></div>
+                        </div>
+
+                         <div class="col-sm-2 imgs-col">
+                            <div class="img-holder xs" style='background-image:url("{% static 'images/home-images/2.jpg' %}")'></div>
+                            <div class="img-holder md" style='background-image:url("{% static 'images/home-images/6.jpg' %}")'></div>
+                            <div class="img-holder sm" style='background-image:url("{% static 'images/home-images/7.jpg' %}")'></div>
+                            <div class="img-holder md" style='background-image:url("{% static 'images/home-images/11.jpg' %}")'></div>
+                        </div>
+
+                        <div class="col-sm-2 imgs-col">
+                            <div class="img-holder xs" style='background-image:url("{% static 'images/home-images/4.jpg' %}")'></div>
+                            <div class="img-holder sm" style='background-image:url("{% static 'images/home-images/4.jpg' %}")'></div>
+                            <div class="img-holder md" style='background-image:url("{% static 'images/home-images/8.jpg' %}")'></div>
+                            <div class="img-holder md" style='background-image:url("{% static 'images/home-images/6.jpg' %}")'></div>
+                        </div>
+                        <div class="col-sm-2 imgs-col">
+                            <div class="img-holder lg" style='background-image:url("{% static 'images/home-images/10.jpg' %}")'></div>
+                            <div class="img-holder sm" style='background-image:url("{% static 'images/home-images/9.jpg' %}")'></div>
+                            <div class="img-holder lg" style='background-image:url("{% static 'images/home-images/12.jpg' %}")'></div>
+                        </div>
+                        <div class="col-sm-2 imgs-col">
+                            <div class="img-holder sm" style='background-image:url("{% static 'images/home-images/11.jpg' %}")'></div>
+                            <div class="img-holder lg" style='background-image:url("{% static 'images/home-images/12.jpg' %}")'></div>
+                            <div class="img-holder lg" style='background-image:url("{% static 'images/home-images/10.jpg' %}")'></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-5 col-md-4 form-col">
+                    {% include 'register_form.html' with register_form=register_form %}
+                    
+                </div>
+
+                <div class="col-sm-12 iconbox-col">
+                    <div class="row steps-iconbox-wrapper">
+                        <div class="col">
+                            <div class="step-iconbox">
+                                <div class="icon-title">
+                                    <p>Take A Photograph</p>
+                                </div>
+                                <div class="icon-img-wrapper">
+                                    <img src="{% static 'images/steps/n-1.png' %}">
+                                </div>
+                                <div class="button-wrapper">
+                                    <button class="btn btn-fill step-btn">Step 1</button>
+                                    <p>Aciklama</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="step-iconbox">
+                                <div class="icon-title">
+                                    <p>Select A contest</p>
+                                </div>
+                                <div class="icon-img-wrapper">
+                                    <img src="{% static 'images/steps/n-2.png' %}">
+                                </div>
+                                <div class="button-wrapper">
+                                    <button class="btn btn-fill step-btn">Step 2</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="step-iconbox">
+                                <div class="icon-title">
+                                    <p>Upload your photo</p>
+                                </div>
+                                <div class="icon-img-wrapper">
+                                    <img src="{% static 'images/steps/n-3.png' %}">
+                                </div>
+                                <div class="button-wrapper">
+                                    <button class="btn btn-fill step-btn">Step 3</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="step-iconbox">
+                                <div class="icon-title">
+                                    <p>Fullfil the conditions</p>
+                                </div>
+                                <div class="icon-img-wrapper">
+                                    <img src="{% static 'images/steps/n-4.png' %}">
+                                </div>
+                                <div class="button-wrapper">
+                                    <button class="btn btn-fill step-btn">Step 4</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="step-iconbox">
+                                <div class="icon-title">
+                                    <p>Contest</p>
+                                </div>
+                                <div class="icon-img-wrapper">
+                                    <img src="{% static 'images/steps/n-5.png' %}">
+                                </div>
+                                <div class="button-wrapper">
+                                    <button class="btn btn-fill step-btn">Step 5</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
+
+
+
+
+
+      
+
+    
