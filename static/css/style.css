@@ -9,6 +9,7 @@ Primary style
   box-sizing: border-box;
 }
 
+
 *::after, *::before {
   content: '';
 }
