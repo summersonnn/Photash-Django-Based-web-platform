@@ -638,7 +638,6 @@ pre code {
   padding-left:  10px;
   margin-right: auto;
   margin-left: auto;
-
 }
 
 @media (min-width: 576px) {
@@ -661,7 +660,7 @@ pre code {
 
 @media (min-width: 1200px) {
   .container {
-    max-width: 1140px;
+    max-width: 1278px;
   }
 }
 
@@ -3660,11 +3659,11 @@ tbody.collapse.show {
 
 .navbar-collapse {
   -ms-flex-preferred-size: 100%;
-      flex-basis: 100%;
+  flex-basis: 100%;
   -ms-flex-positive: 1;
-      flex-grow: 1;
+  flex-grow: 1;
   -ms-flex-align: center;
-      align-items: center;
+  align-items: center;
 }
 
 .navbar-toggler {
@@ -3835,7 +3834,7 @@ tbody.collapse.show {
     display: -ms-flexbox !important;
     display: flex !important;
     -ms-flex-preferred-size: auto;
-        flex-basis: auto;
+    flex-basis: auto;
   }
   .navbar-expand-lg .navbar-toggler {
     display: none;

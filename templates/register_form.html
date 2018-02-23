@@ -1,6 +1,7 @@
 {% load bootstrap3 %}
 {% load static %}
-<form class="form-group">
+<form method="POST" enctype="multipart/form-data" class="form-group">
+    {% csrf_token %}
     {% for field in register_form %}
         {% if field.label == "First Name" %}
             <div class="row">
@@ -20,7 +21,7 @@
             </div>
         {% endif %}
     {% endfor %}
-    {% bootstrap_form register_form exclude='first_name, last_name, password2' %}
+    {% bootstrap_form register_form exclude='first_name, last_name' %}
     <div class="home-form-btn-wrapper">
         <p class="agreement-info">By clicking Join now you agree to the Photash User Agreement,<br> Privacy Policy, and Cookie Policy.</p>
         <button class="btn btn-fill btn-full">Join Now</button>
