@@ -53,8 +53,7 @@
                 </div>
 
                 <div class="col-lg-5 col-md-4 form-col">
-                    {% include 'register_form.html' with register_form=register_form %}
-                    
+                    {% include 'register_form.html' with register_form=form %}
                 </div>
 
                 <div class="col-sm-12 iconbox-col">
@@ -69,13 +68,13 @@
                                 </div>
                                 <div class="button-wrapper">
                                     <button class="btn btn-fill step-btn">Step 1</button>
-                                    <p>Aciklama</p>
+                                    <p>Cat, Dog, Bridge...take a photo of something!</p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col">
-                            <div class="step-iconbox">
+                            <div onclick="location.href='{% url "contest:index" %}'" class="step-iconbox">
                                 <div class="icon-title">
                                     <p>Select A contest</p>
                                 </div>
@@ -84,12 +83,13 @@
                                 </div>
                                 <div class="button-wrapper">
                                     <button class="btn btn-fill step-btn">Step 2</button>
+                                    <p>Search and join the related contest among hundreds of them</p>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="col">
-                            <div class="step-iconbox">
+                            <div onclick="location.href='{% url "contest:photo_upload" slug=random_contest.slug %}'" class="step-iconbox">
                                 <div class="icon-title">
                                     <p>Upload your photo</p>
                                 </div>
@@ -98,12 +98,13 @@
                                 </div>
                                 <div class="button-wrapper">
                                     <button class="btn btn-fill step-btn">Step 3</button>
+                                    <p>Upload your photo to the related contest</p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col">
-                            <div class="step-iconbox">
+                            <div onclick="location.href='{% url "contest:detail" slug=random_contest.slug %}'" class="step-iconbox">
                                 <div class="icon-title">
                                     <p>Fullfil the conditions</p>
                                 </div>
@@ -112,20 +113,22 @@
                                 </div>
                                 <div class="button-wrapper">
                                     <button class="btn btn-fill step-btn">Step 4</button>
+                                    <p>Don't worry, it won't take much time :)</p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col">
-                            <div class="step-iconbox">
+                            <div onclick="location.href='{% url "contest:photopool" slug=random_contest.slug %}'" class="step-iconbox">
                                 <div class="icon-title">
-                                    <p>Contest</p>
+                                    <p>Vote & Compete!</p>
                                 </div>
                                 <div class="icon-img-wrapper">
                                     <img src="{% static 'images/steps/n-5.png' %}">
                                 </div>
                                 <div class="button-wrapper">
                                     <button class="btn btn-fill step-btn">Step 5</button>
+                                    <p>Explore the most beautiful photos and vote if you like</p>
                                 </div>
                             </div>
                         </div>

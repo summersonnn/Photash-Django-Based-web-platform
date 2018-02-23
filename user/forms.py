@@ -23,29 +23,20 @@ class LoginForm(forms.Form):
 class RegisterForm(forms.ModelForm):
     username = forms.CharField(max_length=20, label="Username")
     email = forms.CharField(max_length=40, label="E-mail")
-    first_name = forms.CharField(max_length=20, label="First Name", widget=forms.TextInput(attrs={'class': 'form-control first_name', 'style': 'width: 75%'}))
-    last_name = forms.CharField(max_length=30, label="Last Name", widget=forms.TextInput(attrs={'class': 'form-control last_name', 'style': 'width: 75%'}))
+    first_name = forms.CharField(max_length=20, label="First Name")
+    last_name = forms.CharField(max_length=30, label="Last Name")
     password1 = forms.CharField(max_length=20, label="Password", widget=forms.PasswordInput)
-    password2 = forms.CharField(max_length=20, label="Password validation", widget=forms.PasswordInput)
 
     class Meta:
         model = User
         fields = [
-            'first_name',
-            'last_name',
             'username',
             'email',
+            'first_name',
+            'last_name',
             'password1',
-            'password2',
         ]
 
-    def clean_password2(self):
-        password1 = self.cleaned_data.get('password1')
-        password2 = self.cleaned_data.get('password2')
-        # Alanlar doluysa fakat eşit değilse
-        if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Passwords don't match")
-        return password2
 
 # ------------------------------------------------------------------------------------------------------
 

@@ -25,7 +25,7 @@ def login_view(request):
     return render(request, 'accounts/form.html', {'form': form, 'title': 'Login'})
 
 
-def register_view(request):
+'''def register_view(request):
     form = RegisterForm(request.POST or None)
     if form.is_valid():
         user = form.save(commit=False)
@@ -45,7 +45,7 @@ def register_view(request):
         new_user = authenticate(username=user.username, password=password)
         login(request, new_user)
         return redirect('home')
-    return render(request, 'accounts/form.html', {'form': form, 'title': 'Sign up'})
+    return render(request, 'accounts/form.html', {'form': form, 'title': 'Sign up'})'''
 
 
 @login_required
