@@ -9,6 +9,7 @@ from django.db.models import Max
 # from photo.models import *
 
 
+
 # Create your models here.
 class Contest(models.Model):
     id = models.IntegerField(primary_key=True, verbose_name='Contest id')
