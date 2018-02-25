@@ -9,15 +9,26 @@
 
 {% block body %}
 
-<div style="margin-top: 100px; position: relative;" class="container justify-content-center align-items-center">
-     <div class="section-title text-center">
-        <h3>Photo pool</h3>
-     </div>
 
-   <div class="slide-control-2" id="control-1"></div>
-   <div class="owl-carousel owl-theme card-slider text-center">
-   </div>
-</div>
+
+
+<section>
+
+  <div class="inner-more">
+
+      <div class="container">
+        <div class="photopool-main-wrapper">
+            <div class="photopool-slider-wrapper">
+                <div class="photopool-slider-control" id="photopool-control-1"></div>
+                <div class="owl-carousel photopool-slider">
+            </div>
+           </div>
+        </div>
+      </div>
+  </div>
+
+</section>
+
 
 <script>
 
@@ -62,43 +73,88 @@
         var photosSeen = []; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
 
         function writeResults(result, owl){
-            {% if query %}
-                var query = '{{ query }}';
-
-                $.each(result['results'], function(index, value){
-                    if(parseInt(value["id"]) == parseInt(query)) {
-                        var index = result['results'].indexOf(value);
-                        console.log("First pick photo id: " + index);
-                        var current_first = result['results'][0];
-                        result['results'][0] = value;
-                        result['results'][index] = current_first;
-                    }
-                });
-
-            {% endif %}
             $.each(result['results'], function(index, value){
                 console.log(value);
+
                 if(!photosSeen.includes(value['id'])){
-                    owl.trigger('add.owl.carousel', [jQuery("<div class=\"card-body\" id='" + value["id"] + "'>\n" +
+                    owl.trigger('add.owl.carousel', [jQuery("<div class=\"photopool-img-wrapper\" id='" + value["id"] + "'>\n" +
                    "           <a href='" + value['photoItself'] + "' data-fancybox data-caption=\"My caption\">\n" +
-                   "            <img class=\"card-img-top\" src='" + value['photoItself'] + "'>\n" +
-                   "           </a>\n" +
-                   "            <div class=\"card-block text-center\">\n" +
-                   "                <p>Click on image to see its original size.</p>\n" +
-                   "                <h4 class=\"card-title\">Photo tag: " + value['contest']['tag'] + " </h4>\n" +
-                   "                <br>\n" +
-                   "                <iframe src='http://127.0.0.1:8000/photo/star_ratings/" + value['id'] + "' style='border: none; width: 100%'></iframe><br>\n" +
-                   "                <form style=\"display: inline;\" onclick=\"report('"+ value['id'] + "', event)\">\n" +
-                   "                    <input class=\"btn btn-danger btn-lg\" type=\"submit\" value=\"Report\" >\n" +
-                   "                </form>\n" +
+                   "            <img class=\"\" src='" + value['photoItself'] + "'>\n" +
+                   "           </a></div>\n" +
+                   "            <div class=\"photopool-content\">\n" +
+                   "                <div class=\"photopool-item-title-wrap\">\n" +
+                   "                    <h4 class=\"photo-title\">" + value['contest']['tag'] + "</h4>\n"+
+                   "                </div>\n" +
+                   "                <div class=\"photopool-item-description-wrap\"><p>Fotografin Aciklamasai ve Bilgileri</p></div>\n" +
+                   "                <div class=\"photopool-item-contest-title\">\n"+
+                   "                    <h4>Human In The Nature Competetion</h4>\n"+
+                   "                </div>\n"+
+                   "                <div class=\"photopool-item-date-wrapper\">\n"+
+                   "                    <p>Last Update Date: <span>04/03/2018</span></p>\n" +
+                   "                </div>\n"+
+                   "                <div class=\"photopool-item-comments\">\n"+
+                   "                    <p>Yansma Bilgeri ve Kurallan</p>\n" +
+                   "                    <p>Yansma Bilgeri ve Kurallan</p>\n" +
+                   "                    <p>Yansma Bilgeri ve Kurallan</p>\n" +
+                   "                    <p>Yansma Bilgeri ve Kurallan</p>\n" +
+                   "                </div>\n"+
+                   "                <div class=\"photopool-item-btn-wrap\">\n" +
+                   "                    <button class=\"btn btn-fill\">Vote</button>\n"+
+                   "                </div>\n" +
+                   "                <div class=\"photopool-item-tags-wrap\">\n"+
+                   "                    <div class=\"tags-wrap\">\n"+
+                   "                        <a href='#'>People</a>\n"+
+                   "                        <a href='#'>Children</a>\n"+
+                   "                        <a href='#'>Nature</a>\n"+
+                   "                    </div>\n" +
+                   "                    <button class=\"btn-txt-only\">&hellip;</button> \n" +
+                   "                    <form class=\"form-report\" onclick=\"report('"+ value['id'] + "', event)\">\n" +
+                   "                        <input class=\"btn-report\" type=\"submit\" value=\"Report\" >\n" +
+                   "                    </form>\n" +
+                   "                </div>\n" +
                    "            </div>\n" +
                    "       </div>")]);
-                }
 
-                photosSeen.push(value['id']);
+                            $(document).ready(function(){
+                              var val = 1;
+
+                              $(".photopool-slider-wrapper .photopool-content .photopool-item-tags-wrap>.btn-txt-only").click(function(){
+                                  if (val== 1) {
+                                      $(this).siblings('.form-report').show();
+                                      val = 0;
+                                      console.log("Sucess 1");
+                                  }
+
+                                  else {
+                                      val = 1;
+                                      $(this).siblings('.form-report').hide();
+                                      console.log("Sucess 1");
+                                  }
+
+                                  return false;
+                              });
+                           });
+
+                        }
+
+                  photosSeen.push(value['id']);
+
+
 
             });
         }
+
+        $(document).ready(function(){
+          
+            $('.photopool-slider-control>.owl-next').click(function(){
+               if($('.photopool-slider-wrapper .owl-item.active').is(':nth-last-child(3)')) {
+                  alert('Third Last Child Coming in the View !');
+                }
+            });
+
+        });
+
+         
 
 
 
@@ -134,6 +190,7 @@
             });
 
         }
+
 
 
 </script>

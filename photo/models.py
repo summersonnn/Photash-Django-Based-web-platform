@@ -7,6 +7,7 @@ from star_ratings.models import Rating
 from django.db.models.signals import pre_delete  #R eceive the pre_delete signal and delete the file associated with the model instance.
 from django.dispatch.dispatcher import receiver
 from contest.models import Contender
+import os
 
 
 # Create your models here.
@@ -26,6 +27,9 @@ class Photo(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+    def filename(self):
+        return os.path.basename(self.photoItself.name)
 
     def get_absolute_url(self):
         return reverse('photo:detail', kwargs={'id': self.id})

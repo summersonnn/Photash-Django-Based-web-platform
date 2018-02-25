@@ -182,6 +182,7 @@ LOGIN_EXEMPT_URLS= (
 #Hem logged in userların hem logged out userların ulaşabileceği urller
 COMMON_URLS = (
     r'^$',
+    r'^home/feed/$',                        #Feed Page
     r'^contest/(?P<slug>[\w-]+)/photos/$',  #Contest photopool
     r'^api/(?P<slug>[\w-]+)/index/$', #Contest photopool (api)
     r'^contest/index/$',            #Contest index

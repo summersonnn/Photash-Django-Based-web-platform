@@ -38,6 +38,11 @@ def photo_upload(request, slug):
                 contender = Contender(user=request.user, contest=contest_record)
                 contender.save()
 
+            file = open('check.txt', 'a')
+            file.write(photo.filename())
+            file.write("\n")
+            file.close()
+
             # Mesaj ve redirection işlemleri
             messages.success(request, 'You have succesfully sent a photo to photo pool')
             return HttpResponseRedirect(contest_record.get_absolute_url())
