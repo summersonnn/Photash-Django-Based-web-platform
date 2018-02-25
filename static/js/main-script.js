@@ -23,47 +23,40 @@
         $('.regular-title .title-height-add').css('top', '0px');
         $('.premium-title .title-height-add').css('top', '-20px');
       }
-    );
-/*--------- ScrollingEffects Options ---------*/
+  );
+});
 
-    var options = {
-        animationSpeed : 900,
-        autoHash: false,
-        headerHash: false
-      };
-      $.scrollingeffect(options);
-
-  });
 
 /*---------------------------------------------------
-    Cards Options
+    Photopool Item Slider Options
   --------------------------------------------------*/
 
-$('.card-slider').owlCarousel({
+$('.photopool-slider').owlCarousel({
     loop: false,
-    margin:1,
     items: 1,
     dots: false,
     nav: true,
     mouseDrag: false,
-    navContainer: '#control-1',
-    navText: ['<i class="fa fa-chevron-left" aria-hidden="true"></i>','<i class="fa fa-chevron-right" aria-hidden="true"></i>'],
-    responsive:{
-        0:{
-            items:1
-        }
-    }
+    navContainer: '#photopool-control-1',
+    navText: ['<i class="fa fa-caret-left" aria-hidden="true"></i>','<i class="fa fa-caret-right" aria-hidden="true"></i>']
 });
+
+
 
 /*---------------------------------------------------
   Line height of the arrows
 --------------------------------------------------*/
 
+if($('.photopool-main-wrapper')) {   // Execute only if Photopool Slider Present on Page !
+
   $(document).ready(setInterval(function(){
-      var cardHeight = $('.owl-item.active').height();
+      var cardHeight = $('.owl-item.active>.photopool-img-wrapper').height();
       $('.owl-next, .owl-prev').css('line-height', cardHeight+'px');
   },
   100));
+}
+
+  
 
 /*---------------------------------------------------
   Anchors Animations/Scrolling
@@ -112,8 +105,48 @@ $('.card-slider').owlCarousel({
                 btt.hide();
             }
     });
-    /*-----------------------------------------------*/
 });
+
+
+
+if($('.feeds-wrapper')) {         // Execute only if its the Feed Page !
+
+   var $grid = $('.feeds-wrapper').masonry({
+    itemSelector: '.feed-item',
+    percentPosition: true,
+    columnWidth: '.grid-sizer',
+    horizontalOrder:true
+  });
+// layout Masonry after each image loads so there can't be any issue with padding between items when page is initially loaded
+  $grid.imagesLoaded().progress( function() {
+      $grid.masonry();
+  });  
+
+
+  $(document).ready(function(){
+      var val = 1;
+
+      $(".feed-overlay>button.btn-txt-only").click(function(){
+          if (val== 1) {
+              $(this).siblings('.btn-report').show();
+              val = 0;
+          }
+
+          else {
+              val = 1;
+              $(this).siblings('.btn-report').hide();
+          }
+
+          return false;
+      });
+   });
+
+}
+
+
+ 
+
+
 
 
  
