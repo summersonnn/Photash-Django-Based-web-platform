@@ -28,7 +28,7 @@ class ContestListAPIView(ListAPIView):
     def get_queryset(self):
         if self.request.GET.get('q'):
             query = self.request.get('q')
-            queryset = self.queryset.filter(contest_name__icontains = query)
+            queryset = self.queryset.filter(contest_name__icontains=query)
 
         else:
             queryset = super(ContestListAPIView, self).get_queryset()
