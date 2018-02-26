@@ -25,6 +25,8 @@ urlpatterns = [
     path('api/photo/', include('photo.api.urls', namespace='photo_api')),
     path('api/user/', include('user.api.urls', namespace='user_api')),
     path('api/contest/', include('contest.api.urls', namespace='contest_api')),
+
+    path('oauth/', include('allauth.urls')),
 ]
 
 if settings.DEBUG:

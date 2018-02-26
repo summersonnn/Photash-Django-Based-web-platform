@@ -29,11 +29,10 @@
 
 </section>
 
-
 <script>
-
     $(document).ready(function(){
        getPhotos(null);
+
        var owl = $('.owl-carousel').owlCarousel();
             owl.on('changed.owl.carousel', function(event){
                 var itemIndex = event.item.index + 1;
@@ -42,11 +41,9 @@
                 }else{
                     lastItemIndex = totalPhotoCount - 3;
                 }
-
                 if(itemIndex === (lastItemIndex)){
-                    //owl.trigger('destroy.owl.carousel');
-                    //owl.trigger('add.owl.carousel', [jQuery("<div class='card-body'>You have reached the end. Reorganizing photos.</div>")]);
                     getPhotos(next);
+
                 }
             });
         });
@@ -65,7 +62,6 @@
             }
         })
     }
-
         var lastItemIndex = 0; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
         var photoCount = 0; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
         var next = ""; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
@@ -75,7 +71,6 @@
         function writeResults(result, owl){
             $.each(result['results'], function(index, value){
                 console.log(value);
-
                 if(!photosSeen.includes(value['id'])){
                     owl.trigger('add.owl.carousel', [jQuery("<div class=\"photopool-img-wrapper\" id='" + value["id"] + "'>\n" +
                    "           <a href='" + value['photoItself'] + "' data-fancybox data-caption=\"My caption\">\n" +
@@ -105,7 +100,7 @@
                    "                    <div class=\"tags-wrap\">\n"+
                    "                        <a href='#'>People</a>\n"+
                    "                        <a href='#'>Children</a>\n"+
-                   "                        <a href='#'>Nature</a>\n"+
+                   "                        <a href='#'>Nature</a> " + value['id'] + "\n"+
                    "                    </div>\n" +
                    "                    <button class=\"btn-txt-only\">&hellip;</button> \n" +
                    "                    <form class=\"form-report\" onclick=\"report('"+ value['id'] + "', event)\">\n" +
@@ -114,60 +109,45 @@
                    "                </div>\n" +
                    "            </div>\n" +
                    "       </div>")]);
-
                             $(document).ready(function(){
                               var val = 1;
-
                               $(".photopool-slider-wrapper .photopool-content .photopool-item-tags-wrap>.btn-txt-only").click(function(){
                                   if (val== 1) {
                                       $(this).siblings('.form-report').show();
                                       val = 0;
                                       console.log("Sucess 1");
                                   }
-
                                   else {
                                       val = 1;
                                       $(this).siblings('.form-report').hide();
                                       console.log("Sucess 1");
                                   }
-
                                   return false;
                               });
                            });
-
+                        }else{
+                            console.log('Photo has been seen already.');
                         }
-
                   photosSeen.push(value['id']);
-
-
-
             });
         }
+        /*$(document).ready(function(){
 
-        $(document).ready(function(){
-          
             $('.photopool-slider-control>.owl-next').click(function(){
                if($('.photopool-slider-wrapper .owl-item.active').is(':nth-last-child(3)')) {
                   alert('Third Last Child Coming in the View !');
                 }
             });
-
-        });
-
-         
-
-
+        });*/
 
         function getPhotos(Url){
             var url = "";
             //alert("get this: " + Url);
             if(Url === null){
-                url = '{% url "index_api" slug=contest.slug %}';
+                url = '{% url "photo_api:index_api" slug=contest.slug %}';
             }else{
                 url = Url;
-
             }
-
             $.ajax({
                 url: url,
                 type: "GET",
@@ -180,38 +160,14 @@
                     totalPhotoCount = result['count'];
                     var owl = $('.owl-carousel').owlCarousel({items:2, nav:true, loop: false, lazyLoad: true});
                     writeResults(result, owl);
-
                     owl.trigger('refresh.owl.carousel', {nav: false, loop:true});
-
                 },
                 error: function(result){
                     console.log(result);
                 }
             });
-
         }
-
-
 
 </script>
 
 {% endblock %}
-
-<!--           {% for photo in photos %}
-
-       <div class="card-body">
-           <a href="{{ photo.photoItself.url }}" data-fancybox data-caption="My caption">
-            <img class="card-img-top" src="{{ photo.photoItself.url }}">
-           </a>
-            <div class="card-block text-center">
-                <p>Click on image to see its original size.</p>
-                <h4 class="card-title">Photo tag: {{ photo.contest.tag }} </h4>
-                {% ratings photo %} <br>
-                <br>
-                <form style="display: inline;" onclick="report('{{ photo.id }}', event)">
-                    <input class="btn btn-danger btn-lg" type="submit" value="Report" >
-                </form>
-            </div>
-       </div>
-        {% endfor %}   -->
-
