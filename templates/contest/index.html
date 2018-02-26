@@ -6,78 +6,108 @@
 
 {% block body %}
 
-<!--CONTEST LİSTELEME-->
-<div id="contesttop" class="container">
 
-       <h1>Ongoing Contests</h1><br>
-
-        <form method="GET" action="">
-            <input type="text" name="q" placeholder="Search Contests" value="{{ request.GET.q }}"/>
-            <input type="submit" value="Search"/>
-        </form>
-        <br><br>
-
-       <table id="propertable" class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Contest Name</th>
-              <th scope="col">Contest Tag</th>
-              <th scope="col">Start Date</th>
-              <th scope="col">End Date</th>
-              <th scope="col">Photos</th>
-            </tr>
-          </thead>
-          <tbody>
-
-          {% for contest in contests %}
-            <tr>
-                <td></td>
-                <td> <a href={% url "contest:detail" slug=contest.slug %} >{{ contest.contest_name }}  </a></td>
-                <td>{{ contest.tag }}</td>
-                <td>{{ contest.start_date }}</td>
-                <td>{{ contest.end_date }}</td>
-                <td> x{{ contest.photos.count }}  </td>  <!--Foreignkey ile bağlandığın modelden, foreign key yazdığın modele ulaşma şekli -->
-            </tr>
-          {% endfor %}
-
-        </tbody>
-        </table>
-
-
-
-    <!--Sayfalama (Pagination)-->
-    <div class="row">
-        <div class="pagination">
-                <span class="step-links">
-                    {% if contests.has_previous %}
-                        <a href="?page={{ contests.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
-                    {% endif %}
-                    <span class="current">
-                        Page {{ contests.number }} of {{ contests.paginator.num_pages }}.
-                    </span>
-                    {% if contests.has_next %}
-                        <a href="?page={{ contests.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
-                    {% endif %}
-                </span>
+<section id="contest-list-result">
+  <div class="inner-more">
+    <div class="container">
+      <div class="feed-title-wrap row">
+        <div class="links-wrap col-sm-7">
+          <a href="">All Contests</a>
+          <a href="">Ongoing Contests</a>
+          <a href="">Finished Contests</a>
         </div>
+        <div class="search-form-wrap col-sm-5">
+          <form class="search-form" method="GET" action="">
+              <input type="text" class="form-control" name="q" placeholder="Search Contests" value="{{ request.GET.q }}"/>
+              <input class="btn btn-fill" type="submit" value="Search"/>
+          </form>
+        </div>
+        
+      </div>
+      <hr>
     </div>
-
-</div>
+</section>
 
 <script>
     $(document).ready( function(){
        $.ajax({
            url: '{% url "contest_api:index" %}',
            type: 'GET',
-           success: function(data){
-                //printHtml(data);
-               console.log("Data:" + data.results);
+           dataType: 'JSON',
+           success: function(result){
+                $.each(result['results'], function(index, value){
+
+                  var getContestDate = new Date(value["end_date"]);  // Get Contest End Date in ISO Format
+                  year = getContestDate.getFullYear();
+                  month = getContestDate.getMonth();
+                  dt = getContestDate.getDate();
+
+                  //add 0 if date,months are not 2 digits
+                  if (dt<10) {
+                    dt = '0' + dt;
+                  }
+
+                  var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];  //Change month number to String
+                  contestEndDate = dt + '/' + monthNames[month] + '/' + year;  //COnverted to Short Date Format
+
+                  var allContests = "<div class=\"row contest-list-item\">\n"+
+
+                    "                           <div class=\"col-sm-3\">\n"+
+                    "                               <div class=\"contest-img-wrap\">\n" +
+                    "                                   <div class=\"overlay\"><button class=\"btn btn-fill\">Enter Now</button></div>\n" +
+                    "                                   <img src='/../static/images/home-images/2.jpg' />\n" +
+                    "                               </div>\n" +
+                    "                           </div>\n" +
+                    "                           <div class=\"col-sm-3\">\n"+
+                    "                               <div class=\"contest-detail-wrap\">\n" +
+                    "                                   <a href='../"+value["slug"]+"'>"+ value["contest_name"] +"</a>\n" +
+                    "                                   <p>Everybody wants to see your new photos only images uploaded.</p>\n" +
+                    "                                   <span class=\"contest-tags\">" + value["tag"] +"</span>\n" +
+                    "                                   <div class=\"button-wrap\">\n" +
+                    "                                     <button class=\"btn btn-fill\">Read More</span>\n" +
+                    "                                   </div>\n" +
+                    "                               </div>\n" +
+                    "                           </div>\n" +
+                    "                           <div class=\"col-sm-2\">\n"+
+                    "                               <div class=\"contest-date-wrap\">\n" +
+                    "                                   <span class=\"contest-item-icon\"><img src='/../static/images/icons/calender.png' />Deadline</span>\n" +
+                    "                                   <p>"+ contestEndDate +"</p>\n" +
+                    "                               </div>\n" +
+                    "                           </div>\n" +
+                    "                            <div class=\"col-sm-2\">\n"+
+                    "                               <div class=\"contest-photo-count-wrap\">\n" +
+                    "                                   <span class=\"contest-item-icon\"><img src='/../static/images/icons/album.png' />Photos</span>\n" +
+                    "                                   <p>25</p>\n" +
+                    "                               </div>\n" +
+                    "                           </div>\n" +
+                    "                            <div class=\"col-sm-2\">\n"+
+                    "                               <div class=\"contest-prize-wrap\">\n" +
+                    "                                   <span class=\"contest-item-icon\"><img src='/../static/images/icons/trophy.png' />Prize Pool</span>\n" +
+                    "                                   <p>200 $</p>\n" +
+                    "                               </div>\n" +
+                    "                           </div>\n" +
+                    "                </div>\n";
+
+                    $(allContests).appendTo('#contest-list-result .container');
+                });
+                
+               
+                    
+
+                
+
+                
+                
+               
+               
+               
+               
            },
            error: function(data){
-               console.log(data);
+               console.log("Error");
            }
-       })
+       });
+
     });
 </script>
 

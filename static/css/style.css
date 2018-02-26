@@ -144,6 +144,7 @@ body.cd-overlay::after {
 /* -------------------------------- 
   Navigation
 -------------------------------- */
+
 .main-nav {
   background-color: #e5bb30;
   font-family: 'Bellerose', sans-serif;
@@ -448,7 +449,6 @@ button {
 .icon-img-wrapper {
   display: inline-block;
   max-width: 45px;
-  /* height: 60px; */
   line-height: 60px;
   margin: 10px 0;
 }
@@ -622,7 +622,9 @@ button {
 
 .photopool-img-wrapper {
   flex: 3;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .photopool-content {
@@ -770,7 +772,151 @@ button {
   font-weight: 800;
 }
 
+/* -------------------------------- 
+  Contests-List Page
+-------------------------------- */
 
+#contest-list-result .feed-title-wrap>.link-wrap{
+  display: inline-block;
+  width: 63%;
+}
+
+#contest-list-result hr {
+    margin-top: 10px;
+    margin-bottom: 30px;
+    border-top: 1px solid #bfbfbf;
+}
+
+#contest-list-result .search-form-wrap>.search-form>input.form-control {
+  width: 65%;
+  display: inline-block;
+  line-height: 20px;
+}
+
+#contest-list-result .search-form-wrap>.search-form>input.btn {
+  padding: 4px 0;
+}
+    
+
+.contest-list-item {
+  padding: 10px;
+  background-color: #e2e2e2;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+.contest-list-item>[class*="col"]:first-child {
+  padding-left: 0;
+}
+
+.contest-list-item .contest-img-wrap {
+  position: relative;
+  cursor: pointer;
+}
+
+.contest-list-item .contest-img-wrap>.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 6px;
+  visibility: hidden;
+  opacity: 0;
+  transition: 400ms ease;
+}
+
+.contest-list-item .contest-img-wrap>.overlay>button {
+  position: absolute;
+  bottom: 20px;
+  right: 50%;
+  transform: translateX(50%);
+  padding: 5px 0;
+}
+
+.contest-list-item .contest-img-wrap:hover>.overlay {
+   visibility: visible;
+   opacity: 1;
+   text-align: center;
+}
+
+.contest-list-item .contest-img-wrap img {
+  max-width: 100%;
+  border-radius:  6px;
+}
+
+.contest-list-item .contest-detail-wrap a {
+  color: #000;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.contest-list-item .contest-detail-wrap p {
+  font-size: 13px;
+  margin: 10px 0;
+}
+
+.contest-list-item .contest-detail-wrap .contest-tags {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #636363;
+}
+
+.contest-list-item .contest-detail-wrap .button-wrap {
+  text-align: center;
+}
+
+.contest-list-item .contest-detail-wrap button {
+  padding: 5px 30px;
+}
+
+.contest-list-item>[class*="col"] {
+  display: flex;
+  align-items: center;
+  color: #000;
+}
+
+.contest-list-item .contest-item-icon {
+  display: block;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: #000;
+}
+
+.contest-list-item .contest-item-icon img {
+  max-width: 35px;
+  display: block;
+  margin: 5px auto;
+}
+
+.contest-list-item .col-sm-2 {
+  justify-content: center;
+}
+
+.contest-list-item .contest-date-wrap,
+.contest-list-item .contest-photo-count-wrap,
+.contest-list-item .contest-prize-wrap {
+  text-align: center;
+}
+
+.contest-list-item .contest-date-wrap p,
+.contest-list-item .contest-prize-wrap p {
+  margin: 15px 0;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.contest-list-item .contest-photo-count-wrap p {
+  font-weight: 600;
+  font-size: 18px;
+  margin: 12px 0;
+}
+
+.contest-list-item .contest-prize-wrap p {
+  font-size: 28px;
+  margin: 2px 0;
+}
 
 /* -------------------------------- 
 
