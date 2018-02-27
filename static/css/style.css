@@ -750,16 +750,19 @@ button {
   display: none;
 }
 
-.photopool-item-tags-wrap .tags-wrap {
+.photopool-item-tags-wrap .tags-wrap,
+.contest-detail-content-wrap .tags-wrap {
   display: inline-block;
 }
 
-.photopool-item-tags-wrap .tags-wrap a{
+.photopool-item-tags-wrap .tags-wrap a,
+.contest-detail-content-wrap .tags-wrap a {
   font-size: 12px;
   color: #969696;
 }
 
-.photopool-item-tags-wrap .tags-wrap a:not(:first-child):before {
+.photopool-item-tags-wrap .tags-wrap a:not(:first-child):before,
+.contest-detail-content-wrap .tags-wrap a:not(:first-child):before {
   content: '';
   width: 1px;
   height: 12px;
@@ -916,6 +919,79 @@ button {
 .contest-list-item .contest-prize-wrap p {
   font-size: 28px;
   margin: 2px 0;
+}
+
+/* -------------------------------- 
+  Contests-Detail Page
+-------------------------------- */
+
+.contest-detail-sec .contest-img-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.contest-detail-sec .row {
+  padding: 15px;
+  background-color: #e6e6e6;
+  border-radius: 15px;
+}
+
+.contest-detail-sec .row>.img-col {
+  padding-left: 0;
+}
+
+.contest-detail-sec .contest-img-wrap img {
+  max-width: 100%;
+  width: 100%;
+  border-radius: 15px;
+}
+
+.contest-detail-content-wrap .table tr>th {
+  font-size: 15px;
+  color: #000;
+}
+
+.contest-detail-content-wrap .table tr .prize-list {
+  list-style: none;
+  padding: 0;
+}
+
+.contest-detail-content-wrap .table tr .prize-list>li {
+  border-bottom: 1px solid #000;
+}
+
+.contest-detail-content-wrap .table tr .prize-list>li>span:first-child {
+  width: 37px;
+  display: inline-block;
+  vertical-align: text-bottom;
+  margin-right: 5px;
+}
+
+.contest-detail-content-wrap .table tr .prize-list>li>strong {
+  font-size: 26px;
+  color: #000;
+}
+
+.contest-detail-content-wrap .table .tr-btn-wrap button{
+  font-weight: 800;
+}
+
+.contest-detail-content-wrap .button-wrap>form {
+  display: inline-block;
+}
+
+.contest-detail-content-wrap .button-wrap>form>input {
+  cursor: pointer;
+  padding: 5px 0;
+}
+
+.contest-detail-content-wrap .contest-tags-wrap {
+  text-align: right;
+  margin-top: 20px;
+}
+
+.contest-detail-content-wrap .contest-tags-wrap .btn-txt-only {
+  font-weight: 800;
 }
 
 /* -------------------------------- 
