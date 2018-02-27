@@ -109,76 +109,23 @@
     </div>
 </section>
 
-    <!--<section class="white">
-      <div class="inner-more">
-        <div class="container">
-          <div class="section-title text-center">
-            <h3>Upgrade to gold membership and gain some advantages.<br> {{ contest.contest_name }} contest.</h3>
-          </div>
-          <table class="table comp-table">
-            <thead>
-              <tr>
-                <td class="features-title">
-                  <div class="title-height-add"></div>
-                  <div>
-                    <h2>FEATURES</h2>
-                    <h5>COMPARISON</h5>
-                  </div>
-                </td>
-                <td class="premium-title">
-                  <div class="title-height-add"></div>
-                  <span class="arrow-down"></span>
-                  <h2>GOLD USER</h2>
-                  <h3>7$<span>per month</span></h3>
-                </td>
-                <td class="regular-title">
-                  <div class="title-height-add"></div>
-                  <span class="arrow-down"></span>
-                  <h2>FREE USER</h2>
-                  <h3>0$</h3>
-                </td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Minimum amount of votes you need to distribute<br> in order to take part in rankings</td>
-                <td>5 {% if request.user.is_authenticated %}(You've distributed {{ contender.howmany_voted }}){% endif %}</td> <!--şimdilik 5 yazdım cunku databasede olusturmadım -
-                <td>{{  contest.min_must_votes }} {% if request.user.is_authenticated %}(You've distributed {{ contender.howmany_voted }}){% endif %}</td>
-              </tr>
-              <tr>
-                <td>Maximum number of photos you can send to photopool</td>
-                <td>{{  contest.max_photos_per_Preuser }}</td>
-                <td>{{  contest.max_photos_per_Reguser }}</td>
-              </tr>
-              <tr>
-                <td>Min average of given points a contender must provide</td>
-                <td>{{  contest.min_total_points_given }}</td>
-                <td>{{  contest.min_total_points_given }}</td>
-              </tr>
-              <tr>
-                <td>Free photo uploading for the first photo </td>
-                <td ><i class="fa fa-check" aria-hidden="true"></i></td>
-                <td ><i class="fa fa-check" aria-hidden="true"></i></td>
-              </tr>
-              <tr>
-                <td>Free photo uploading after the first photo</td>
-                <td><i class="fa fa-check" aria-hidden="true"></i></td>
-                <td><i class="fa fa-times" aria-hidden="true"></i></td>
-              </tr>
-              <tr>
-                <td>Stats Whisperer <a style="font-size:10px;" href="#">What is this?</a></td>
-                <td><i class="fa fa-check" aria-hidden="true"></i></td>
-                <td><i class="fa fa-times" aria-hidden="true"></i></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td class="last-child-td-btn premium"><a href="#" class="plan-btn">Upgrade</a></td>
-                <td class="last-child-td-btn regular"><a href="#" class="plan-btn">Sign Up</a></td>
-              </tr>
-            <tbody>
-          </table>
-        </div>
-      </div>
-    </section>-->
+<script>
+
+    $(document).ready( function(){
+        $.ajax({
+            url: '{% url 'contest_api:detail' slug=contest.slug %}',
+            type: 'get',
+            success: function(result){
+                console.log(result);
+                // any function or code needed in order to write or read the data.
+            },
+            error:function(result){
+                console.log('error: ' + result);
+            }
+        });
+    });
+
+
+</script>
 
 {% endblock %}
