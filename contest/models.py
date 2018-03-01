@@ -102,5 +102,18 @@ class Contender(models.Model):
             return False
 
 
+class Tag(models.Model):
+    title = models.CharField(max_length=140)
+    added_by = models.ForeignKey(User, on_delete=models.PROTECT) #
+    adden_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+    popular_at = models.CharField(max_length=280) # location it is most popular at, for feature business stuff.
+
+    class Meta:
+        ordering = ('-id', )
+        get_latest_by = 'id'
+
+    def __str__(self):
+        return self.title
 
 

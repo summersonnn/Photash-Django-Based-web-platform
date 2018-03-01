@@ -11,12 +11,12 @@
   <div class="inner-more">
     <div class="container">
       <div class="feed-title-wrap row">
-        <div class="links-wrap col-sm-7">
+        <div class="links-wrap col-lg-7 col-sm-12">
           <a href="">All Contests</a>
           <a href="">Ongoing Contests</a>
           <a href="">Finished Contests</a>
         </div>
-        <div class="search-form-wrap col-sm-5">
+        <div class="search-form-wrap col-lg-5 col-sm-12">
           <form class="search-form" method="GET" action="">
               <input type="text" class="form-control" name="q" placeholder="Search Contests" value="{{ request.GET.q }}"/>
               <input class="btn btn-fill" type="submit" value="Search"/>
@@ -52,13 +52,13 @@
 
                   var allContests = "<div class=\"row contest-list-item\">\n"+
 
-                    "                           <div class=\"col-sm-3\">\n"+
+                    "                           <div class=\"col-lg-3\">\n"+
                     "                               <div class=\"contest-img-wrap\">\n" +
                     "                                   <div class=\"overlay\"><button class=\"btn btn-fill\">Enter Now</button></div>\n" +
                     "                                   <img src='/../static/images/home-images/2.jpg' />\n" +
                     "                               </div>\n" +
                     "                           </div>\n" +
-                    "                           <div class=\"col-sm-3\">\n"+
+                    "                           <div class=\"col-lg-3\">\n"+
                     "                               <div class=\"contest-detail-wrap\">\n" +
                     "                                   <a href='../"+value["slug"]+"'>"+ value["contest_name"] +"</a>\n" +
                     "                                   <p>Everybody wants to see your new photos only images uploaded.</p>\n" +
@@ -68,19 +68,19 @@
                     "                                   </div>\n" +
                     "                               </div>\n" +
                     "                           </div>\n" +
-                    "                           <div class=\"col-sm-2\">\n"+
+                    "                           <div class=\"col-lg-2 col-sm-4\">\n"+
                     "                               <div class=\"contest-date-wrap\">\n" +
                     "                                   <span class=\"contest-item-icon\"><img src='/../static/images/icons/calender.png' />Deadline</span>\n" +
                     "                                   <p>"+ contestEndDate +"</p>\n" +
                     "                               </div>\n" +
                     "                           </div>\n" +
-                    "                            <div class=\"col-sm-2\">\n"+
+                    "                            <div class=\"col-lg-2 col-sm-4\">\n"+
                     "                               <div class=\"contest-photo-count-wrap\">\n" +
                     "                                   <span class=\"contest-item-icon\"><img src='/../static/images/icons/album.png' />Photos</span>\n" +
                     "                                   <p>25</p>\n" +
                     "                               </div>\n" +
                     "                           </div>\n" +
-                    "                            <div class=\"col-sm-2\">\n"+
+                    "                            <div class=\"col-lg-2 col-sm-4\">\n"+
                     "                               <div class=\"contest-prize-wrap\">\n" +
                     "                                   <span class=\"contest-item-icon\"><img src='/../static/images/icons/trophy.png' />Prize Pool</span>\n" +
                     "                                   <p>200 $</p>\n" +

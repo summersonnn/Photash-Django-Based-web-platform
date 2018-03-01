@@ -139,6 +139,21 @@ if($('.feeds-wrapper')) {         // Execute only if its the Feed Page !
 
           return false;
       });
+
+      $(".contest-detail-content-wrap #prize-open-btn").click(function(){
+          if (val== 1) {
+              $(this).siblings('.prize-list').show();
+              val = 0;
+          }
+
+          else {
+              val = 1;
+              $(this).siblings('.prize-list').hide();
+          }
+
+          return false;
+      });
+
    });
 
 }

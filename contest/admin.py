@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Contest, Contender
+from .models import Contest, Contender, Tag
 
 class ContestAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("contest_name",)}
@@ -21,7 +21,7 @@ class ContenderAdmin(admin.ModelAdmin):
         model = Contender
 
 
-
+admin.site.register(Tag)
 admin.site.register(Contest, ContestAdmin)
 admin.site.register(Contender, ContenderAdmin)
 

@@ -6,8 +6,8 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from contest.models import Contest, Contender
-from .serializers import ContestSerializer
+from contest.models import Contest, Contender, Tag
+from .serializers import ContestSerializer, TagSerializer
 from photo.api.serializers import PhotoSerializer
 from photo.models import Photo
 from star_ratings.serializers import UserRatingSerializer, RatingSerializer
@@ -77,8 +77,8 @@ class ContestDetailAPIView(RetrieveAPIView):
 class VotersListAPIView(RetrieveAPIView):
     queryset = Contest.objects.all()
     serializer_class = ContestSerializer
-    permission_class = SessionAuthentication
-    authentication_class = IsAuthenticated
+    permission_class = IsAuthenticated
+    authentication_class = SessionAuthentication
     lookup_url_kwarg = 'slug'
     lookup_field = 'slug'
 
@@ -160,6 +160,16 @@ class FeedAPIView(APIView):
 
         return Response(data, status=status.HTTP_200_OK)
 
+
+class AskForTags(ListAPIView):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (IsAuthenticated, )
+
+    def get_queryset(self):
+        queryset = super(AskForTags, self).get_queryset()
+        return queryset[:15]
 
 
 

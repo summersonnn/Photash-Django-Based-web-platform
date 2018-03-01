@@ -11,40 +11,40 @@
     <div class="inner-more">
         <div class="container home-cont">
             <div class="row">
-                <div class="col-lg-7 col-md-8 img-col-wrapper">
+                <div class="col-lg-7 col-md-12 img-col-wrapper">
                     <div class="row">
-                        <div class="col-sm-2 imgs-col">
+                        <div class="col-sm-2 col-xs-4 imgs-col">
                             <div class="img-holder lg" style='background-image:url("{% static 'images/home-images/1.jpg' %}")'></div>
                             <div class="img-holder md" style='background-image:url("{% static 'images/home-images/6.jpg' %}")'></div>
                             <div class="img-holder sm" style='background-image:url("{% static 'images/home-images/9.jpg' %}")'></div>
                         </div>
                        
-                        <div class="col-sm-2 imgs-col">
+                        <div class="col-sm-2 col-xs-4 imgs-col">
                             <div class="img-holder xs" style='background-image:url("{% static 'images/home-images/2.jpg' %}")'></div>
                             <div class="img-holder sm" style='background-image:url("{% static 'images/home-images/4.jpg' %}")'></div>
                             <div class="img-holder sm" style='background-image:url("{% static 'images/home-images/9.jpg' %}")'></div>
                             <div class="img-holder lg" style='background-image:url("{% static 'images/home-images/10.jpg' %}")'></div>
                         </div>
 
-                         <div class="col-sm-2 imgs-col">
+                         <div class="col-sm-2 col-xs-4 imgs-col">
                             <div class="img-holder xs" style='background-image:url("{% static 'images/home-images/2.jpg' %}")'></div>
                             <div class="img-holder md" style='background-image:url("{% static 'images/home-images/6.jpg' %}")'></div>
                             <div class="img-holder sm" style='background-image:url("{% static 'images/home-images/7.jpg' %}")'></div>
                             <div class="img-holder md" style='background-image:url("{% static 'images/home-images/11.jpg' %}")'></div>
                         </div>
 
-                        <div class="col-sm-2 imgs-col">
+                        <div class="col-sm-2 col-xs-4 imgs-col">
                             <div class="img-holder xs" style='background-image:url("{% static 'images/home-images/4.jpg' %}")'></div>
                             <div class="img-holder sm" style='background-image:url("{% static 'images/home-images/4.jpg' %}")'></div>
                             <div class="img-holder md" style='background-image:url("{% static 'images/home-images/8.jpg' %}")'></div>
                             <div class="img-holder md" style='background-image:url("{% static 'images/home-images/6.jpg' %}")'></div>
                         </div>
-                        <div class="col-sm-2 imgs-col">
+                        <div class="col-sm-2 col-xs-4 imgs-col">
                             <div class="img-holder lg" style='background-image:url("{% static 'images/home-images/10.jpg' %}")'></div>
                             <div class="img-holder sm" style='background-image:url("{% static 'images/home-images/9.jpg' %}")'></div>
                             <div class="img-holder lg" style='background-image:url("{% static 'images/home-images/12.jpg' %}")'></div>
                         </div>
-                        <div class="col-sm-2 imgs-col">
+                        <div class="col-sm-2 col-xs-4 imgs-col">
                             <div class="img-holder sm" style='background-image:url("{% static 'images/home-images/11.jpg' %}")'></div>
                             <div class="img-holder lg" style='background-image:url("{% static 'images/home-images/12.jpg' %}")'></div>
                             <div class="img-holder lg" style='background-image:url("{% static 'images/home-images/10.jpg' %}")'></div>
@@ -52,13 +52,13 @@
                     </div>
                 </div>
 
-                <div class="col-lg-5 col-md-4 form-col">
+                <div class="col-lg-5 form-col">
                     {% include 'register_form.html' with register_form=form %}
                 </div>
 
                 <div class="col-sm-12 iconbox-col">
                     <div class="row steps-iconbox-wrapper">
-                        <div class="col">
+                        <div class="col-lg col-md-12">
                             <div class="step-iconbox">
                                 <div class="icon-title">
                                     <p>Take A Photograph</p>
@@ -73,7 +73,7 @@
                             </div>
                         </div>
 
-                        <div class="col">
+                        <div class="col-lg col-md-12">
                             <div onclick="location.href='{% url "contest:index" %}'" class="step-iconbox">
                                 <div class="icon-title">
                                     <p>Select A contest</p>
@@ -88,7 +88,7 @@
                             </div>
                         </div>
                         
-                        <div class="col">
+                        <div class="col-lg col-md-12">
                             <div onclick="location.href='{% url "contest:photo_upload" slug=random_contest.slug %}'" class="step-iconbox">
                                 <div class="icon-title">
                                     <p>Upload your photo</p>
@@ -103,7 +103,7 @@
                             </div>
                         </div>
 
-                        <div class="col">
+                        <div class="col-lg col-md-12">
                             <div onclick="location.href='{% url "contest:detail" slug=random_contest.slug %}'" class="step-iconbox">
                                 <div class="icon-title">
                                     <p>Fullfil the conditions</p>
@@ -118,7 +118,7 @@
                             </div>
                         </div>
 
-                        <div class="col">
+                        <div class="col-lg col-md-12">
                             <div onclick="location.href='{% url "contest:photopool" slug=random_contest.slug %}'" class="step-iconbox">
                                 <div class="icon-title">
                                     <p>Vote & Compete!</p>

@@ -15,7 +15,7 @@ def contest_index(request):
 
 
 def contest_detail(request, slug):
-    return render(request, "contest/detail.html", context={'contest': Contest.objects.get(slug=slug)}) # will be replaced
+    return render(request, "contest/detail.html", context={'contest': Contest.objects.get(slug=slug)})
 
 
 def photo_upload(request, slug):

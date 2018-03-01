@@ -5,14 +5,14 @@
     {% for field in register_form %}
         {% if field.label == "First Name" %}
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-lg-6">
                     <label for="first_name">{{ field.label }}</label>
                     {{ field }}
                 </div>
 
         {% endif %}
         {% if field.label == 'Last Name' %}
-                <div class="col-sm-6">
+                <div class="col-lg-6">
                     <label for="last_name">{{ field.label }}</label>
                     {{ field }}
 
@@ -29,11 +29,14 @@
         <div class="signup-with-wrapper">
             <p>
                 <a href="#">Sign Up</a> with
-                <a href="#" class="social-link">
+                <!--<a href="#" class="social-link">
                     <img src="{% static 'images/icons/fb.png' %}">
                 </a>
                 <a href="#" class="social-link">
                     <img src="{% static 'images/icons/google.png' %}">
+                </a>-->
+                <a href="http://127.0.0.1:8000/oauth/twitter/login/" class="social-link">
+                    <img src="{% static 'images/icons/Twitter_Logo_Blue.png' %}">
                 </a>
             </p>
         </div>
