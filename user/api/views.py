@@ -1,7 +1,7 @@
+from rest_framework import status
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
-from rest_framework.status import HTTP_200_OK
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
@@ -28,7 +28,7 @@ class ProfileDetailAPIView(RetrieveAPIView):
             print(photos)
             data['photos_will_be_shown'] = PhotoSerializer(photos, many=True).data
 
-        return Response(data, status=HTTP_200_OK)
+        return Response(data, status=status.HTTP_200_OK)
 
 
 class UpdatePreferedTags(APIView):
@@ -37,28 +37,32 @@ class UpdatePreferedTags(APIView):
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated, )
 
-    def get_tags(self, ids):
-        old_tags = Profile.objects.get(user=self.request.user).prefered_tags.all()
-        queryset = [get_object_or_404(Tag, id=id) for id in ids]
-        removable = False
-
-        for tag in old_tags:
-            if tag not in queryset:
-                removable = False
-                break
-
-        return queryset, removable
-
     def post(self, request, format=None):
-        '''try:
+        try:
+            old_tags = Profile.objects.get(user=self.request.user).prefered_tags
             remove = request.data['remove']
             tag_ids = request.data['ids']
-            tag_objects = self.get_tags(tag_ids)
+            tag_objects = [get_object_or_404(Tag, id=id) for id in tag_ids]
 
-            if remove:
-                pass'''
+            if not remove:
+                for tag in tag_objects:
+                    if tag not in old_tags.all():
+                        old_tags.add(tag)
 
-        pass
+            else:
+                for tag in tag_objects:
+                    if tag in old_tags.all():
+                        old_tags.add(tag)
+
+            return Response({'success': 'successfuly updated users tags.'}, status=status.HTTP_200_OK)
+
+        except Exception as error:
+            return Response({'error': error.message}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+
+
+
 
 
 
