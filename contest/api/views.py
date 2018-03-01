@@ -10,6 +10,7 @@ from contest.models import Contest, Contender, Tag
 from .serializers import ContestSerializer, TagSerializer
 from photo.api.serializers import PhotoSerializer
 from photo.models import Photo
+from user.models import Profile
 from star_ratings.serializers import UserRatingSerializer, RatingSerializer
 from star_ratings.models import UserRating, Rating, ContentType
 
@@ -18,6 +19,33 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404
 
 from random import randint, shuffle, choice
+import operator
+
+def recommendation(queryset, user):
+    user = Profile.objects.get(user=user)
+    preferd_tags = user.prefered_tags.all()
+    reordered_queryset = {}
+    return_queryset = []
+
+    for query in queryset:
+        similarity = 0
+        for query_tag in query.tag.all():
+            if query_tag in preferd_tags:
+                similarity += 1
+
+        try:
+            index = similarity / query.tag.all().count()
+        except ZeroDivisionError:
+            index = 0
+        reordered_queryset[query] = index
+
+    reordered_queryset = sorted(reordered_queryset.items(), key=operator.itemgetter(1))
+    print(reordered_queryset)
+
+    for query_with_index in reversed(reordered_queryset):
+        return_queryset.append(query_with_index[0])
+
+    return return_queryset
 
 
 class ContestListAPIView(ListAPIView):
@@ -33,6 +61,8 @@ class ContestListAPIView(ListAPIView):
 
         else:
             queryset = super(ContestListAPIView, self).get_queryset()
+
+        queryset = recommendation(queryset, self.request.user)
 
         return queryset
 

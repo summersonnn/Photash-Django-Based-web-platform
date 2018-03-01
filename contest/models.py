@@ -9,15 +9,29 @@ from django.db.models import Max
 # from photo.models import *
 
 
+class Tag(models.Model):
+    title = models.CharField(max_length=140)
+    added_by = models.ForeignKey(User, on_delete=models.PROTECT) #
+    adden_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+    popular_at = models.CharField(max_length=280) # location it is most popular at, for feature business stuff.
 
-# Create your models here.
+    class Meta:
+        ordering = ('-id', )
+        get_latest_by = 'id'
+
+    def __str__(self):
+        return self.title
+
+
+
 class Contest(models.Model):
     id = models.IntegerField(primary_key=True, verbose_name='Contest id')
     contest_name = models.CharField(max_length=50, unique=True, blank=False, verbose_name='Contest Name')
     contest_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True, verbose_name='photo? video?')
     start_date = models.DateTimeField(blank=False, verbose_name='Start Date')
     end_date = models.DateTimeField(blank=False, verbose_name='End Date')
-    tag = models.CharField(max_length=30, blank=False, verbose_name='Contest Tag')
+    tag = models.ManyToManyField(Tag)
     min_must_votes = models.IntegerField(blank=False, default=10, verbose_name='Minimum number of votes a contender must provide')              #Yani o contest içinde en az bu sayı defa oy vermeli. Vermezse kendi gönderdiği fotoğraf geçerli olmayacak.
     min_avg = models.FloatField(blank=False, default=4.00, verbose_name='Min average of given points a contender must provide')       #Yani o contest içinde verdiği oyların ortalaması en az bu kadar olmalı. Bu sayede herkese 1 vermesini önlüyoruz.
     min_stddev = models.FloatField(blank=False, default=2.00, verbose_name='User should not vote with repeated scores')
@@ -102,18 +116,5 @@ class Contender(models.Model):
             return False
 
 
-class Tag(models.Model):
-    title = models.CharField(max_length=140)
-    added_by = models.ForeignKey(User, on_delete=models.PROTECT) #
-    adden_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
-    popular_at = models.CharField(max_length=280) # location it is most popular at, for feature business stuff.
-
-    class Meta:
-        ordering = ('-id', )
-        get_latest_by = 'id'
-
-    def __str__(self):
-        return self.title
 
 
