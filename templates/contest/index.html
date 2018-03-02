@@ -66,17 +66,23 @@
 
                     "                           <div class=\"col-lg-3\">\n"+
                     "                               <div class=\"contest-img-wrap\">\n" +
-                    "                                   <div class=\"overlay\"><button class=\"btn btn-fill\">Enter Now</button></div>\n" +
+                    "                                   {% if request.user.is_authenticated %}\n" +
+                    "                                   <div class=\"overlay\">\n"+
+                    "                                       <form action='../"+ value["slug"] +"/upload/'>\n" +
+                    "                                           <input class=\"btn btn-fill\" type=\"submit\" value=\"Enter Now\">\n" +
+                    "                                       </form>\n" +
+                    "                                   </div>\n" +
+                    "                                    {% endif %}\n" +
                     "                                   <img src='/../static/images/home-images/2.jpg' />\n" +
                     "                               </div>\n" +
                     "                           </div>\n" +
                     "                           <div class=\"col-lg-3\">\n"+
                     "                               <div class=\"contest-detail-wrap\">\n" +
-                    "                                   <a href='../"+value["slug"]+"'>"+ value["contest_name"] +"</a>\n" +
+                    "                                   <h5>"+ value["contest_name"] +"</h5>\n" +
                     "                                   <p>Everybody wants to see your new photos only images uploaded.</p>\n" +
                     "                                   <span class=\"contest-tags\">" + tagAsStr +"</span>\n" +
                     "                                   <div class=\"button-wrap\">\n" +
-                    "                                     <button class=\"btn btn-fill\">Read More</span>\n" +
+                    "                                     <a href='../"+value["slug"]+"' class=\"btn btn-fill\">Read More</a>\n" +
                     "                                   </div>\n" +
                     "                               </div>\n" +
                     "                           </div>\n" +
