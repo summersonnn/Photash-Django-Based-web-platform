@@ -38,7 +38,7 @@
                             </ul>
                         </li>
                         <li class="nav-item nav-item-user">
-                            <a class="nav-link" href="#">{{ request.user.get_name_or_username }} <i class="fa fa-user-circle"></i></a>
+                            <a class="nav-link" href="{% url 'user:profile' %}">{{ request.user.get_name_or_username }} <i class="fa fa-user-circle"></i></a>
                         </li>
                      {% endif %}
 

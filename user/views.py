@@ -11,7 +11,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.db import transaction
 from django.urls import reverse
 from django.contrib import messages
-# from .models import Profile
+from .models import Profile
 
 
 def login_view(request):
@@ -21,7 +21,9 @@ def login_view(request):
         password = form.cleaned_data.get('password')
         user = authenticate(username=username, password=password)
         login(request, user)
-        return redirect('home')
+        username = User.objects.get(username=request.user)
+        url = reverse('user:detail_profile', kwargs={'username': username})
+        return HttpResponseRedirect(url)
     return render(request, 'accounts/form.html', {'form': form, 'title': 'Login'})
 
 
@@ -70,6 +72,10 @@ def logout_view(request):
 # --------------------------------------------------------------------------------------------
 def profile_view(request):
     return render(request, 'user/profile.html')
+
+def myprofileview(request, username):
+    profile = Profile.objects.get(user = request.user)
+    return render(request,'user/profile.html',{'profile':profile})
 
 
 @login_required
