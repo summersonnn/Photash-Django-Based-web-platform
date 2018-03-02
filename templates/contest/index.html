@@ -33,6 +33,9 @@
        $.ajax({
            url: '{% url "contest_api:index" %}',
            type: 'GET',
+           data: {
+               'q': '{{ query }}'
+           },
            dataType: 'JSON',
            success: function(result){
                 $.each(result['results'], function(index, value){

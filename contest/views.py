@@ -11,7 +11,10 @@ from random import randint
 
 
 def contest_index(request):
-    return render(request, "contest/index.html", context={})
+    context = {}
+    if request.GET.get('q'):
+        context['query'] = request.GET['q']
+    return render(request, "contest/index.html", context)
 
 
 def contest_detail(request, slug):

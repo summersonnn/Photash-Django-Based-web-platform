@@ -190,6 +190,7 @@ LOGIN_REDIRECT_URL = '/user/profile'
 
 LOGIN_URL = '/user/login/'
 
+
 #Logged in user'ların erişemeyeceği urller. Yani sadece misafirlerin erişebileceği urller.
 LOGIN_EXEMPT_URLS= (
     r'^user/logout/$',
@@ -208,6 +209,7 @@ COMMON_URLS = (
     r'^photo/star_ratings/(?P<id>\d+)/$', #Star rating bar
     r'^ratings/(?P<content_type_id>\d+)/(?P<object_id>\d+)/', #Ratings
     r'^media/(?P<path>.*)$',
+    r'^oauth/twitter/login/',
     r'^static/(?P<path>.*)$',
 
 )
