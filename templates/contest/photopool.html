@@ -69,6 +69,20 @@
         var photosSeen = []; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
 
         function writeResults(result, owl){
+            var tagAsStr = '';
+            var tag = result['results'][0]['contest']['tag'];
+            $.each(tag, function(index, value){
+                tagAsStr += "#" + value['title'];
+                index++;
+                console.log(index);
+                console.log(tag.length);
+                if(index !== tag.length){
+                    tagAsStr += " | ";
+                }
+
+            });
+
+
             $.each(result['results'], function(index, value){
                 console.log(value);
                 if(!photosSeen.includes(value['id'])){
@@ -97,10 +111,7 @@
                    "                    <button class=\"btn btn-fill\">Vote</button>\n"+
                    "                </div>\n" +
                    "                <div class=\"photopool-item-tags-wrap\">\n"+
-                   "                    <div class=\"tags-wrap\">\n"+
-                   "                        <a href='#'>People</a>\n"+
-                   "                        <a href='#'>Children</a>\n"+
-                   "                        <a href='#'>Nature</a> " + value['id'] + "\n"+
+                   "                    <div class=\"tags-wrap\">\n"+ tagAsStr + "\n"+
                    "                    </div>\n" +
                    "                    <button class=\"btn-txt-only\">&hellip;</button> \n" +
                    "                    <form class=\"form-report\" onclick=\"report('"+ value['id'] + "', event)\">\n" +
