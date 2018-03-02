@@ -56,13 +56,13 @@ class ContestListAPIView(ListAPIView):
     def get_queryset(self):
         if self.request.GET.get('q'):
             query = self.request.GET['q']
-            print(query)
             queryset = self.queryset.filter(contest_name=query)
 
         else:
             queryset = super(ContestListAPIView, self).get_queryset()
 
-        queryset = recommendation(queryset, self.request.user)
+        if self.request.user.is_authenticated:
+            queryset = recommendation(queryset, self.request.user)
 
         return queryset
 
