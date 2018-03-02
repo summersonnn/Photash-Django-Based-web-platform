@@ -41,6 +41,12 @@
                 $.each(result['results'], function(index, value){
 
                   var getContestDate = new Date(value["end_date"]);  // Get Contest End Date in ISO Format
+                  var tagAsStr = '';
+
+                  $.each(value['tag'], function(index, data){
+                      tagAsStr += "#" + data.title + "<br>";
+                  });
+
                   year = getContestDate.getFullYear();
                   month = getContestDate.getMonth();
                   dt = getContestDate.getDate();
@@ -65,7 +71,7 @@
                     "                               <div class=\"contest-detail-wrap\">\n" +
                     "                                   <a href='../"+value["slug"]+"'>"+ value["contest_name"] +"</a>\n" +
                     "                                   <p>Everybody wants to see your new photos only images uploaded.</p>\n" +
-                    "                                   <span class=\"contest-tags\">" + value["tag"] +"</span>\n" +
+                    "                                   <span class=\"contest-tags\">" + tagAsStr +"</span>\n" +
                     "                                   <div class=\"button-wrap\">\n" +
                     "                                     <button class=\"btn btn-fill\">Read More</span>\n" +
                     "                                   </div>\n" +
@@ -80,7 +86,7 @@
                     "                            <div class=\"col-lg-2 col-sm-4\">\n"+
                     "                               <div class=\"contest-photo-count-wrap\">\n" +
                     "                                   <span class=\"contest-item-icon\"><img src='/../static/images/icons/album.png' />Photos</span>\n" +
-                    "                                   <p>25</p>\n" +
+                    "                                   <p>" + value['photo_count'] + "</p>\n" +
                     "                               </div>\n" +
                     "                           </div>\n" +
                     "                            <div class=\"col-lg-2 col-sm-4\">\n"+

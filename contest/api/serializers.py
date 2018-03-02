@@ -9,6 +9,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class ContestSerializer(serializers.ModelSerializer):
+    tag = TagSerializer(many=True)
     class Meta:
         model = Contest
         fields = ('__all__')

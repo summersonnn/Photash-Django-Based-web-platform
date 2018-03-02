@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.twitter',
+    'allauth.socialaccount.providers.facebook',
 
 ]
 
@@ -210,6 +211,7 @@ COMMON_URLS = (
     r'^ratings/(?P<content_type_id>\d+)/(?P<object_id>\d+)/', #Ratings
     r'^media/(?P<path>.*)$',
     r'^oauth/twitter/login/',
+    r'^oauth/facebook/login/token',
     r'^static/(?P<path>.*)$',
 
 )

@@ -66,6 +66,25 @@ class ContestListAPIView(ListAPIView):
 
         return queryset
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            data = serializer.data
+            for x in data:
+                x['photo_count'] = Photo.objects.filter(contest=Contest.objects.get(id=int(x['id']))).count()
+
+            return self.get_paginated_response(data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        data = serializer.data
+        for x in data:
+            x['photo_count'] = Photo.objects.filter(contest=Contest.objects.get(id=int(x['id']))).count()
+
+        return Response(data)
+
 
 class ContestDetailAPIView(RetrieveAPIView):
     queryset = Contest.objects.all()
