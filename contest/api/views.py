@@ -54,9 +54,32 @@ class ContestListAPIView(ListAPIView):
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
-        if self.request.GET.get('q'):
-            query = self.request.GET['q']
-            queryset = self.queryset.filter(contest_name__icontains=query)
+        if self.request.GET.get('q') or self.request.GET.get('ongoing') or self.request.GET.get('finished') or self.request.GET.get('upcoming'):
+            queryset = self.queryset.all()
+            if self.request.GET.get('q'):
+                query = self.request.GET['q']
+                queryset = queryset.filter(contest_name__icontains=query)
+
+            if self.request.GET.get('ongoing') and not self.request.GET.get('finished') and not self.request.GET.get('upcoming'):
+                copy_queryset = queryset
+                queryset = []
+                for query in copy_queryset:
+                    if not query.is_finished() == True and not query.is_finished() == None:
+                        queryset.append(query)
+
+            elif self.request.GET.get('finished') and not self.request.GET.get('ongoing') and not self.request.GET.get('upcoming'):
+                copy_queryset = queryset
+                queryset = []
+                for query in copy_queryset:
+                    if query.is_finished() == True:
+                        queryset.append(query)
+
+            elif self.request.GET.get('upcoming') and not self.request.GET.get('ongoing') and not self.request.GET.get('finished'):
+                copy_queryset = queryset
+                queryset = []
+                for query in copy_queryset:
+                    if query.is_finished() == None:
+                        queryset.append(query)
 
         else:
             queryset = super(ContestListAPIView, self).get_queryset()

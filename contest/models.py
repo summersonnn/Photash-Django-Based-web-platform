@@ -2,9 +2,11 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 from star_ratings.models import *
-# from photo.models import *
 from django.db.models import Sum
+from django.utils import timezone
 from math import sqrt
+
+# from photo.models import *
 from django.db.models import Max
 # from photo.models import *
 
@@ -45,6 +47,18 @@ class Contest(models.Model):
 
     def get_absolute_url(self):
         return reverse('contest:detail', kwargs={'slug': self.slug})
+
+    def is_finished(self):
+        # determines if it is finished
+        if timezone.now() > self.end_date:
+            return True
+
+        # determines if it is ongoing
+        if timezone.now() > self.start_date:
+            return False
+
+        # determines if it is upcoming
+        return None
 
 
 class Contender(models.Model):

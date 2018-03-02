@@ -14,6 +14,12 @@ def contest_index(request):
     context = {}
     if request.GET.get('q'):
         context['query'] = request.GET['q']
+    if request.GET.get('ongoing'):
+        context['ongoing'] = request.GET['ongoing']
+    if request.GET.get('finished'):
+        context['finished'] = request.GET['finished']
+    if request.GET.get('upcoming'):
+        context['upcoming'] = request.GET['upcoming']
     return render(request, "contest/index.html", context)
 
 

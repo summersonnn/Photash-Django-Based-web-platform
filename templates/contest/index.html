@@ -11,12 +11,12 @@
   <div class="inner-more">
     <div class="container">
       <div class="feed-title-wrap row">
-        <div class="links-wrap col-lg-7 col-sm-12">
-          <a href="">All Contests</a>
-          <a href="">Ongoing Contests</a>
-          <a href="">Finished Contests</a>
+        <div class="links-wrap col-lg-8 col-sm-12">
+          <a href="{% if query %}?{{ query }}&{% else %}?{% endif %}upcoming=true">Upcoming Contests</a>
+          <a href="{% if query %}?{{ query }}&{% else %}?{% endif %}ongoing=true">Ongoing Contests</a>
+          <a href="{% if query %}?{{ query }}&{% else %}?{% endif %}finished=true">Finished Contests</a>
         </div>
-        <div class="search-form-wrap col-lg-5 col-sm-12">
+        <div class="search-form-wrap col-lg-4 col-sm-12">
           <form class="search-form" method="GET" action="">
               <input type="text" class="form-control" name="q" placeholder="Search Contests" value="{{ request.GET.q }}"/>
               <input class="btn btn-fill" type="submit" value="Search"/>
@@ -34,7 +34,10 @@
            url: '{% url "contest_api:index" %}',
            type: 'GET',
            data: {
-               'q': '{{ query }}'
+                {% if query %}'q': '{{ query }}', {% endif %}
+                {% if ongoing %}'ongoing': {{ ongoing }}, {% endif %}
+                {% if finished %}'finished': {{ finished }}, {% endif %}
+                {% if upcoming %}'upcoming': {{ upcoming }}, {% endif %}
            },
            dataType: 'JSON',
            success: function(result){
