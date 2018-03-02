@@ -12,9 +12,9 @@
     <div class="container">
       <div class="feed-title-wrap row">
         <div class="links-wrap col-lg-8 col-sm-12">
-          <a href="{% if query %}?{{ query }}&{% else %}?{% endif %}upcoming=true">Upcoming Contests</a>
-          <a href="{% if query %}?{{ query }}&{% else %}?{% endif %}ongoing=true">Ongoing Contests</a>
-          <a href="{% if query %}?{{ query }}&{% else %}?{% endif %}finished=true">Finished Contests</a>
+          <a href="{% if query %}?q={{ query }}&{% else %}?{% endif %}upcoming=true">Upcoming Contests</a>
+          <a href="{% if query %}?q={{ query }}&{% else %}?{% endif %}ongoing=true">Ongoing Contests</a>
+          <a href="{% if query %}?q={{ query }}&{% else %}?{% endif %}finished=true">Finished Contests</a>
         </div>
         <div class="search-form-wrap col-lg-4 col-sm-12">
           <form class="search-form" method="GET" action="">
