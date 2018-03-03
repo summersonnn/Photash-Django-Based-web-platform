@@ -30,6 +30,8 @@
 
 <script>
     $(document).ready( function(){
+
+
        $.ajax({
            url: '{% url "contest_api:index" %}',
            type: 'GET',
@@ -102,7 +104,7 @@
 
                     $(allContests).appendTo('#contest-list-result .container');
                 });
-               
+
            },
            error: function(data){
                console.log("Error");

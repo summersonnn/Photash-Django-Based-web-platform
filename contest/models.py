@@ -41,6 +41,8 @@ class Contest(models.Model):
     max_photos_per_Preuser = models.IntegerField(blank=False, default=20, verbose_name='Max photos per Premium user')
     prize_distributions = models.TextField(blank=True)
     slug = models.SlugField(unique=True)
+    topic_photo = models.ImageField(upload_to='photopool/', default='blog/static/manzara.jpg', verbose_name='Photo')
+    prize_pool = models.FloatField()
 
     def __str__(self):
         return str(self.contest_name)
