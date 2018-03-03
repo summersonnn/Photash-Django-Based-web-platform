@@ -24,6 +24,11 @@
                 console.log(value);
                 console.log(value["contest_name"]);
 
+                var tagAsStr = '';
+                $.each(value['tag'], function(index, data){
+                      tagAsStr += "#" + data.title + " ";
+                });
+
                 var getContestStartDate = new Date(value["start_date"]);  // Get Contest End Date in ISO Format
                 var getContestEndDate = new Date(value["end_date"]);  // Get Contest Start Date in ISO Format
                 year = [getContestStartDate.getFullYear() , getContestEndDate.getFullYear()]
@@ -134,10 +139,7 @@
                                             "            </form>\n" +
                                             "      </div>\n" +
                                             "      <div class=\"contest-tags-wrap\">\n" +
-                                            "        <div class=\"tags-wrap\">\n" +
-                                            "             <a href='#'>People</a>\n" +
-                                            "             <a href='#'>Children</a>\n" +
-                                            "             <a href='#'>Nature</a>\n" +
+                                            "        <div class=\"tags-wrap\">\n" + tagAsStr +
                                             "        </div>\n" +
                                             "        <button class=\"btn-txt-only\"><i class=\"fa fa-chevron-down\"></i></button>\n" +
                                             "        <form class=\"form-report\" onclick='report('{{ contest.id }}')'>\n" +

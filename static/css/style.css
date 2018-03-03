@@ -916,13 +916,14 @@ button {
 }
 
 #contest-list-result .search-form-wrap>.search-form>input.form-control {
-  width: 65%;
+  width: 64%;
   display: inline-block;
   line-height: 20px;
 }
 
 #contest-list-result .search-form-wrap>.search-form>input.btn {
   padding: 4px 0;
+  min-width: 98px;
 }
     
 
@@ -953,12 +954,13 @@ button {
   transition: 400ms ease;
 }
 
-.contest-list-item .contest-img-wrap>.overlay>button {
+.contest-list-item .contest-img-wrap>.overlay>form>.btn {
   position: absolute;
   bottom: 20px;
   right: 50%;
   transform: translateX(50%);
   padding: 5px 0;
+  cursor: pointer;
 }
 
 .contest-list-item .contest-img-wrap:hover>.overlay {
@@ -972,7 +974,7 @@ button {
   border-radius:  6px;
 }
 
-.contest-list-item .contest-detail-wrap a {
+.contest-list-item .contest-detail-wrap h5 {
   color: #000;
   font-size: 16px;
   font-weight: 600;
@@ -994,8 +996,12 @@ button {
   text-align: center;
 }
 
-.contest-list-item .contest-detail-wrap button {
+.contest-list-item .contest-detail-wrap .btn {
   padding: 5px 30px;
+}
+
+.contest-list-item .contest-detail-wrap .btn:hover {
+  color: #fff;
 }
 
 .contest-list-item>[class*="col"] {
