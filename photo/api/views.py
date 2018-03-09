@@ -1,4 +1,5 @@
 from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.views import APIView
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
@@ -40,7 +41,7 @@ class PhotoListAPIView(ListAPIView):
             if query not in user_voted and query.ownername != self.request.user:
                 Queryset.append(query)
         #Shuffling the photos so that every user will see the pool in different order
-        shuffle(Queryset)
+        #shuffle(Queryset)
 
         if self.request.GET.get('p'):
             query = self.request.GET['p']
@@ -85,6 +86,28 @@ class PhotoDetailAPIView(RetrieveAPIView):
         data['rating'] = RatingSerializer(rating).data
 
         return Response(data, status=status.HTTP_200_OK)
+
+class PhotoLikeAPIView(APIView):
+    authentication_classes = (SessionAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, id=None, format=None):
+        obj = get_object_or_404(Photo, id=id)
+        url_ = obj.get_absolute_url()
+        user = self.request.user
+        updated = False
+
+        if user.is_authenticated:
+            if user not in obj.likes.all():
+                obj.likes.add(user)
+                liked = True
+                updated=True
+        data = {
+            "updated": updated
+        }
+        return Response(data)
+
+
 
 
 #For a possible future mobile app, it is now useless.

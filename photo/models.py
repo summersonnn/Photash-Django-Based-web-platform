@@ -17,9 +17,7 @@ class Photo(models.Model):
     photoItself = models.ImageField(upload_to='photopool/', default='blog/static/manzara.jpg', verbose_name='Photo')
     ownername = models.ForeignKey('auth.User', verbose_name='Name of the owner of the photo', on_delete=models.CASCADE, related_name='photos')
     contest = models.ForeignKey('contest.Contest', verbose_name='Contest name', on_delete=models.CASCADE, related_name='photos')
-
-    # auto_now_add=True, koymaya çalıştım fakat default istedi. default ile ikisini aynı anda koymama da izin vermedi.
-    # Sadece default koyabildim.
+    likes = models.ManyToManyField ('auth.User', blank=True, related_name="photo_likes")
     uploading_date = models.DateTimeField(default=datetime.now, verbose_name="Yüklenme Tarihi")
     ratings = GenericRelation(Rating, related_query_name='photos')
 
@@ -33,6 +31,9 @@ class Photo(models.Model):
 
     def get_absolute_url(self):
         return reverse('photo:detail', kwargs={'id': self.id})
+
+    def get_api_like_url(self):
+        return reverse("photo-api:like_api", kwargs={'id': self.id})
 
 
 @receiver(pre_delete, sender=Photo)
