@@ -5,11 +5,7 @@ from star_ratings.models import *
 from django.db.models import Sum
 from django.utils import timezone
 from math import sqrt
-
-# from photo.models import *
-from django.db.models import Max
-# from photo.models import *
-
+from django.apps import apps
 
 class Tag(models.Model):
     title = models.CharField(max_length=140)

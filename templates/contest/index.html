@@ -10,6 +10,7 @@
 <section id="contest-list-result">
   <div class="inner-more">
     <div class="container">
+        <div id="asd"></div>
       <div class="feed-title-wrap row">
         <div class="links-wrap col-lg-8 col-sm-12">
           <a href="{% if query %}?q={{ query }}&{% else %}?{% endif %}upcoming=true">Upcoming Contests</a>
@@ -44,6 +45,9 @@
            dataType: 'JSON',
            success: function(result){
                 $.each(result['results'], function(index, value){
+                    /*var div = document.getElementById('asd');
+                    div.innerHTML += value["contest_name"];
+                     div.innerHTML += "<br />";*/
 
                   var getContestDate = new Date(value["end_date"]);  // Get Contest End Date in ISO Format
                   var tagAsStr = '';

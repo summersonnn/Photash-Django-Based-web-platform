@@ -116,8 +116,9 @@ class ContestDetailAPIView(RetrieveAPIView):
     lookup_field = 'slug'
 
     def get_context_data(self, *args, **kwargs):
+        contest = self.get_object()
         context = super(ContestDetailAPIView, self).get_context_data(*args, **kwargs)
-        photos = Photo.objects.filter(contest=self.get_object())
+        photos = Photo.objects.filter(contest=contest)
         count_photos = photos.count()
         if count_photos > 2:
             context['examples'] = []
@@ -133,9 +134,11 @@ class ContestDetailAPIView(RetrieveAPIView):
             context['examples'].append(photos[random_index2])
             context['examples'].append(photos[random_index3])
 
+
+            context['photo_count'] = Photo.objects.filter(contest=contest.id).count()
+
         if self.request.user.is_authenticated:
-            context['vote_count'], context['vote_avg'], context['vote_stddev'] \
-                = self.request.user.get_vote_count_avg_stddev_for_contest(contest)
+            context['vote_count'], context['vote_avg'], context['vote_stddev'] = self.request.user.get_vote_count_avg_stddev_for_contest(contest)
             try:  # if there is not any Contender object, get() will raise an exception
                 contender = Contender.objects.get(user=self.request.user, contest=self.get_object())
                 # context['contender'] = contender
@@ -144,6 +147,7 @@ class ContestDetailAPIView(RetrieveAPIView):
             except Contender.DoesNotExist:
                 context['num_of_uploaded_photos'] = 0
                 # context['is_uploaded'] = 0  # False
+        return context
 
 
 class VotersListAPIView(RetrieveAPIView):

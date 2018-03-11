@@ -8,9 +8,118 @@
 
 <section id= "contest-detail-section" class="contest-detail-sec">
   <div class="inner-more">
-    <div class="container">
-        <!-- Ajax Content Here / CF -->
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-6 img-col">
+                  <div class="contest-img-wrap">
+                      <img id="topic-photo" src="">
+                  </div>
+              </div>
+
+              <div class="col-lg-6 contest-detail-col">
+                  <div class="contest-detail-content-wrap">
+                      <table class="table table-hover">
+                          <tbody>
+                              <tr>
+                                  <th>Contest Name</th>
+                                      <td id="cname">value["contest_name"]</td>
+                              </tr>
+                              <tr>
+                                  <th>Start Date</th>
+                                      <td class="contest-start-date"> contestStartDate </td>
+                              </tr>
+                              <tr>
+                                  <th>End Date</th>
+                                      <td class="contest-end-date">contestEndtDate</td>
+                              </tr>
+                              <tr>
+                                  <th>Price Distribution</th>
+                                      <td>
+                                          <button id="prize-open-btn" class="btn-txt-only"><i class="fa fa-chevron-down"></i></button>
+                                              <ul class="prize-list">
+                                                  <li><span>1</span> <strong>500$</strong> <span>Hawaii Vacation</span></li>
+                                                  <li><span>2</span> <strong>100$</strong> <span>Bosphorus Tour</span></li>
+                                                  <li><span>3</span> <strong>50$</strong> <span></span></li>
+                                                  <li><span>4-20</span> <strong>10$</strong> <span></span></li>
+                                              </ul>
+                                      </td>
+                              </tr>
+                              <tr class="tr-btn-wrap">
+                                  <th>Details</th>
+                                      <td><button id="mini-detail-open-btn" class="btn-txt-only"><i class="fa fa-chevron-down"></i></button></td>
+                              </tr>
+
+                          </tbody>
+                      </table>
+                      <div id="contest-details-wrap-mini">
+                          <table class="table table-mini-details">
+                              <tbody>
+                                  <tr>
+                                      <th>Minimum amount of votes you need to distribute</th>
+                                          <td id="min-must-votes">value["min_must_votes"]</td>
+                                  </tr>
+                                  <tr>
+                                      <th>Minimum average</th>
+                                          <td id="min-avg">value["min_avg"]</td>
+                                  </tr>
+                                  <tr>
+                                      <th>Minimum standard deviation</th>
+                                          <td id="min-stddev">value["min_stddev"]</td>
+                                  </tr>
+                                  <tr>
+                                      <th>Number of Photos in photopool</th>
+                                          <td id="how-many-photos"></td>
+                                  </tr>
+                                  <tr>
+                                      <th>Maximum number of photos you can send</th>
+                                          <td id="max-photos">value["max_photos_per_Reguser"]</td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                      <div class="button-wrap">
+                          {% if request.user.is_authenticated %}
+                              <form action='{% url 'contest:photo_upload' slug=contest.slug %}'>
+                                  <input class="btn btn-fill" type="submit" value="Send Photo">
+                              </form>
+                          {% endif %}
+                              <form action='{% url 'contest:photopool' slug=contest.slug %}'>
+                                  <input class="btn btn-fill" type="submit" value="Photopool">
+                              </form>
+                              <form action='{% url 'contest:rankings' slug=contest.slug %}'>
+                                  <input class="btn btn-fill" type="submit" value="Rankings">
+                              </form>
+                      </div>
+                      <div class="contest-tags-wrap">
+                          <div class="tags-wrap"></div>
+                              <button class="btn-txt-only"><i class="fa fa-chevron-down"></i></button>
+                                  <form class="form-report" onclick="report('{{ contest.id }}')">
+                                      <input class="btn-report" type="submit" value="Report">
+                                  </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
       </div>
+  </div>
+</section>
+
+<section style="margin-bottom: 50px;" class="examples">
+    <div class="container">
+        <div class="examples-top">
+            <h3>{{ contest.contest_name }} Example Photos</h3>
+        </div>
+        <div class="examples-content">
+            <div class="row">
+                {% for example in examples %}
+                    <div class="col-sm-4">
+                        <div class="card" style="border-color: black;">
+                            <img src="{{ example.photoItself.url }}" alt="Example Photo" style="width: 350px; height: 200px;">
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </section>
 
@@ -23,6 +132,8 @@
             success: function(value){
                 console.log(value);
                 console.log(value["contest_name"]);
+
+                $(".cname").text(value["contest_name"]);
 
                 var tagAsStr = '';
                 $.each(value['tag'], function(index, data){
@@ -44,117 +155,25 @@
                 contestStartDate = dt[0] + '/' + monthNames[month[0]] + '/' + year[0];  //COnverted to Short Date Format,
                 contestEndtDate = dt[1] + '/' + monthNames[month[1]] + '/' + year[1];  //COnverted to Short Date Format
 
-                console.log(contestStartDate);
+                $("#topic-photo").attr("src",value['topic_photo']);
+                $("#cname").html(value['contest_name']);
+                $(".contest-start-date").html(contestStartDate);
+                $(".contest-end-date").html(contestEndtDate);
+                $("#min-must-votes").html(value['min_must_votes']);
+                $("#min-avg").html(value['min_avg']);
+                $("#min-stddev").html(value['min_stddev']);
+                $("#max-photos").html(value['max_photos_per_Reguser']);
+                $(".tags-wrap").html(tagAsStr);
+                $("#how-many-photos").html(value['photo_count']);
 
-                var contestDetailContent = "<div class=\"row\">\n" +
 
-                                            "  <div class=\"col-lg-6 img-col\">\n" +
-                                            "    <div class=\"contest-img-wrap\">\n" +
-                                            "     <img src='" + value['topic_photo'] + "'>\n" +
-                                            "    </div>\n" +
-                                            "  </div>\n" +
 
-                                            "   <div class=\"col-lg-6 contest-detail-col\">\n" +
-                                            "    <div class=\"contest-detail-content-wrap\">\n" +
-                                            "      <table class=\"table table-hover\">\n" +
-                                            "        <tbody>\n" +
 
-                                            "          <tr>\n" +
-                                            "            <th>Contest Name</th>\n" +
-                                            "            <td>"+ value["contest_name"] +"</td>\n" +
-                                            "          </tr>\n" +
-
-                                            "          <tr>\n" +
-                                            "            <th>Start Date</th>\n" +
-                                            "            <td class=\"contest-start-date\">"+ contestStartDate +"</td>\n" +
-                                            "          </tr>\n" +
-
-                                            "          <tr>\n" +
-                                            "            <th>End Date</th>\n" +
-                                            "            <td class=\"contest-end-date\">"+ contestEndtDate +"</td>\n" +
-                                            "          </tr>\n" +
-
-                                            "          <tr>\n" +
-                                            "            <th>Price Distribution</th>\n" +
-                                            "            <td>\n" +
-                                            "              <button id=\"prize-open-btn\" class=\"btn-txt-only\"><i class=\"fa fa-chevron-down\"></i></button>\n" +
-                                            "              <ul class=\"prize-list\">\n" +
-                                            "                <li><span>1</span> <strong>500$</strong> <span>+Hawaii Vacation</span></li>\n" +
-                                            "               <li><span>2</span> <strong>100$</strong> <span>+Bosphorus Tour</span></li>\n" +
-                                            "                <li><span>3</span> <strong>50$</strong> <span></span></li>\n" +
-                                            "                <li><span>4-20</span> <strong>10$</strong> <span></span></li>\n" +
-                                            "              </ul>\n" +
-                                            "            </td>\n" +
-                                            "          </tr>\n" +
-
-                                            "          <tr class=\"tr-btn-wrap\">\n" +
-                                            "            <th>Details</th>\n" +
-                                            "            <td><button id=\"mini-detail-open-btn\" class=\"btn-txt-only\"><i class=\"fa fa-chevron-down\"></i></button></td>\n" +
-                                            "          </tr>\n" +
-
-                                            "        </tbody>\n" +
-                                            "      </table>\n" +
-                                            "      <div id=\"contest-details-wrap-mini\">\n"+ 
-                                            "         <table class=\"table table-mini-details\">\n"+
-                                            "            <tbody>\n"+
-                                            "               <tr>\n" +
-                                            "                  <th>Minimum amount of votes you need to distribute</th>\n"+
-                                            "                  <td>"+ value["min_must_votes"] +"</td>\n"+
-                                            "               </tr>\n" +
-
-                                            "               <tr>\n" +
-                                            "                  <th>Minimum average</th>\n"+
-                                            "                  <td>"+ value["min_avg"] +"</td>\n"+
-                                            "               </tr>\n" +
-
-                                            "               <tr>\n" +
-                                            "                  <th>Minimum standard deviation</th>\n"+
-                                            "                  <td>"+ value["min_stddev"] +"</td>\n"+
-                                            "               </tr>\n" +
-
-                                            "               <tr>\n" +
-                                            "                  <th>Number of Photos in photopool</th>\n"+
-                                            "                  <td>2</td>\n"+
-                                            "               </tr>\n" +
-
-                                            "               <tr>\n" +
-                                            "                  <th>Maximum number of photos you can send</th>\n"+
-                                            "                  <td>"+ value["max_photos_per_Reguser"] +"</td>\n"+
-                                            "               </tr>\n" +
-
-                                            "            </tbody>\n"+
-                                            "         </table>\n" +
-                                            "      </div>\n" +
-                                            "      <div class=\"button-wrap\">\n" +
-                                            "            {% if request.user.is_authenticated %}\n" +
-                                            "            <form action='{% url 'contest:photo_upload' slug=contest.slug %}'>\n" +
-                                            "              <input class=\"btn btn-fill\" type=\"submit\" value=\"Send Photo\">\n" +
-                                            "            </form>\n" +
-                                            "            {% endif %}\n" +
-                                            "            <form action='{% url 'contest:photopool' slug=contest.slug %}'>\n" +
-                                            "                    <input class=\"btn btn-fill\" type=\"submit\" value=\"Photopool\">\n" +
-                                            "            </form>\n" +
-                                            "            <form action='{% url 'contest:rankings' slug=contest.slug %}'>\n" +
-                                            "                    <input class=\"btn btn-fill\" type=\"submit\" value=\"Rankings\">\n" +
-                                            "            </form>\n" +
-                                            "      </div>\n" +
-                                            "      <div class=\"contest-tags-wrap\">\n" +
-                                            "        <div class=\"tags-wrap\">\n" + tagAsStr +
-                                            "        </div>\n" +
-                                            "        <button class=\"btn-txt-only\"><i class=\"fa fa-chevron-down\"></i></button>\n" +
-                                            "        <form class=\"form-report\" onclick='report('{{ contest.id }}')'>\n" +
-                                            "            <input class=\"btn-report\" type=\"submit\" value=\"Report\" />\n" +
-                                            "        </form>\n" +
-                                            "      </div>\n" +
-                                            "    </div>\n" +
-                                            "  </div>\n";
-
-                $(contestDetailContent).appendTo('#contest-detail-section .container');
                 $(document).ready(function(){
                   
                   var val = 1;
                   $(".contest-detail-content-wrap .contest-tags-wrap>.btn-txt-only").click(function(){
-                      if (val == 1) {
+                      if (val === 1) {
                           $(this).siblings('.form-report').show();
                           val = 0;
                       }
@@ -186,7 +205,7 @@
                 
 
                $(".contest-detail-content-wrap #prize-open-btn").click(function(){
-                        if (val== 1) {
+                        if (val === 1) {
                             $(this).siblings('.prize-list').css({
                             'visibility':'visible',
                             'opacity':'1',
@@ -217,95 +236,3 @@
     });
 </script>
 
-<section style="margin-bottom: 50px;" class="examples">
-    <div class="container">
-        <div class="examples-top">
-            <h3>{{ contest.contest_name }} Example Photos</h3>
-        </div>
-        <div class="examples-content">
-            <div class="row">
-                {% for example in examples %}
-                    <div class="col-sm-4">
-                        <div class="card" style="border-color: black;">
-                            <img src="{{ example.photoItself.url }}" alt="Example Photo" style="width: 350px; height: 200px;">
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</section>
-
-    <!--<section class="white">
-      <div class="inner-more">
-        <div class="container">
-          <div class="section-title text-center">
-            <h3>Upgrade to gold membership and gain some advantages.<br> {{ contest.contest_name }} contest.</h3>
-          </div>
-          <table class="table comp-table">
-            <thead>
-              <tr>
-                <td class="features-title">
-                  <div class="title-height-add"></div>
-                  <div>
-                    <h2>FEATURES</h2>
-                    <h5>COMPARISON</h5>
-                  </div>
-                </td>
-                <td class="premium-title">
-                  <div class="title-height-add"></div>
-                  <span class="arrow-down"></span>
-                  <h2>GOLD USER</h2>
-                  <h3>7$<span>per month</span></h3>
-                </td>
-                <td class="regular-title">
-                  <div class="title-height-add"></div>
-                  <span class="arrow-down"></span>
-                  <h2>FREE USER</h2>
-                  <h3>0$</h3>
-                </td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Minimum amount of votes you need to distribute<br> in order to take part in rankings</td>
-                <td>5 {% if request.user.is_authenticated %}(You've distributed {{ contender.howmany_voted }}){% endif %}</td> <!--şimdilik 5 yazdım cunku databasede olusturmadım -
-                <td>{{  contest.min_must_votes }} {% if request.user.is_authenticated %}(You've distributed {{ contender.howmany_voted }}){% endif %}</td>
-              </tr>
-              <tr>
-                <td>Maximum number of photos you can send to photopool</td>
-                <td>{{  contest.max_photos_per_Preuser }}</td>
-                <td>{{  contest.max_photos_per_Reguser }}</td>
-              </tr>
-              <tr>
-                <td>Min average of given points a contender must provide</td>
-                <td>{{  contest.min_total_points_given }}</td>
-                <td>{{  contest.min_total_points_given }}</td>
-              </tr>
-              <tr>
-                <td>Free photo uploading for the first photo </td>
-                <td ><i class="fa fa-check" aria-hidden="true"></i></td>
-                <td ><i class="fa fa-check" aria-hidden="true"></i></td>
-              </tr>
-              <tr>
-                <td>Free photo uploading after the first photo</td>
-                <td><i class="fa fa-check" aria-hidden="true"></i></td>
-                <td><i class="fa fa-times" aria-hidden="true"></i></td>
-              </tr>
-              <tr>
-                <td>Stats Whisperer <a style="font-size:10px;" href="#">What is this?</a></td>
-                <td><i class="fa fa-check" aria-hidden="true"></i></td>
-                <td><i class="fa fa-times" aria-hidden="true"></i></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td class="last-child-td-btn premium"><a href="#" class="plan-btn">Upgrade</a></td>
-                <td class="last-child-td-btn regular"><a href="#" class="plan-btn">Sign Up</a></td>
-              </tr>
-            <tbody>
-          </table>
-        </div>
-      </div>
-    </section>-->
-
-{% endblock %}
