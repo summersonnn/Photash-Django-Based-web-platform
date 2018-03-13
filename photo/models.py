@@ -20,6 +20,7 @@ class Photo(models.Model):
     likes = models.ManyToManyField ('auth.User', blank=True, related_name="photo_likes")
     uploading_date = models.DateTimeField(default=datetime.now, verbose_name="Yüklenme Tarihi")
     ratings = GenericRelation(Rating, related_query_name='photos')
+    summary = models.TextField(max_length=48, blank=True)
 
     # Photo.objects.filter(ratings__isnull=False).order_by('ratings__average') ile sıralama yapılıyor.
 

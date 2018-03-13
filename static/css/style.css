@@ -759,12 +759,14 @@ button {
 .photopool-content .photo-title {
   font-size: 17px;
   text-transform: capitalize;
-  font-weight: 700;
+  font-weight: 200;
   color: #212121;
 }
 
 .photopool-item-title-wrap {
   border-bottom: 1px solid #c5c5c5;
+  font-weight: 700;
+  text-align: center;
 }
 
 .photopool-item-title-wrap h4 {
@@ -772,6 +774,7 @@ button {
   text-overflow: ellipsis;
   white-space: nowrap;
   margin-bottom: 3px;
+  text-align: left;
 }
 
 .photopool-item-description-wrap {
@@ -823,6 +826,12 @@ button {
 .photopool-item-tags-wrap {
   position: relative;
 }
+
+.photopool-item-tags-wrap #contest-name{
+  font-weight: 700;
+}
+
+
 
 .photopool-item-tags-wrap .form-report {
   position: absolute;

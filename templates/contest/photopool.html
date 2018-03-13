@@ -62,6 +62,8 @@
             }
         })
     }
+
+
         var lastItemIndex = 0; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
         var photoCount = 0; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
         var next = ""; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
@@ -76,31 +78,17 @@
                    "            <img class=\"\" src='" + value['photoItself'] + "'>\n" +
                    "           </a></div>\n" +
                    "            <div class=\"photopool-content\">\n" +
-                   "                <div class=\"photopool-item-title-wrap\">\n" +
-                   "                    <h4 class=\"photo-title\">" + value['contest']['tag'] + "</h4>\n"+
+                   "                <div class=\"photopool-item-title-wrap\">Photo Caption\n" +
+                   "                    <br/> <br/>\n" +
+                   "                    <h4 class=\"photo-title\">" + value['summary'] + "</h4>\n"+
                    "                </div>\n" +
-                   "                <div class=\"photopool-item-description-wrap\"><p>Fotografin Aciklamasai ve Bilgileri</p></div>\n" +
-                   "                <div class=\"photopool-item-contest-title\">\n"+
-                   "                    <h4>Human In The Nature Competetion</h4>\n"+
-                   "                </div>\n"+
-                   "                <div class=\"photopool-item-date-wrapper\">\n"+
-                   "                    <p>Last Update Date: <span>04/03/2018</span></p>\n" +
-                   "                </div>\n"+
-                   "                <div class=\"photopool-item-comments\">\n"+
-                   "                    <p>Yansma Bilgeri ve Kurallan</p>\n" +
-                   "                    <p>Yansma Bilgeri ve Kurallan</p>\n" +
-                   "                    <p>Yansma Bilgeri ve Kurallan</p>\n" +
-                   "                    <p>Yansma Bilgeri ve Kurallan</p>\n" +
-                   "                </div>\n"+
                    "                <div class=\"photopool-item-btn-wrap\">\n" +
                    "                    <button class=\"btn btn-fill\">Vote</button>\n"+
                    "                </div>\n" +
                    "                <div class=\"photopool-item-tags-wrap\">\n"+
-                   "                    <div class=\"tags-wrap\">\n"+
-                   "                        <a href='#'>People</a>\n"+
-                   "                        <a href='#'>Children</a>\n"+
-                   "                        <a href='#'>Nature</a>\n"+
-                   "                    </div>\n" +
+                   "                    <p id=\"compete-in\">Currently competing in: </p>\n"+
+                   "                    <p id=\"contest-name\">" +  value['contest']['contest_name']+ "</p>\n" +
+                   "                    <div class=\"tags-wrap\"></div>\n" +
                    "                    <button class=\"btn-txt-only\">&hellip;</button> \n" +
                    "                    <form class=\"form-report\" onclick=\"report('"+ value['id'] + "', event)\">\n" +
                    "                        <input class=\"btn-report\" type=\"submit\" value=\"Report\" >\n" +
@@ -111,7 +99,7 @@
                             $(document).ready(function(){
                               var val = 1;
                               $(".photopool-slider-wrapper .photopool-content .photopool-item-tags-wrap>.btn-txt-only").click(function(){
-                                  if (val== 1) {
+                                  if (val=== 1) {
                                       $(this).siblings('.form-report').show();
                                       val = 0;
                                       console.log("Sucess 1");
@@ -158,6 +146,15 @@
                     var owl = $('.owl-carousel').owlCarousel({items:2, nav:true, loop: false, lazyLoad: true});
                     writeResults(result, owl);
                     owl.trigger('refresh.owl.carousel', {nav: false, loop:true});
+
+
+                var contest = result['results'][0]['contest'];
+                var tagAsStr = '';
+                $.each(contest['tag'], function(index, data){ //taglar dönüyor
+                      tagAsStr += "#" + data.title + " ";
+                });
+                $(".tags-wrap").html(tagAsStr);
+
                 },
                 error: function(result){
                     console.log(result);
@@ -167,20 +164,3 @@
 </script>
 
 {% endblock %}
-
-<!--           {% for photo in photos %}
-       <div class="card-body">
-           <a href="{{ photo.photoItself.url }}" data-fancybox data-caption="My caption">
-            <img class="card-img-top" src="{{ photo.photoItself.url }}">
-           </a>
-            <div class="card-block text-center">
-                <p>Click on image to see its original size.</p>
-                <h4 class="card-title">Photo tag: {{ photo.contest.tag }} </h4>
-                {% ratings photo %} <br>
-                <br>
-                <form style="display: inline;" onclick="report('{{ photo.id }}', event)">
-                    <input class="btn btn-danger btn-lg" type="submit" value="Report" >
-                </form>
-            </div>
-       </div>
-        {% endfor %}   -->
