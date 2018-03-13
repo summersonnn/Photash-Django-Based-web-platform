@@ -29,10 +29,10 @@
 
 </section>
 
+
 <script>
     $(document).ready(function(){
        getPhotos(null);
-
        var owl = $('.owl-carousel').owlCarousel();
             owl.on('changed.owl.carousel', function(event){
                 var itemIndex = event.item.index + 1;
@@ -42,12 +42,12 @@
                     lastItemIndex = totalPhotoCount - 3;
                 }
                 if(itemIndex === (lastItemIndex)){
+                    //owl.trigger('destroy.owl.carousel');
+                    //owl.trigger('add.owl.carousel', [jQuery("<div class='card-body'>You have reached the end. Reorganizing photos.</div>")]);
                     getPhotos(next);
-
                 }
             });
         });
-
     function report(photoId, event){
         var url = "http://127.0.0.1:8000/api/report-photo/" + photoId;
         event.preventDefault();
@@ -67,22 +67,7 @@
         var next = ""; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
         var totalPhotoCount = 0; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
         var photosSeen = []; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
-
         function writeResults(result, owl){
-            var tagAsStr = '';
-            var tag = result['results'][0]['contest']['tag'];
-            $.each(tag, function(index, value){
-                tagAsStr += "#" + value['title'];
-                index++;
-                console.log(index);
-                console.log(tag.length);
-                if(index !== tag.length){
-                    tagAsStr += " | ";
-                }
-
-            });
-
-
             $.each(result['results'], function(index, value){
                 console.log(value);
                 if(!photosSeen.includes(value['id'])){
@@ -108,10 +93,13 @@
                    "                    <p>Yansma Bilgeri ve Kurallan</p>\n" +
                    "                </div>\n"+
                    "                <div class=\"photopool-item-btn-wrap\">\n" +
-                   "                    <button class=\"btn btn-fill\" data-href=\" value['get_api_like_url'] +\">Vote</button>\n"+
+                   "                    <button class=\"btn btn-fill\">Vote</button>\n"+
                    "                </div>\n" +
                    "                <div class=\"photopool-item-tags-wrap\">\n"+
-                   "                    <div class=\"tags-wrap\">\n"+ tagAsStr + "\n"+
+                   "                    <div class=\"tags-wrap\">\n"+
+                   "                        <a href='#'>People</a>\n"+
+                   "                        <a href='#'>Children</a>\n"+
+                   "                        <a href='#'>Nature</a>\n"+
                    "                    </div>\n" +
                    "                    <button class=\"btn-txt-only\">&hellip;</button> \n" +
                    "                    <form class=\"form-report\" onclick=\"report('"+ value['id'] + "', event)\">\n" +
@@ -136,20 +124,18 @@
                                   return false;
                               });
                            });
-                        }else{
-                            console.log('Photo has been seen already.');
                         }
                   photosSeen.push(value['id']);
             });
         }
-        /*$(document).ready(function(){
+        $(document).ready(function(){
 
             $('.photopool-slider-control>.owl-next').click(function(){
                if($('.photopool-slider-wrapper .owl-item.active').is(':nth-last-child(3)')) {
                   alert('Third Last Child Coming in the View !');
                 }
             });
-        });*/
+        });
 
         function getPhotos(Url){
             var url = "";
@@ -178,7 +164,23 @@
                 }
             });
         }
-
 </script>
 
 {% endblock %}
+
+<!--           {% for photo in photos %}
+       <div class="card-body">
+           <a href="{{ photo.photoItself.url }}" data-fancybox data-caption="My caption">
+            <img class="card-img-top" src="{{ photo.photoItself.url }}">
+           </a>
+            <div class="card-block text-center">
+                <p>Click on image to see its original size.</p>
+                <h4 class="card-title">Photo tag: {{ photo.contest.tag }} </h4>
+                {% ratings photo %} <br>
+                <br>
+                <form style="display: inline;" onclick="report('{{ photo.id }}', event)">
+                    <input class="btn btn-danger btn-lg" type="submit" value="Report" >
+                </form>
+            </div>
+       </div>
+        {% endfor %}   -->
