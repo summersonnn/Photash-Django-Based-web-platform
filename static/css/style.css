@@ -692,9 +692,14 @@ button {
 -------------------------------------*/
 
 .photopool-main-wrapper {
-  padding: 15px;
+  margin: 0 15px;
+  /* margin: auto; */
+}
+
+.photopool-main-wrapper .owl-item.active {
   background-color: #e8e8e8;
   border-radius: 14px;
+  padding: 15px;
 }
 
 .photopool-slider-wrapper {
@@ -709,8 +714,11 @@ button {
 }
 
 .photopool-content {
+  display: flex;
+  flex-wrap: wrap;
   flex: 1;
   padding: 25px 10px 25px 25px;
+  position: relative;
 }
 
 .photopool-img-wrapper img {
@@ -724,6 +732,7 @@ button {
   width: 100%;
   display:  inline-block;
   left: 0;
+  top: 15px;
 }
 
 .photopool-slider-control .owl-next,
@@ -747,7 +756,7 @@ button {
 }
 
 .photopool-slider-control .owl-prev {
-  left: 2%;
+  left: 3%;
 }
 
 /* ------ photopool-content  -------*/
@@ -767,6 +776,14 @@ button {
   border-bottom: 1px solid #c5c5c5;
   font-weight: 700;
   text-align: center;
+}
+
+.photopool-item-title-wrap p {
+  font-weight: 500;
+  margin-bottom: 0;
+  margin-top: 10px;
+  text-align: left;
+  font-size: 14px;
 }
 
 .photopool-item-title-wrap h4 {
@@ -815,6 +832,9 @@ button {
   text-align: center;
   margin: 25px 0;
   position: relative;
+  align-self: flex-end;
+  flex-grow: 1;
+  width: 100%;
 }
 
 .photopool-item-btn-wrap button {
@@ -824,19 +844,24 @@ button {
 }
 
 .photopool-item-tags-wrap {
-  position: relative;
+  align-self: flex-end;
 }
 
 .photopool-item-tags-wrap #contest-name{
   font-weight: 700;
 }
 
-
-
-.photopool-item-tags-wrap .form-report {
+.report-btn-wrap>.btn-txt-only {
+  font-weight: 800;
   position: absolute;
-  top: -15px;
-  right: -9px;
+  right: 0;
+  top: 0;
+}
+
+.report-btn-wrap .form-report {
+  position: absolute;
+  top: 0;
+  right: 25px;
   display: none;
 }
 
@@ -859,10 +884,6 @@ button {
   background-color: #969696;
   display:  inline-block;
   margin-right: 7px;
-}
-
-.photopool-item-tags-wrap>.btn-txt-only {
-  font-weight: 800;
 }
 
 @media all and (max-width: 1360px) {

@@ -78,8 +78,14 @@
                    "            <img class=\"\" src='" + value['photoItself'] + "'>\n" +
                    "           </a></div>\n" +
                    "            <div class=\"photopool-content\">\n" +
+                   "                    <div class=\"report-btn-wrap\">\n"+
+                   "                       <button class=\"btn-txt-only\">&hellip;</button> \n" +
+                   "                       <form class=\"form-report\" onclick=\"report('"+ value['id'] + "', event)\">\n" +
+                   "                          <input class=\"btn-report\" type=\"submit\" value=\"Report\" >\n" +
+                   "                       </form>\n" +
+                   "                    </div>\n"+
                    "                <div class=\"photopool-item-title-wrap\">Photo Caption\n" +
-                   "                    <br/> <br/>\n" +
+                   "                    <p>I m moving moving</p>\n"+
                    "                    <h4 class=\"photo-title\">" + value['summary'] + "</h4>\n"+
                    "                </div>\n" +
                    "                <div class=\"photopool-item-btn-wrap\">\n" +
@@ -89,16 +95,12 @@
                    "                    <p id=\"compete-in\">Currently competing in: </p>\n"+
                    "                    <p id=\"contest-name\">" +  value['contest']['contest_name']+ "</p>\n" +
                    "                    <div class=\"tags-wrap\"></div>\n" +
-                   "                    <button class=\"btn-txt-only\">&hellip;</button> \n" +
-                   "                    <form class=\"form-report\" onclick=\"report('"+ value['id'] + "', event)\">\n" +
-                   "                        <input class=\"btn-report\" type=\"submit\" value=\"Report\" >\n" +
-                   "                    </form>\n" +
                    "                </div>\n" +
                    "            </div>\n" +
                    "       </div>")]);
                             $(document).ready(function(){
                               var val = 1;
-                              $(".photopool-slider-wrapper .photopool-content .photopool-item-tags-wrap>.btn-txt-only").click(function(){
+                              $(".photopool-slider-wrapper .photopool-content .report-btn-wrap>.btn-txt-only").click(function(){
                                   if (val=== 1) {
                                       $(this).siblings('.form-report').show();
                                       val = 0;
@@ -116,15 +118,7 @@
                   photosSeen.push(value['id']);
             });
         }
-        $(document).ready(function(){
-
-            $('.photopool-slider-control>.owl-next').click(function(){
-               if($('.photopool-slider-wrapper .owl-item.active').is(':nth-last-child(3)')) {
-                  alert('Third Last Child Coming in the View !');
-                }
-            });
-        });
-
+        
         function getPhotos(Url){
             var url = "";
             //alert("get this: " + Url);
