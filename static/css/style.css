@@ -773,9 +773,9 @@ button {
 }
 
 .photopool-item-title-wrap {
-  border-bottom: 1px solid #c5c5c5;
   font-weight: 700;
   text-align: center;
+  align-self: flex-start;
 }
 
 .photopool-item-title-wrap p {
@@ -792,6 +792,10 @@ button {
   white-space: nowrap;
   margin-bottom: 3px;
   text-align: left;
+}
+
+.photopool-item-title-wrap hr {
+  margin-bottom: 0;
 }
 
 .photopool-item-description-wrap {
@@ -829,12 +833,10 @@ button {
 }
 
 .photopool-item-btn-wrap {
-  text-align: center;
-  margin: 25px 0;
+  margin: 12px 0;
   position: relative;
-  align-self: flex-end;
-  flex-grow: 1;
   width: 100%;
+  text-align: left;
 }
 
 .photopool-item-btn-wrap button {
