@@ -116,5 +116,19 @@ def api_photo_delete(request, id):
     return Response({'error': 'Not authorized'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
+@api_view(['POST'])
+@authentication_classes((SessionAuthentication, TokenAuthentication))
+@permission_classes((IsAuthenticated, ))
+def api_increase_seen_by_one(request):
+    id = request.data('id')
+    photo = get_object_or_404(Photo, id=id)
+    photo.seenXtimes += 1
+    photo.save()
+
+    return Response({'success': 'Photo is seen by another person.'}, status=status.HTTP_200_OK)
+
+
+
+
 
 
