@@ -1,14 +1,9 @@
-from django.shortcuts import render, HttpResponse, get_object_or_404, HttpResponseRedirect, redirect, Http404
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
 from .models import Contest, Contender
 from photo.models import Photo
-from django.utils.text import slugify
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 from django.contrib import messages
 from .forms import PhotoForm
-from django.db.models.aggregates import Count
-from random import randint
-
 
 def contest_index(request):
     context = {}
@@ -95,46 +90,13 @@ def contest_delete(request, id):
     contest.delete()
     return redirect("contest:index")
 
-
 def contest_rankings(request, slug):
     contest = get_object_or_404(Contest, slug=slug)
 
+    context = {'contest': contest}
+
     if timezone.now() < contest.end_date:  # if contest is still in progress
-        context = {
-            'thecontest': contest
-        }
         return render(request, "contest/contest_still_in_progress.html", context)
-
-    contenders = Contender.objects.filter(contest=contest)
-    excluded_contender_ids = []
-
-    for contender in contenders:
-        if not contender.check_conditions_for_rankings():
-            excluded_contender_ids.append(contender.id)
-            # print("excluded", contender.user.username)
-
-    photos = Photo.objects\
-        .filter(contest=contest)\
-        .filter(ratings__isnull=False)\
-        .exclude(ownername__contender__id__in=excluded_contender_ids)\
-        .order_by('-ratings__average')
-
-    # Show 20 photos per page
-    paginator = Paginator(photos, 5)
-
-    page = request.GET.get('page')
-    try:
-        paginated_photos = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        paginated_photos = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        paginated_photos = paginator.page(paginator.num_pages)
-
-    context = {
-        'photos': paginated_photos,
-    }
 
     return render(request, "contest/rankings.html", context)
 

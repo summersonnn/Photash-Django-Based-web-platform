@@ -31,6 +31,8 @@
 
 
 <script>
+
+    var global_owl = "";
     $(document).ready(function(){
        getPhotos(null);
        var owl = $('.owl-carousel').owlCarousel();
@@ -46,8 +48,10 @@
                     //owl.trigger('add.owl.carousel', [jQuery("<div class='card-body'>You have reached the end. Reorganizing photos.</div>")]);
                     getPhotos(next);
                 }
+                
             });
-        });
+        global_owl = owl;
+    });
     function report(photoId, event){
         var url = "http://127.0.0.1:8000/api/report-photo/" + photoId;
         event.preventDefault();
@@ -89,7 +93,7 @@
                    "                    <h4 class=\"photo-title\">" + value['summary'] + "</h4>\n"+
                    "                    <hr>\n" +
                    "                    <div class=\"photopool-item-btn-wrap\">\n" +
-                   "                        <button class=\"btn btn-fill\">Vote</button>\n"+
+                   "                        <a class=\"btn btn-fill like-btn\" onclick=\"like("+ value['id'] +")\">Vote</a>\n"+
                    "                    </div>\n" +
                    "                </div>\n" +
                    "                <div class=\"photopool-item-tags-wrap\">\n"+
@@ -117,9 +121,10 @@
                            });
                         }
                   photosSeen.push(value['id']);
+
             });
         }
-        
+
         function getPhotos(Url){
             var url = "";
             //alert("get this: " + Url);
@@ -155,6 +160,23 @@
                     console.log(result);
                 }
             });
+        }
+
+        function like(id){
+            var url = "/api/photo/" + id + "/like/";
+            $.ajax({
+                url: url,
+                type: "get",
+                success: function(data){
+                    global_owl.trigger('next.owl.carousel');
+                },
+                error: function (data) {
+                    alert(data);
+
+                }
+
+            });
+
         }
 </script>
 

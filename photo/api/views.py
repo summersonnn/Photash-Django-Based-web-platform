@@ -2,17 +2,12 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from .serializers import PhotoSerializer
 from rest_framework.response import Response
 from photo.models import Photo
-from star_ratings.models import Rating, ContentType
 from contest.models import Contest
-from star_ratings.models import UserRating
-from star_ratings.serializers import RatingSerializer
-from random import shuffle
 from django.shortcuts import get_object_or_404
 
 class PhotoListAPIView(ListAPIView):
@@ -28,18 +23,12 @@ class PhotoListAPIView(ListAPIView):
         contest = Contest.objects.get(slug=slug)
         queryset = self.queryset.filter(contest=contest)
 
-        if self.request.user.is_authenticated:
-            user_ratings = UserRating.objects.filter(user=self.request.user)
-            user_voted = [user_rating.rating.content_object for user_rating in user_ratings if
-                          user_rating.rating.content_object.contest == contest]
-        else:
-            #user_ratings = []
-            user_voted = []
         Queryset = []
 
         for query in queryset:
-            if query not in user_voted and query.ownername != self.request.user:
+            if self.request.user not in query.likes.all() and query.ownername != self.request.user and self.request.user.is_authenticated:
                 Queryset.append(query)
+
         #Shuffling the photos so that every user will see the pool in different order
         #shuffle(Queryset)
 
@@ -54,9 +43,12 @@ class PhotoListAPIView(ListAPIView):
         else:
             print('There is no photo query for first pick')
 
+        print(Queryset)
+
         return Queryset
 
     def list(self, request, *args, **kwargs):
+
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -64,6 +56,7 @@ class PhotoListAPIView(ListAPIView):
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
+        #print("asdasd", serializer.data)
         return Response(serializer.data)
 
 

@@ -248,6 +248,43 @@ class AskForTags(ListAPIView):
         return queryset[:15]
 
 
+class ContestRankingAPIView(ListAPIView):
+
+    queryset = Photo.objects.all()
+    serializer_class = PhotoSerializer
+    authentication_classes = (SessionAuthentication, )
+
+    def get_queryset(self):
+        sorted_queryset = {}
+        constant_view = 30 # this will be changed once we get to create this functionality.
+
+        queryset = super(ContestRankingAPIView, self).get_queryset()
+        contest = get_object_or_404(Contest, slug=self.kwargs['slug'])
+
+        contenders = Contender.objects.filter(contest=contest)
+        excluded_contender_ids = []
+
+        for contender in contenders:
+            if not contender.check_conditions_for_rankings():
+                excluded_contender_ids.append(contender.id)
+                # print("excluded", contender.user.username)
+
+        photos = queryset\
+            .filter(contest=contest)\
+            .filter(ratings__isnull=False)\
+            #.exclude(ownername__contender__id__in=excluded_contender_ids).order_by('-ratings__average')
+
+        for photo in photos:
+            sorted_queryset[photo] = photo.likes.all().count() / constant_view
+
+        sorted_queryset = dict(sorted(sorted_queryset.items(), key=operator.itemgetter(1)))
+
+        return list(sorted_queryset.keys())
+
+
+
+
+
 
 
         

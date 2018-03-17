@@ -1,12 +1,11 @@
 from django.db import models
 from datetime import datetime
 from django.urls import reverse
-from django_resized import ResizedImageField  # önceden Imagefield yerine ResizedImagefield kullanıyordum. Ama o sekılde orijinal boyutlarıyla upload etmiyordu. Degıstırdım. Kutuphanesi hala burada.
+#from django_resized import ResizedImageField  ----> önceden Imagefield yerine ResizedImagefield kullanıyordum. Ama o sekılde orijinal boyutlarıyla upload etmiyordu. Degıstırdım. Kutuphanesi hala burada.
 from django.contrib.contenttypes.fields import GenericRelation
 from star_ratings.models import Rating
 from django.db.models.signals import pre_delete  #R eceive the pre_delete signal and delete the file associated with the model instance.
 from django.dispatch.dispatcher import receiver
-from contest.models import Contender
 import os
 
 
@@ -34,7 +33,7 @@ class Photo(models.Model):
         return reverse('photo:detail', kwargs={'id': self.id})
 
     def get_api_like_url(self):
-        return reverse("photo-api:like_api", kwargs={'id': self.id})
+        return reverse("photo_api:like_api", kwargs={'id': self.id})
 
 
 @receiver(pre_delete, sender=Photo)

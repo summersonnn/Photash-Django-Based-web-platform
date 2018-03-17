@@ -20,7 +20,7 @@
           </thead>
           <tbody>
 
-          {% for photo in photos %}
+<!-- | old version |          {% for photo in photos %}
             <tr>
                 <td></td>
                 <td>{{ photo.ownername.username }}</td>
@@ -30,8 +30,27 @@
                 <td>{{ photo.uploading_date }}</td>
             </tr>
           {% endfor %}
+-->
 
         </tbody>
         </table>
     </div>
+
+
+    <script>
+        $.document.ready(function{
+            // ajax call will be established here.
+            var url = "{% url 'contest_api:rankings' slug=contest.slug %}";
+            $.ajax({
+               url: url,
+               type: 'get',
+               success: function(data){
+                   // writing attempts will be done here.
+               },
+               error: function(data){
+                   console.log(data);
+               }
+            });
+        });
+    </script>
 {% endblock %}
