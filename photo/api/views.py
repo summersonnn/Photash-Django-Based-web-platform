@@ -106,7 +106,7 @@ class PhotoLikeAPIView(APIView):
 
 
 #For a possible future mobile app, it is now useless.
-@api_view(['GET'])
+@api_view(['POST'])
 @authentication_classes((SessionAuthentication, TokenAuthentication))
 @permission_classes((IsAuthenticated, ))
 def api_photo_delete(request, id):
