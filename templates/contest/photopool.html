@@ -36,12 +36,15 @@
     $(document).ready(function(){
        getPhotos(null);
        var owl = $('.owl-carousel').owlCarousel();
+            var alreadySeen = [];
             owl.on('changed.owl.carousel', function(event){
                 var index = event.relatedTarget.current()+1;
                 var current = $(".owl-item:nth-child(" + index + ")" + " .photopool-img-wrapper");
-                console.log(current.attr('id'));
-                seen(current.attr('id'));
 
+                if(jQuery.inArray(current.attr('id'), alreadySeen) < 0){
+                    seen(current.attr('id'));
+                    alreadySeen.push(current.attr('id'));
+                }
 
                 var itemIndex = event.item.index + 1;
                 if(photoCount === 10){
