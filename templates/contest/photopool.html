@@ -37,6 +37,12 @@
        getPhotos(null);
        var owl = $('.owl-carousel').owlCarousel();
             owl.on('changed.owl.carousel', function(event){
+                var index = event.relatedTarget.current()+1;
+                var current = $(".owl-item:nth-child(" + index + ")" + " .photopool-img-wrapper");
+                console.log(current.attr('id'));
+                seen(current.attr('id'));
+
+
                 var itemIndex = event.item.index + 1;
                 if(photoCount === 10){
                     itemIndex += 3;
@@ -166,7 +172,7 @@
             var url = "/api/photo/" + id + "/like/";
             $.ajax({
                 url: url,
-                type: "get",
+                type: "post",
                 success: function(data){
                     global_owl.trigger('next.owl.carousel');
                 },
@@ -178,6 +184,28 @@
             });
 
         }
+
+        function seen(id){
+            var url = "/api/photo/" + id + "/seen/";
+            $.ajax({
+                url: url,
+                type: "post",
+                success: function(data){
+                    console.log("Başarılı");
+                },
+                error: function (data) {
+                    console.log("Başarısız");
+
+                }
+
+            });
+
+        }
+
+
+
+
+var csrftoken = getCookie('csrftoken');
 </script>
 
 {% endblock %}

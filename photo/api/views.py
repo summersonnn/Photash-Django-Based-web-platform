@@ -13,7 +13,7 @@ from django.shortcuts import get_object_or_404
 class PhotoListAPIView(ListAPIView):
     serializer_class = PhotoSerializer
     queryset = Photo.objects.all()
-    authentication_classes = (SessionAuthentication, )
+    #authentication_classes = (SessionAuthentication, )
     #permission_classes = (IsAuthenticated, )
     paginate_by = 4
 
@@ -25,9 +25,10 @@ class PhotoListAPIView(ListAPIView):
 
         Queryset = []
 
-        for query in queryset:
-            if self.request.user not in query.likes.all() and query.ownername != self.request.user and self.request.user.is_authenticated:
-                Queryset.append(query)
+        if self.request.user.is_authenticated:
+            for query in queryset:
+                if self.request.user not in query.likes.all() and query.ownername != self.request.user and self.request.user.is_authenticated:
+                    Queryset.append(query)
 
         #Shuffling the photos so that every user will see the pool in different order
         #shuffle(Queryset)
@@ -45,7 +46,10 @@ class PhotoListAPIView(ListAPIView):
 
         print(Queryset)
 
-        return Queryset
+        if self.request.user.is_authenticated:
+            return Queryset
+        else:
+            return queryset
 
     def list(self, request, *args, **kwargs):
 
@@ -101,8 +105,6 @@ class PhotoLikeAPIView(APIView):
         return Response(data)
 
 
-
-
 #For a possible future mobile app, it is now useless.
 @api_view(['GET'])
 @authentication_classes((SessionAuthentication, TokenAuthentication))
@@ -117,10 +119,9 @@ def api_photo_delete(request, id):
 
 
 @api_view(['POST'])
-@authentication_classes((SessionAuthentication, TokenAuthentication))
-@permission_classes((IsAuthenticated, ))
-def api_increase_seen_by_one(request):
-    id = request.data('id')
+@authentication_classes((TokenAuthentication,  ))
+#@permission_classes((IsAuthenticated, ))
+def api_increase_seen_by_one(request, id):
     photo = get_object_or_404(Photo, id=id)
     photo.seenXtimes += 1
     photo.save()
