@@ -8,6 +8,6 @@ urlpatterns = [
     path('<int:id>/delete/', api_photo_delete, name='delete'),
     path('<slug:slug>/index', PhotoListAPIView.as_view(), name="index_api"),
     path('<int:id>/like/', PhotoLikeAPIView.as_view(), name="like_api"),
-    path('see/', api_increase_seen_by_one, name='see'), 
+    path('see/', api_increase_seen_by_one, name='see'),
 
 ]

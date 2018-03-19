@@ -18,10 +18,11 @@ class Profile(models.Model):
     aboutme = models.TextField(blank=True)
     is_premium = models.BooleanField(blank=False, default=False, verbose_name='Premium status')
     reported_photos = models.ManyToManyField(ReportedPhotos)
-    photos_will_be_shown = models.ManyToManyField(Photo)
+    photos_will_be_shown = models.ManyToManyField(Photo, related_name='photos_will_be_shown')
     all_time_average = models.FloatField(blank=False, default=0.00, verbose_name='All Time Average')
     voted_x_times = models.IntegerField(blank=False, default=0, verbose_name='X kere oylandı (bütün fotoğrafları)')
     prefered_tags = models.ManyToManyField(Tag)
+    seen_photos = models.ManyToManyField(Photo, related_name='seen_photos')
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
