@@ -213,5 +213,6 @@ COMMON_URLS = (
     r'^oauth/twitter/login/',
     r'^oauth/facebook/login/token',
     r'^static/(?P<path>.*)$',
+    r'^api/photo/(?P<slug>[\w-]+)/index$',
 
 )

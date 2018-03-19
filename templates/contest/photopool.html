@@ -36,7 +36,16 @@
     $(document).ready(function(){
        getPhotos(null);
        var owl = $('.owl-carousel').owlCarousel();
+            var alreadySeen = [];
             owl.on('changed.owl.carousel', function(event){
+                var index = event.relatedTarget.current()+1;
+                var current = $(".owl-item:nth-child(" + index + ")" + " .photopool-img-wrapper");
+
+                if(jQuery.inArray(current.attr('id'), alreadySeen) < 0){
+                    seen(current.attr('id'));
+                    alreadySeen.push(current.attr('id'));
+                }
+
                 var itemIndex = event.item.index + 1;
                 if(photoCount === 10){
                     itemIndex += 3;
@@ -166,7 +175,7 @@
             var url = "/api/photo/" + id + "/like/";
             $.ajax({
                 url: url,
-                type: "get",
+                type: "post",
                 success: function(data){
                     global_owl.trigger('next.owl.carousel');
                 },
@@ -178,6 +187,40 @@
             });
 
         }
+
+        function seen(id){
+            var url = "/api/photo/" + id + "/seen/";
+            $.ajax({
+                url: url,
+                type: "post",
+                success: function(data){
+                    console.log("Başarılı");
+                },
+                error: function (data) {
+                    console.log("Başarısız");
+
+                }
+
+            });
+
+        }
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+
 </script>
 
 {% endblock %}
