@@ -172,7 +172,7 @@
         }
 
         function like(id){
-            var url = "/api/photo/" + id + "/like/";
+            var url = "/api/photo/like/";
             $.ajax({
                 url: url,
                 type: "post",
@@ -189,9 +189,10 @@
         }
 
         function seen(id){
-            var url = "/api/photo/" + id + "/seen/";
+            var url = "/api/photo/seen/";
             $.ajax({
                 url: url,
+                data : {'id': id},
                 type: "post",
                 success: function(data){
                     console.log("Başarılı");
@@ -217,9 +218,24 @@
                     }
                 }
             }
+            console.log(cookieValue);
+            console.log("yukardaki cookie");
             return cookieValue;
         }
         var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
 
 </script>
 
