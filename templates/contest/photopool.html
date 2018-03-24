@@ -175,6 +175,7 @@
             var url = "/api/photo/like/";
             $.ajax({
                 url: url,
+                data : {'id': id},
                 type: "post",
                 success: function(data){
                     global_owl.trigger('next.owl.carousel');
