@@ -127,10 +127,9 @@ def api_photo_delete(request, id):
 def api_increase_seen_by_one(request):
     id = int(request.data['id'])
     photo = get_object_or_404(Photo, id=id)
-    profile = Profile.objects.get(user=request.user)
-    if photo not in request.user.profile.seen_photos.all():
-        profile.seen_photos.add(photo)
-        profile.save()
+    if request.user not in photo.seenby.all():
+        photo.seenby.add(request.user)
+        photo.save()
         return Response({'success': 'Photo is seen by another person.'}, status=status.HTTP_200_OK)
 
     return Response({'error': 'You have already seen this photo'}, status=status.HTTP_403_FORBIDDEN)
