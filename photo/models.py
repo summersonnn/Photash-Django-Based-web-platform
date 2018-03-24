@@ -17,7 +17,6 @@ class Photo(models.Model):
     ownername = models.ForeignKey('auth.User', verbose_name='Name of the owner of the photo', on_delete=models.CASCADE, related_name='photos')
     contest = models.ForeignKey('contest.Contest', verbose_name='Contest name', on_delete=models.CASCADE, related_name='photos')
     likes = models.ManyToManyField ('auth.User', blank=True, related_name="photo_likes")
-    seenXtimes = models.IntegerField()
     uploading_date = models.DateTimeField(default=datetime.now, verbose_name="Yüklenme Tarihi")
     ratings = GenericRelation(Rating, related_query_name='photos')
     summary = models.TextField(max_length=48, blank=True)
