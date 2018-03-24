@@ -256,7 +256,6 @@ class ContestRankingAPIView(ListAPIView):
 
     def get_queryset(self):
         sorted_queryset = {}
-        constant_view = 30 # this will be changed once we get to create this functionality.
 
         queryset = super(ContestRankingAPIView, self).get_queryset()
         contest = get_object_or_404(Contest, slug=self.kwargs['slug'])
@@ -275,7 +274,9 @@ class ContestRankingAPIView(ListAPIView):
             #.exclude(ownername__contender__id__in=excluded_contender_ids).order_by('-ratings__average')
 
         for photo in photos:
-            sorted_queryset[photo] = photo.likes.all().count() / constant_view
+            sorted_queryset[photo] = photo.likes.all().count() / photo.seenby.all().count()
+            print("oran geliyorrr")
+            print(sorted_queryset[photo])
 
         sorted_queryset = dict(sorted(sorted_queryset.items(), key=operator.itemgetter(1)))
 
