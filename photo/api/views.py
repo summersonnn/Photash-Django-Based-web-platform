@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from photo.models import Photo
 from contest.models import Contest
 from django.shortcuts import get_object_or_404
+from user.models import Profile
 
 class PhotoListAPIView(ListAPIView):
     serializer_class = PhotoSerializer
@@ -83,11 +84,14 @@ class PhotoDetailAPIView(RetrieveAPIView):
 
         return Response(data, status=status.HTTP_200_OK)
 
-class PhotoLikeAPIView(APIView):
+'''class PhotoLikeAPIView(APIView):
     authentication_classes = (SessionAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request, id=None, format=None):
+    def get(self, request, format=None):
+        id = int(request.data['id'])
+        print("xxxxx")
+        print(id)
         obj = get_object_or_404(Photo, id=id)
         url_ = obj.get_absolute_url()
         user = self.request.user
@@ -101,12 +105,12 @@ class PhotoLikeAPIView(APIView):
         data = {
             "updated": updated
         }
-        return Response(data)
+        return Response(data)'''
 
 
 #For a possible future mobile app, it is now useless.
 @api_view(['POST'])
-@authentication_classes((SessionAuthentication, TokenAuthentication))
+@authentication_classes((SessionAuthentication,))
 @permission_classes((IsAuthenticated, ))
 def api_photo_delete(request, id):
     photo = get_object_or_404(Photo, id=id)
@@ -118,16 +122,30 @@ def api_photo_delete(request, id):
 
 
 @api_view(['POST'])
-@authentication_classes((TokenAuthentication,  ))
+@authentication_classes((SessionAuthentication,  ))
 #@permission_classes((IsAuthenticated, ))
 def api_increase_seen_by_one(request):
-    id = request.data['id']
+    id = int(request.data['id'])
     photo = get_object_or_404(Photo, id=id)
-    if photo not in request.user.seen_photos.all():
-        request.user.seen_photos.add(photo)
+    if request.user not in photo.seenby.all():
+        photo.seenby.add(request.user)
+        photo.save()
         return Response({'success': 'Photo is seen by another person.'}, status=status.HTTP_200_OK)
 
     return Response({'error': 'You have already seen this photo'}, status=status.HTTP_403_FORBIDDEN)
+
+@api_view(['POST'])
+@authentication_classes((SessionAuthentication,  ))
+#@permission_classes((IsAuthenticated, ))
+def api_increase_like_by_one(request):
+    id = int(request.data['id'])
+    photo = get_object_or_404(Photo, id=id)
+    if request.user.is_authenticated and request.user not in photo.likes.all():
+        photo.likes.add(request.user)
+        photo.save()
+        return Response({'success': 'Photo is liked by another person.'}, status=status.HTTP_200_OK)
+
+    return Response({'error': 'You have already liked this photo'}, status=status.HTTP_403_FORBIDDEN)
 
 
 

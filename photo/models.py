@@ -2,8 +2,6 @@ from django.db import models
 from datetime import datetime
 from django.urls import reverse
 #from django_resized import ResizedImageField  ----> önceden Imagefield yerine ResizedImagefield kullanıyordum. Ama o sekılde orijinal boyutlarıyla upload etmiyordu. Degıstırdım. Kutuphanesi hala burada.
-from django.contrib.contenttypes.fields import GenericRelation
-from star_ratings.models import Rating
 from django.db.models.signals import pre_delete  #R eceive the pre_delete signal and delete the file associated with the model instance.
 from django.dispatch.dispatcher import receiver
 import os
@@ -17,12 +15,9 @@ class Photo(models.Model):
     ownername = models.ForeignKey('auth.User', verbose_name='Name of the owner of the photo', on_delete=models.CASCADE, related_name='photos')
     contest = models.ForeignKey('contest.Contest', verbose_name='Contest name', on_delete=models.CASCADE, related_name='photos')
     likes = models.ManyToManyField ('auth.User', blank=True, related_name="photo_likes")
-    seenXtimes = models.IntegerField()
+    seenby = models.ManyToManyField('auth.User', blank=True, related_name="photo_seen_by")
     uploading_date = models.DateTimeField(default=datetime.now, verbose_name="Yüklenme Tarihi")
-    ratings = GenericRelation(Rating, related_query_name='photos')
     summary = models.TextField(max_length=48, blank=True)
-
-    # Photo.objects.filter(ratings__isnull=False).order_by('ratings__average') ile sıralama yapılıyor.
 
     def __str__(self):
         return str(self.id)

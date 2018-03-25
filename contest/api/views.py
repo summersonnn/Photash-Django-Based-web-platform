@@ -11,8 +11,6 @@ from .serializers import ContestSerializer, TagSerializer
 from photo.api.serializers import PhotoSerializer
 from photo.models import Photo
 from user.models import Profile
-from star_ratings.serializers import UserRatingSerializer, RatingSerializer
-from star_ratings.models import UserRating, Rating, ContentType
 
 from django.utils import timezone
 
@@ -158,7 +156,7 @@ class VotersListAPIView(RetrieveAPIView):
     lookup_url_kwarg = 'slug'
     lookup_field = 'slug'
 
-    def retrieve(self, request, *args, **kwargs):
+    '''def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         if timezone.now() > instance.end_date:
             return Response({'error': 'This contest has not come to an end yet! End date is {}'.format(instance.end_date)})
@@ -184,7 +182,7 @@ class VotersListAPIView(RetrieveAPIView):
             photo_data.pop('ownername', None)
             data['photos'].append(photo_data)
 
-        return Response(data, status=status.HTTP_200_OK)
+        return Response(data, status=status.HTTP_200_OK)'''
 
 
 class FeedAPIView(APIView):
@@ -211,7 +209,7 @@ class FeedAPIView(APIView):
 
         return queryset
 
-    def get(self, request, format=None):
+    '''def get(self, request, format=None):
         data = ContestSerializer(self.get_queryset(), many=True).data 
 
         for contest_data in data:
@@ -234,7 +232,7 @@ class FeedAPIView(APIView):
 
             contest_data['photos'] = photo_data
 
-        return Response(data, status=status.HTTP_200_OK)
+        return Response(data, status=status.HTTP_200_OK)'''
 
 
 class AskForTags(ListAPIView):
@@ -256,7 +254,6 @@ class ContestRankingAPIView(ListAPIView):
 
     def get_queryset(self):
         sorted_queryset = {}
-        constant_view = 30 # this will be changed once we get to create this functionality.
 
         queryset = super(ContestRankingAPIView, self).get_queryset()
         contest = get_object_or_404(Contest, slug=self.kwargs['slug'])
@@ -264,20 +261,20 @@ class ContestRankingAPIView(ListAPIView):
         contenders = Contender.objects.filter(contest=contest)
         excluded_contender_ids = []
 
-        for contender in contenders:
+        '''for contender in contenders:
             if not contender.check_conditions_for_rankings():
                 excluded_contender_ids.append(contender.id)
-                # print("excluded", contender.user.username)
+                # print("excluded", contender.user.username)'''
 
         photos = queryset\
             .filter(contest=contest)\
-            .filter(ratings__isnull=False)\
+            #.filter(ratings__isnull=False)\
             #.exclude(ownername__contender__id__in=excluded_contender_ids).order_by('-ratings__average')
 
         for photo in photos:
-            sorted_queryset[photo] = photo.likes.all().count() / constant_view
+            sorted_queryset[photo] = photo.likes.all().count() / photo.seenby.all().count()
 
-        sorted_queryset = dict(sorted(sorted_queryset.items(), key=operator.itemgetter(1)))
+        sorted_queryset = dict(sorted(sorted_queryset.items(), key=operator.itemgetter(1), reverse=True))
 
         return list(sorted_queryset.keys())
 

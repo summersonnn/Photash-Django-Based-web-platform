@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'photo',
     'reportedPhotos',
     #3. parti uygulamalar
-    'star_ratings',
     'crispy_forms',
     'captcha',
     'bootstrap3',
