@@ -1,7 +1,6 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
-from star_ratings.models import *
 from django.db.models import Sum
 from django.utils import timezone
 from math import sqrt
@@ -26,7 +25,6 @@ class Tag(models.Model):
 class Contest(models.Model):
     id = models.IntegerField(primary_key=True, verbose_name='Contest id')
     contest_name = models.CharField(max_length=50, unique=True, blank=False, verbose_name='Contest Name')
-    contest_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True, verbose_name='photo? video?')
     start_date = models.DateTimeField(blank=False, verbose_name='Start Date')
     end_date = models.DateTimeField(blank=False, verbose_name='End Date')
     tag = models.ManyToManyField(Tag)
@@ -83,17 +81,6 @@ class Contender(models.Model):
 
         return sqrt(sum((x.score - vote_average) ** 2 for x in data) / (vote_count-1))
 
-    def get_vote_count_avg_stddev(self):
-        votes = self.user.votes.filter(rating__photos__contest=self.contest)
-        vote_count = votes.count()
-
-        if vote_count == 0:
-            return 0, 0.0, 0.0
-
-        vote_sum = votes.aggregate(Sum('score'))['score__sum']
-        vote_average = float(vote_sum) / vote_count
-
-        return votes.count(), vote_average, Contender.get_stddev(votes, vote_count, vote_average)
 
     def check_conditions_for_rankings(self):
         vote_count, vote_average, vote_stddev = self.get_vote_count_avg_stddev()
