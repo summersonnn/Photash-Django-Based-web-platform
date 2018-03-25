@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ContestListAPIView, ContestDetailAPIView, VotersListAPIView, FeedAPIView, AskForTags, ContestRankingAPIView
+from .views import ContestListAPIView, ContestDetailAPIView, VotersListAPIView, FeedAPIView, AskForTags, ContestRankingAPIView, TagDetailAPIView
 
 app_name = 'contest_api'
 
@@ -10,4 +10,5 @@ urlpatterns = [
     path('<slug:slug>/rankings/', ContestRankingAPIView.as_view(), name='rankings'),
     path('timeline/', FeedAPIView.as_view(), name='timeline'),
     path('ask-for-tags/', AskForTags.as_view(), name='ask_for_tags'),
+    path('tag/<slug:slug>/', TagDetailAPIView.as_view(), name='tag'),
 ]
