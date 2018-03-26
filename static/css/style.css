@@ -359,7 +359,7 @@ body.cd-overlay::after {
 
 .home-form-btn-wrapper>span>a,
 .signup-with-wrapper p>a {
-  color: #e5bb30;
+  color: #e5bb30 !important;
   font-weight: 700;
 }
 
