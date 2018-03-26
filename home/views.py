@@ -15,7 +15,6 @@ def home_view(request):
         random_contest = Contest.objects.all()[random_index]
     else:
         random_contest = None
-    random_contest=None
 
     form = RegisterForm(data=request.POST or None)
     if form.is_valid():
