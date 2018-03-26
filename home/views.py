@@ -46,7 +46,7 @@ def home_view(request):
     }
     return render(request, 'home/home.html', context)
 
-def feed_view(request):
-    return render(request, 'home/feed.html')
+def catalogue_view(request):
+    return render(request, 'home/catalogue.html')
 
 

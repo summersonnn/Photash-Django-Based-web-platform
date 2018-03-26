@@ -5,5 +5,5 @@ from .views import *
 app_name = "home"
 
 urlpatterns = [
-    url(r'^feed/$', feed_view, name='feed'),
+    url(r'^catalogue/$', catalogue_view, name='catalogue'),
 ]

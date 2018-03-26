@@ -209,7 +209,7 @@ class FeedAPIView(APIView):
 
         return queryset
 
-    '''def get(self, request, format=None):
+    def get(self, request, format=None):
         data = ContestSerializer(self.get_queryset(), many=True).data 
 
         for contest_data in data:
@@ -225,14 +225,8 @@ class FeedAPIView(APIView):
             start_index = random_integer
             finish_index = random_integer + add
             photo_data = PhotoSerializer(photos[start_index:finish_index], many=True).data
-            for photo in photo_data:
-                current_photo = Photo.objects.get(id=photo['id'])
-                content_type = ContentType.objects.get_for_model(Photo)
-                photo['rating'] = RatingSerializer(Rating.objects.get(content_type=content_type, object_id=current_photo.id)).data
 
-            contest_data['photos'] = photo_data
-
-        return Response(data, status=status.HTTP_200_OK)'''
+        return Response(photo_data, status=status.HTTP_200_OK)
 
 
 class AskForTags(ListAPIView):
