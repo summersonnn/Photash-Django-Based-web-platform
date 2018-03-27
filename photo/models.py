@@ -20,6 +20,8 @@ class Photo(models.Model):
     seenby = models.ManyToManyField('auth.User', blank=True, related_name="photo_seen_by")
     uploading_date = models.DateTimeField(default=datetime.now, verbose_name="Yüklenme Tarihi")
     summary = models.TextField(max_length=48, blank=True)
+    isChecked = models.BooleanField(default=False)
+    isDeleted = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.id)
