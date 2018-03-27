@@ -57,10 +57,19 @@ class PhotoListAPIView(ListAPIView):
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
+            for data in serializer.data:
+                photo = Photo.objects.get(id=int(data['id']))
+                percentage = photo.like_percentage
+                data['like_percentage'] = percentage
+
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
-        #print("asdasd", serializer.data)
+        for data in serializer.data:
+            photo = Photo.objects.get(id=int(data['id']))
+            percentage = photo.like_percentage
+            data['like_percentage'] = percentage
+
         return Response(serializer.data)
 
 

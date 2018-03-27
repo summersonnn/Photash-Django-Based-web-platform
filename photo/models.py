@@ -30,8 +30,12 @@ class Photo(models.Model):
 
     @property
     def like_percentage(self):
-        return self.likes.all().count()*100/self.seenby.all().count()
-    #If you want only 2 digits after comma, print(round(photo.like_percentage, 2))
+        try:
+            per = self.likes.all().count()*100/self.seenby.all().count()
+        except ZeroDivisionError:
+            per = 1
+        return per
+    #If you want only 2 digits after comma, print(round(photo.like_percentage(), 2))
 
 
 @receiver(pre_delete, sender=Photo)
