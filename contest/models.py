@@ -6,6 +6,8 @@ from django.utils import timezone
 from math import sqrt
 from django.apps import apps
 
+MAX_ALLOWED_AVG_PEN_POINTS = 10
+
 class Tag(models.Model):
     title = models.CharField(max_length=140)
     added_by = models.ForeignKey(User, on_delete=models.PROTECT) #
@@ -80,16 +82,21 @@ class Contender(models.Model):
     def check_conditions_for_rankings(self):
         # criterias
         seen_count_criteria = True
+        honest_voting_criteria = True
 
         output_string = ""
         seen_count = self.user.photo_seen_by.all().count()
+        penalty_points = self.calculate_penalty_points()
 
         # count_criteria
         if seen_count < self.contest.min_seen_photos:
             seen_count_criteria = False
             output_string += "Seen count not satisfied\n"
 
-        if seen_count_criteria:
+        if penalty_points > MAX_ALLOWED_AVG_PEN_POINTS:
+            honest_voting_criteria = False
+
+        if seen_count_criteria and honest_voting_criteria:
             return True
         else:
             print(self.user.username, "did not satisfy the following condition(s)")
@@ -117,7 +124,7 @@ class Contender(models.Model):
             else:
                 penalty_points += (perc - 50)
 
-        avg_penalty_per_seen_photos = penalty_points / self.user.photo_seen_by.count()
+        avg_penalty_per_seen_photos = penalty_points / seen_photos.count()
 
         return penalty_points, avg_penalty_per_seen_photos
 
