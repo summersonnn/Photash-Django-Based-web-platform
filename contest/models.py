@@ -86,7 +86,7 @@ class Contender(models.Model):
 
         output_string = ""
         seen_count = self.user.photo_seen_by.all().count()
-        penalty_points = self.calculate_penalty_points()[0]
+        penalty_points = self.calculate_penalty_points()
 
         # count_criteria
         if seen_count < self.contest.min_seen_photos:
