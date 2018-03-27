@@ -264,11 +264,35 @@ class ContestRankingAPIView(ListAPIView):
             .exclude(ownername__contender__id__in=excluded_contender_ids)
 
         for photo in photos:
-            sorted_queryset[photo] = photo.likes.all().count() / photo.seenby.all().count()
+            try:
+                sorted_queryset[photo] = photo.likes.all().count() / photo.seenby.all().count()
+            except ZeroDivisionError:
+                sorted_queryset[photo] = 0
 
         sorted_queryset = dict(sorted(sorted_queryset.items(), key=operator.itemgetter(1), reverse=True))
 
         return list(sorted_queryset.keys())
+
+    def list(self, request, *args, **kwargs):
+
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            for data in serializer.data:
+                photo = Photo.objects.get(id=int(data['id']))
+                percentage = photo.like_percentage
+                data['like_percentage'] = percentage
+
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        for data in serializer.data:
+            photo = Photo.objects.get(id=int(data['id']))
+            percentage = photo.like_percentage
+            data['like_percentage'] = percentage
+
+        return Response(serializer.data)
 
 
 class TagDetailAPIView(RetrieveAPIView):

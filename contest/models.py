@@ -86,7 +86,7 @@ class Contender(models.Model):
 
         output_string = ""
         seen_count = self.user.photo_seen_by.all().count()
-        penalty_points = self.calculate_penalty_points()
+        penalty_points = self.calculate_penalty_points()[0]
 
         # count_criteria
         if seen_count < self.contest.min_seen_photos:
@@ -124,7 +124,10 @@ class Contender(models.Model):
             else:
                 penalty_points += (perc - 50)
 
-        avg_penalty_per_seen_photos = penalty_points / seen_photos.count()
+        try:
+            avg_penalty_per_seen_photos = penalty_points / seen_photos.count()
+        except:
+            avg_penalty_per_seen_photos = 0
 
         return penalty_points, avg_penalty_per_seen_photos
 
