@@ -120,5 +120,34 @@ class Contender(models.Model):
             return False
 
 
+    def calculate_penalty_points(self):
+        seen_photos = self.user.photo_seen_by.all()
+        liked_photos = self.user.photo_likes.all()
+        passed_photos = seen_photos.difference(liked_photos)
+        penalty_points = 0
+
+        for photo in liked_photos:
+            perc = photo.like_percentage
+            if (perc < 50):
+                penalty_points += (50 - perc)
+            else:
+                penalty_points -= (perc - 50)
+
+        for photo in passed_photos:
+            perc = photo.like_percentage
+            if (perc < 50):
+                penalty_points -= (50 - perc)
+            else:
+                penalty_points += (perc - 50)
+
+        avg_penalty_per_seen_photos = penalty_points / self.user.photo_seen_by.count()
+
+        return penalty_points, avg_penalty_per_seen_photos
+
+
+
+
+
+
 
 
