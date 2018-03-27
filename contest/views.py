@@ -35,6 +35,8 @@ def photo_upload(request, slug):
             photo = form.save(commit=False)
             photo.contest = contest_record
             photo.ownername = request.user
+            photo.isChecked = False
+            photo.isDeleted = False
             photo.save()
 
             # User'ın o conteste yükleyeceği İlk fotoğraf ise böyle contender objesi yoktur, o objeyi oluşturalım.
