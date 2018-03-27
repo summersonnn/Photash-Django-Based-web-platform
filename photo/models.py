@@ -33,7 +33,7 @@ class Photo(models.Model):
         try:
             per = self.likes.all().count()*100/self.seenby.all().count()
         except ZeroDivisionError:
-            per = 1
+            per = 0
         return per
     #If you want only 2 digits after comma, print(round(photo.like_percentage(), 2))
 
