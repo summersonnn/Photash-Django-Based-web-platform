@@ -93,7 +93,7 @@ class Contender(models.Model):
             seen_count_criteria = False
             output_string += "Seen count not satisfied\n"
 
-        if penalty_points > MAX_ALLOWED_AVG_PEN_POINTS:
+        if penalty_points[1] > MAX_ALLOWED_AVG_PEN_POINTS:
             honest_voting_criteria = False
 
         if seen_count_criteria and honest_voting_criteria:
