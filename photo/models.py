@@ -28,8 +28,10 @@ class Photo(models.Model):
     def get_absolute_url(self):
         return reverse('photo:detail', kwargs={'id': self.id})
 
-    def get_api_like_url(self):
-        return reverse("photo_api:like_api", kwargs={'id': self.id})
+    @property
+    def like_percentage(self):
+        return self.likes.all().count()*100/self.seenby.all().count()
+    #If you want only 2 digits after comma, print(round(photo.like_percentage, 2))
 
 
 @receiver(pre_delete, sender=Photo)
