@@ -255,15 +255,13 @@ class ContestRankingAPIView(ListAPIView):
         contenders = Contender.objects.filter(contest=contest)
         excluded_contender_ids = []
 
-        '''for contender in contenders:
+        for contender in contenders:
             if not contender.check_conditions_for_rankings():
                 excluded_contender_ids.append(contender.id)
-                # print("excluded", contender.user.username)'''
 
         photos = queryset\
             .filter(contest=contest)\
-            #.filter(ratings__isnull=False)\
-            #.exclude(ownername__contender__id__in=excluded_contender_ids).order_by('-ratings__average')
+            .exclude(ownername__contender__id__in=excluded_contender_ids)
 
         for photo in photos:
             sorted_queryset[photo] = photo.likes.all().count() / photo.seenby.all().count()

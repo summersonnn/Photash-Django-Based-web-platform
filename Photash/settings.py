@@ -215,3 +215,4 @@ COMMON_URLS = (
     r'^api/photo/(?P<slug>[\w-]+)/index$',
 
 )
+

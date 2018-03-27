@@ -33,9 +33,7 @@ class Contest(models.Model):
     start_date = models.DateTimeField(blank=False, verbose_name='Start Date')
     end_date = models.DateTimeField(blank=False, verbose_name='End Date')
     tag = models.ManyToManyField(Tag)
-    min_must_votes = models.IntegerField(blank=False, default=10, verbose_name='Minimum number of votes a contender must provide')              #Yani o contest içinde en az bu sayı defa oy vermeli. Vermezse kendi gönderdiği fotoğraf geçerli olmayacak.
-    min_avg = models.FloatField(blank=False, default=4.00, verbose_name='Min average of given points a contender must provide')       #Yani o contest içinde verdiği oyların ortalaması en az bu kadar olmalı. Bu sayede herkese 1 vermesini önlüyoruz.
-    min_stddev = models.FloatField(blank=False, default=2.00, verbose_name='User should not vote with repeated scores')
+    min_seen_photos = models.IntegerField(blank=False, default=10, verbose_name='Minimum number of photos a contender must see')              #Yani o contest içinde en az bu sayı defa oy vermeli. Vermezse kendi gönderdiği fotoğraf geçerli olmayacak.
     max_photos_per_Reguser = models.IntegerField(blank=False, default=5, verbose_name='Max photos per free user')
     max_photos_per_Preuser = models.IntegerField(blank=False, default=20, verbose_name='Max photos per Premium user')
     prize_distributions = models.TextField(blank=True)
@@ -79,40 +77,19 @@ class Contender(models.Model):
         Photo = apps.get_model('photo.Photo')
         return Photo.objects.filter(ownername=self.user, contest=self.contest).count()
 
-    @staticmethod
-    def get_stddev(data, vote_count, vote_average):  # POSTGRESQL'e geçtikten sonra django stddev api'ını kullaibiliriz
-        if vote_count < 2:
-            return 0
-
-        return sqrt(sum((x.score - vote_average) ** 2 for x in data) / (vote_count-1))
-
-
     def check_conditions_for_rankings(self):
-        vote_count, vote_average, vote_stddev = self.get_vote_count_avg_stddev()
-
         # criterias
-        count_criteria = True
-        avg_criteria = True
-        stddev_criteria = True
+        seen_count_criteria = True
 
         output_string = ""
+        seen_count = self.user.photo_seen_by.all().count()
 
         # count_criteria
-        if vote_count < self.contest.min_must_votes:
-            count_criteria = False
-            output_string += "count_criteria\n"
+        if seen_count < self.contest.min_seen_photos:
+            seen_count_criteria = False
+            output_string += "Seen count not satisfied\n"
 
-        # avg_criteria
-        if vote_average < self.contest.min_avg:
-            avg_criteria = False
-            output_string += "avg_criteria\n"
-
-        # stddev_criteria
-        if vote_stddev < self.contest.min_stddev:
-            stddev_criteria = False
-            output_string += "stddev_criteria\n"
-
-        if count_criteria and avg_criteria and stddev_criteria:
+        if seen_count_criteria:
             return True
         else:
             print(self.user.username, "did not satisfy the following condition(s)")
