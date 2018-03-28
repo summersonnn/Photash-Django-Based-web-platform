@@ -26,7 +26,6 @@ def photo_upload(request, slug):
     # Fotoğrafın hangi contest'in pool'una gideceği bilgisini çektik.
     # Bu bilgi contest detail'indeki Join Contest butonu ile verilmişti.
     contest_record = Contest.objects.get(slug=slug)
-    print("THIS PART WORKS!")
 
     if request.method == 'POST':
         form = PhotoForm(request.POST, request.FILES)
@@ -94,7 +93,6 @@ def contest_delete(request, id):
 
 def contest_rankings(request, slug):
     contest = get_object_or_404(Contest, slug=slug)
-
     context = {'contest': contest}
 
     if timezone.now() < contest.end_date:  # if contest is still in progress

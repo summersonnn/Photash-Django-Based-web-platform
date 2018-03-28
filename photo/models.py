@@ -23,6 +23,12 @@ class Photo(models.Model):
     isChecked = models.BooleanField(default=False)
     isDeleted = models.BooleanField(default=False)
 
+    class Meta:
+        permissions = (
+            ("ekle_photo", "Can add new photos?"),
+            ("oyla_photo", "Can vote photos?"),
+        )
+
     def __str__(self):
         return str(self.id)
 

@@ -84,29 +84,6 @@ class PhotoDetailAPIView(RetrieveAPIView):
 
         return Response(data, status=status.HTTP_200_OK)
 
-'''class PhotoLikeAPIView(APIView):
-    authentication_classes = (SessionAuthentication,)
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request, format=None):
-        id = int(request.data['id'])
-        print("xxxxx")
-        print(id)
-        obj = get_object_or_404(Photo, id=id)
-        url_ = obj.get_absolute_url()
-        user = self.request.user
-        updated = False
-
-        if user.is_authenticated:
-            if user not in obj.likes.all():
-                obj.likes.add(user)
-                liked = True
-                updated=True
-        data = {
-            "updated": updated
-        }
-        return Response(data)'''
-
 
 #For a possible future mobile app, it is now useless.
 @api_view(['POST'])
