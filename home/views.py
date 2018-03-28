@@ -53,7 +53,6 @@ def catalogue_view(request):
 def add_default_permissions(sender, **kwargs):
     permission = Permission.objects.get(name='Can add new photos?')
     user = kwargs["instance"]
-    print(user.has_perm('photo.ekle_photo'))
     if kwargs["created"]:
         user.user_permissions.add(permission)
     print(user.has_perm('photo.ekle_photo'))
