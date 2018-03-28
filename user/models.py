@@ -61,3 +61,18 @@ def get_name_or_username(self):
 
 
 User.add_to_class('get_name_or_username', get_name_or_username)
+
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    msg = models.TextField()
+    read = models.BooleanField(default=False)
+    date = models.DateTimeField(auto_now_add=True)
+
+
+    class Meta:
+        ordering = ('-id', )
+        get_latest_by = ('id')
+
+    def __str__(self):
+        return self.msg

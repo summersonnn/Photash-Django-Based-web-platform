@@ -1,6 +1,5 @@
 from django.contrib import admin
-from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Notification
 
 # Register your models here.
 class ProfileAdmin(admin.ModelAdmin):
@@ -13,4 +12,5 @@ class ProfileAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Notification)
 
