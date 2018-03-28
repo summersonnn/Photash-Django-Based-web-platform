@@ -10,6 +10,7 @@ from photo.models import Photo
 from contest.models import Contest
 from django.shortcuts import get_object_or_404
 from user.models import Profile
+from django.contrib.auth.decorators import permission_required
 
 class PhotoListAPIView(ListAPIView):
     serializer_class = PhotoSerializer
@@ -43,8 +44,6 @@ class PhotoListAPIView(ListAPIView):
                 print('Query is not in queryset')
         else:
             print('There is no photo query for first pick')
-
-        print(Queryset)
 
         if self.request.user.is_authenticated:
             return Queryset
@@ -113,7 +112,8 @@ def api_increase_seen_by_one(request):
 
 @api_view(['POST'])
 @authentication_classes((SessionAuthentication,  ))
-#@permission_classes((IsAuthenticated, ))
+@permission_classes((IsAuthenticated, ))
+@permission_required('photo.oyla_photo')
 def api_increase_like_by_one(request):
     id = int(request.data['id'])
     photo = get_object_or_404(Photo, id=id)

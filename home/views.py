@@ -7,6 +7,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from django.core.mail import send_mail
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch.dispatcher import receiver
+from django.contrib.auth.models import Permission
 
 def home_view(request):
     count = Contest.objects.count()
@@ -18,7 +22,6 @@ def home_view(request):
 
     form = RegisterForm(data=request.POST or None)
     if form.is_valid():
-        print("form is valid babe")
         user = form.save(commit=False)
         password = form.cleaned_data.get('password1')
         user.set_password(password)
@@ -36,8 +39,6 @@ def home_view(request):
         new_user = authenticate(username=user.username, password=password)
         login(request, new_user)
         return redirect('home')
-    else:
-        print("form is NOT valid babe")
 
     context={
         'form': form,
@@ -47,5 +48,14 @@ def home_view(request):
 
 def catalogue_view(request):
     return render(request, 'home/catalogue.html')
+
+@receiver(post_save, sender=User)
+def add_default_permissions(sender, **kwargs):
+    permission = Permission.objects.get(name='Can add new photos?')
+    user = kwargs["instance"]
+    print(user.has_perm('photo.ekle_photo'))
+    if kwargs["created"]:
+        user.user_permissions.add(permission)
+    print(user.has_perm('photo.ekle_photo'))
 
 

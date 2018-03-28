@@ -4,6 +4,7 @@ from photo.models import Photo
 from django.utils import timezone
 from django.contrib import messages
 from .forms import PhotoForm
+from django.contrib.auth.decorators import permission_required
 
 def contest_index(request):
     context = {}
@@ -21,7 +22,7 @@ def contest_index(request):
 def contest_detail(request, slug):
     return render(request, "contest/detail.html", context={'contest': Contest.objects.get(slug=slug)})
 
-
+@permission_required('photo.ekle_photo')
 def photo_upload(request, slug):
     # Fotoğrafın hangi contest'in pool'una gideceği bilgisini çektik.
     # Bu bilgi contest detail'indeki Join Contest butonu ile verilmişti.
@@ -42,11 +43,6 @@ def photo_upload(request, slug):
             if not Contender.objects.filter(user=request.user, contest=contest_record).exists():
                 contender = Contender(user=request.user, contest=contest_record)
                 contender.save()
-
-            file = open('check.txt', 'a')
-            file.write(photo.filename())
-            file.write("\n")
-            file.close()
 
             # Mesaj ve redirection işlemleri
             messages.success(request, 'You have succesfully sent a photo to photo pool')
