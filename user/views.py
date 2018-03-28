@@ -20,7 +20,10 @@ def login_view(request):
         username = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password')
         user = authenticate(username=username, password=password)
-        login(request, user)
+        if(user.is_active == False):
+            return render(request, 'accounts/you_are_banned.html')
+        else:
+            login(request, user)
         username = User.objects.get(username=request.user)
         url = reverse('user:detail_profile', kwargs={'username': username})
         return HttpResponseRedirect(url)

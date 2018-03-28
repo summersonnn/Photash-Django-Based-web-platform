@@ -38,11 +38,9 @@ class LoginRequiredMiddleware:
             return redirect(settings.LOGIN_REDIRECT_URL)
         #Logged in - Muaf değil  veya  Logged out - Muaf  Bu durumlar istenmeyen durumlar değildir
         elif request.user.is_authenticated or url_is_exempt:
-            print("22222")
             return None
         #Logged in ve Logged out userların ortak erişebileceği urllerden ise
         elif not request.user.is_authenticated and url_is_common:
-            print("33333")
             return None
         #Logged in değil ve sadece Logged in userların ulaşabildiği bir url ise
         else:
