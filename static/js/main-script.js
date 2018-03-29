@@ -62,9 +62,9 @@ if($('.photopool-main-wrapper')) {   // Execute only if Photopool Slider Present
   Anchors Animations/Scrolling
 --------------------------------------------------*/
 
-  $(document).ready(function(){
+  /*$(document).ready(function(){
 
-   /* Tıklandığında smooth şekilde bir yere scroll etmek için*/
+    Tıklandığında smooth şekilde bir yere scroll etmek için
     $('a[href^="#"]').on('click',function(e){
           e.preventDefault();
 
@@ -72,14 +72,14 @@ if($('.photopool-main-wrapper')) {   // Execute only if Photopool Slider Present
           var $target = $(target);
           //scroll
            $('html, body').animate({
-            /*TEHLIKE!!! NAVBAR SORUN CIKARDIGI ICIN -79 PIXEL YUKARIYA SCROLL ETMESINI SAGLADIM. ILERDE UYUMLULUK SORUNLARI CIKABILIR*/
+            /*TEHLIKE!!! NAVBAR SORUN CIKARDIGI ICIN -79 PIXEL YUKARIYA SCROLL ETMESINI SAGLADIM. ILERDE UYUMLULUK SORUNLARI CIKABILIR
             'scrollTop': $target.offset().top-79
            },1000, 'swing');
 
     });
     /*--------------------------------
 
-    /*BACK TO THE TOP JQUERY*/
+    BACK TO THE TOP JQUERY
     var btt = $('back-to-top');
     btt.on('click', function(e){
         $('html, body').animate({
@@ -105,7 +105,7 @@ if($('.photopool-main-wrapper')) {   // Execute only if Photopool Slider Present
                 btt.hide();
             }
     });
-});
+});*/
 
 
 

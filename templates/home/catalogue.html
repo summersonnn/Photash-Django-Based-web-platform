@@ -171,7 +171,10 @@
 	</div>
 </section>
     
-
+    {% block scripts %}
+        <script type="text/javascript" src="{% static 'js/owl.carousel.min.js'%}"></script>
+        <script type="text/javascript" src="{% static 'js/masonry-feed.js' %}"></script>
+    {% endblock %}
 {% endblock %}
 
 

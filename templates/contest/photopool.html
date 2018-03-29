@@ -4,28 +4,26 @@
 
 
 {% block title %}Photo pool{% endblock %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.fancybox.min.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/owl.carousel.min.css' %}"/>
+{% endblock %}
 
 
 {% block body %}
 
-
-
-
 <section>
-
-  <div class="inner-more">
-
-      <div class="container">
-        <div class="photopool-main-wrapper">
-            <div class="photopool-slider-wrapper">
-                <div class="photopool-slider-control" id="photopool-control-1"></div>
-                <div class="owl-carousel photopool-slider">
+    <div class="inner-more">
+        <div class="container">
+            <div class="photopool-main-wrapper">
+                <div class="photopool-slider-wrapper">
+                    <div class="photopool-slider-control" id="photopool-control-1"></div>
+                    <div class="owl-carousel photopool-slider">
+                </div>
+               </div>
             </div>
-           </div>
         </div>
-      </div>
   </div>
-
 </section>
 
 
@@ -242,4 +240,7 @@
 
 </script>
 
+    {% block scripts %}
+        <script type="text/javascript" src="{% static 'js/owl.carousel.min.js'%}"></script>
+    {% endblock %}
 {% endblock %}
