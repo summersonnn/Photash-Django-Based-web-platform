@@ -102,6 +102,7 @@
                     if(i!==4){
                         var clonedListElement = $( ".table-striped tbody #4" ).clone().appendTo( ".table-striped tbody" );
                         clonedListElement.attr("id", i);
+                        $( ".table-striped tbody #" + i + ' .pop-more-btn').attr("data-target","#info-" + i);
                     }
 
                     perc = data['results'][i-1]['like_percentage'];
