@@ -1,0 +1,209 @@
+/*-------------------------------------------------
+     Ranking Page CSS
+--------------------------------------------------*/
+
+/*--------- Podium Section -----------------*/
+
+.podium-section>.inner {
+    padding: 120px 0 10px 0;
+}
+
+.podium-wrap {
+    text-align: center;
+    padding-top: 154px;
+}
+
+.podium {
+    vertical-align: bottom;
+    padding: 10px 10px 31px 10px;
+    display: inline-block;
+    width: 200px;
+    background-color: #fba62a;
+    border-top: 10px solid #cc2323;
+    position: relative;
+    min-height: 145px;
+}
+
+.podium>h3 {
+    font-size: 16px;
+    margin: 0;
+    color: #2b2b2b;
+}
+
+.podium>p {
+    font-size: 40px;
+    font-weight: 600;
+    color: #673d00;
+    margin: 7px 0;
+}
+
+.podium>a {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    position: absolute;
+    color: #000;
+    font-size: 14px;
+    display: block;
+    border-radius: 3px;
+    background-color: #ffb84f;
+    text-decoration: none
+}
+
+.podium>a:hover {
+    background-color: #ffd69a;
+}
+
+.podium>img {
+    max-width: 140px;
+    position: absolute;
+    top: -175px;
+    z-index: -1;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.podium.left {
+    height: 160px;
+}
+
+.podium.left>p {
+    font-size: 45px;
+}
+
+.podium.center {
+    height: 180px;
+}
+
+.podium.center>p {
+    font-size: 55px;
+}
+
+/*--------- Pop Up Modals -----------------*/
+
+.more-info-pop .modal-dialog {
+    box-shadow: 0px 6px 25px -5px rgba(0, 0, 0, 0.3);
+    width: 450px;
+    margin: 10% auto;
+}
+
+.more-info-pop .modal-content {
+    border-radius: 0;
+}
+
+.more-info-pop .modal-header {
+    display: block;
+    background-color: #ffb84f;
+    color: #fff;
+    text-align: center;
+    position: relative;
+    border-radius: 0; 
+}
+
+.more-info-pop .modal-header>button {
+    display: inline-block;
+    position: absolute;
+    padding: 0;
+    line-height: 1;
+    right: 40px;
+    top: 33px;
+}
+
+.winning-percent {
+    font-weight: 700;
+    margin: 0;
+    font-size: 24px;
+}
+
+.winning-percent>i {
+    font-style: normal;
+    font-size: .9rem;
+}
+
+.more-info-pop .modal-body>.thumb-img-holder,
+.more-info-pop .modal-body>.info-states {
+    width: 49%;
+    display: inline-block;
+    float: left;
+}
+
+.more-info-pop .modal-body>.info-states>p {
+    color: #000;
+    padding-right: 75px;
+    font-weight: 600;
+    position: relative;
+}
+
+.more-info-pop .modal-body>.info-states>p>i {
+    position: absolute;
+    right: 57px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/*--------- Winners Table -----------------*/
+
+.winner-table-section>.inner {
+    padding: 10px 0 120px 0;
+}
+
+.winners-table td {
+    text-align: center;
+    color: #000;
+}
+
+.winners-table>tbody>tr>td:first-child {
+    font-size: 20px;
+    vertical-align: middle;
+    font-weight: 600;
+}
+
+.winners-table>tbody>tr:nth-child(odd) {
+    background-color: #e5bb30;
+}
+
+.user-name-td {
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 600;
+    vertical-align: middle !important;
+}
+
+.pop-more-btn {
+    background-color: #e0b936;
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 10px 10px;
+    box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-weight: bold;
+    border: 0px;
+    transition: 100ms ease;
+}
+
+.pop-more-btn:hover {
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.winner-table-section .container {
+    width: 85%;
+}
+
+@media all and (max-width: 910px) {
+    .podium {
+        width: 150px;
+    }
+}
+
+@media all and (max-width: 710px) {
+    .podium {
+        width: 120px;
+    }
+
+     .podium>img {
+        max-width: 100px;
+        top: -130px;
+    }
+}
