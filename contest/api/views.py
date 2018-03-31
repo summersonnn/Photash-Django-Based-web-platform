@@ -255,9 +255,9 @@ class ContestRankingAPIView(ListAPIView):
         contenders = Contender.objects.filter(contest=contest)
         excluded_contender_ids = []
 
-        for contender in contenders:
+        '''for contender in contenders:
             if not contender.check_conditions_for_rankings():
-                excluded_contender_ids.append(contender.id)
+                excluded_contender_ids.append(contender.id)'''
 
         photos = queryset\
             .filter(contest=contest)\
@@ -283,6 +283,7 @@ class ContestRankingAPIView(ListAPIView):
                 photo = Photo.objects.get(id=int(data['id']))
                 percentage = photo.like_percentage
                 data['like_percentage'] = percentage
+                data['username'] = str(photo.ownername)
 
             return self.get_paginated_response(serializer.data)
 

@@ -45,12 +45,12 @@
                 </div>
                 <div class="modal-body">
                     <div class="thumb-img-holder">
-                        <img src="{% static 'images/ranking-images/thumb.jpg' %}">
+                        <img src="" width="150" height="150">
                     </div>
 
                     <div class="info-states">
-                        <p>Likes: 5000 <i class="fa fa-heart"></i></p>
-                        <p>Seen : 9879 <i class="fa fa-eye"></i></p>
+                        <p class="likes"></p>
+                        <p class="seen"></p>
                     </div>
                 </div>
             </div>
@@ -68,19 +68,19 @@
                 </div>
                 <div class="modal-body">
                     <div class="thumb-img-holder">
-                        <img src="{% static 'images/ranking-images/thumb.jpg' %}">
+                        <img src="" width="150" height="150">
                     </div>
 
                     <div class="info-states">
-                        <p>Likes: 2487 <i class="fa fa-heart"></i></p>
-                        <p>Seen : 3471 <i class="fa fa-eye"></i></p>
+                        <p class="likes"><i class="fa fa-heart"></i></p>
+                        <p class="seen">Seen : 3471 <i class="fa fa-eye"></i></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Pop Up Modal Second Place-->
+    <!-- Pop Up Modal Third Place-->
     <div class="modal fade more-info-pop" id="info-third" role="dialog">
         <div class="modal-dialog">
         <!-- Modal content-->
@@ -91,34 +91,28 @@
                 </div>
                 <div class="modal-body">
                     <div class="thumb-img-holder">
-                        <img src="{% static 'images/ranking-images/thumb.jpg' %}">
+                        <img src="" width="150" height="150">
                     </div>
 
                     <div class="info-states">
-                        <p>Likes: 798 <i class="fa fa-heart"></i></p>
-                        <p>Seen : 1545 <i class="fa fa-eye"></i></p>
+                        <p class="likes"><i class="fa fa-heart"></i></p>
+                        <p class="seen"><i class="fa fa-eye"></i></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!--List Section-->
     <section class="winner-table-section">
         <div class="inner">
             <div class="container">
                 <div class="table-responsive">
                     <table class="table table-striped winners-table">
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td class="winning-percent">%99.<i>56</i></td>
-                                <td class="user-name-td">Summerson</td>
-                                <td><button class="pop-more-btn" data-toggle="modal" data-target="#info-table-winner">More Detail</button></td>
-                            </tr>
-
-                             <tr>
-                                <td>2</td>
-                                <td class="winning-percent">%89.<i>56</i></td>
+                            <tr id="4">
+                                <td class="no">4</td>
+                                <td class="winning-percent">%44.<i>56</i></td>
                                 <td class="user-name-td">Summerson</td>
                                 <td><button class="pop-more-btn" data-toggle="modal" data-target="#info-table-winner">More Detail</button></td>
                             </tr>
@@ -129,13 +123,13 @@
         </div>
     </section>
 
-     <!-- Pop Up Modal Second Place-->
+     <!-- Pop Up Modal List items-->
     <div class="modal fade more-info-pop" id="info-table-winner" role="dialog">
         <div class="modal-dialog">
         <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="winning-percent">%99.<i>56</i></h4>
+                    <h4 class="winning-percent">%44.<i>56</i></h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -144,13 +138,88 @@
                     </div>
 
                     <div class="info-states">
-                        <p>Likes: 798 <i class="fa fa-heart"></i></p>
-                        <p>Seen : 1545 <i class="fa fa-eye"></i></p>
+                        <p class="likes"><i class="fa fa-heart"></i></p>
+                        <p class="seen"><i class="fa fa-eye"></i></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+    $(document).ready(function(){
+        var url = "{% url 'contest_api:rankings' slug=contest.slug %}";
+        $.ajax({
+            url: url,
+            type: 'get',
+            success: function(data){
+                var objectCount = data['results'].length;
+
+                var perc = data['results'][3]['like_percentage'];
+                var strperc = '%'+ (Math.round(perc*100)/100).toString();
+                $(".table-striped tbody #"+4+' .winning-percent').html(strperc);
+                var username = data['results'][3]['username'];
+                $(".table-striped tbody #4 .user-name-td").html(username);
+
+
+                for(var i=5; i<=objectCount; i++){
+                   var clonedDiv = $( ".table-striped tbody #4" ).clone().appendTo( ".table-striped tbody" );
+                   clonedDiv.attr("id", i);
+                   perc = data['results'][i-1]['like_percentage'];
+                   strperc = '%'+ (Math.round(perc*100)/100).toString();
+                   $(".table-striped tbody #"+i+' .winning-percent').html(strperc);
+                   username = data['results'][i-1]['username'];
+                   $(".table-striped tbody #"+i+" .user-name-td").html(username);
+
+                   $(".table-striped tbody #"+i+" .no").html(i);
+
+                }
+
+
+                    perc = data['results'][0]['like_percentage'];
+                    strperc = '%'+ (Math.round(perc*100)/100).toString();
+                    $("#info-first h4").html(strperc);
+                    username = data['results'][0]['username'];
+                    $(".center h3").html(username);
+                    var photoItself = data['results'][0]['photoItself'];
+                    $("#info-first .modal-body img").attr("src",photoItself);
+                    var likes = "Likes: " + data['results'][0]['likes'].length.toString();
+                    $("#info-first .info-states .likes").html(likes + '<i class="fa fa-heart"></i>');
+                    var seenby = "Seen: " + data['results'][0]['seenby'].length.toString();
+                    $("#info-first .info-states .seen").html(seenby + '<i class="fa fa-eye"></i>');
+
+                    perc = data['results'][1]['like_percentage'];
+                    strperc = '%'+ (Math.round(perc*100)/100).toString();
+                    $("#info-second h4").html(strperc);
+                    username = data['results'][1]['username'];
+                    $(".left h3").html(username);
+                    photoItself = data['results'][1]['photoItself'];
+                    $("#info-second .modal-body img").attr("src",photoItself);
+                    likes = "Likes: " + data['results'][1]['likes'].length.toString();
+                    $("#info-second .info-states .likes").html(likes + '<i class="fa fa-heart"></i>');
+                    seenby = "Seen: " + data['results'][1]['seenby'].length.toString();
+                    $("#info-second .info-states .seen").html(seenby + '<i class="fa fa-eye"></i>');
+
+                    perc = data['results'][2]['like_percentage'];
+                    strperc = '%'+ (Math.round(perc*100)/100).toString();
+                    $("#info-third h4").html(strperc);
+                    username = data['results'][2]['username'];
+                    $(".right h3").html(username);
+                    photoItself = data['results'][2]['photoItself'];
+                    $("#info-third .modal-body img").attr("src",photoItself);
+                    data['results'][2]['photoItself'];
+                    likes = "Likes: " + data['results'][2]['likes'].length.toString();
+                    $("#info-third .info-states .likes").html(likes + '<i class="fa fa-heart"></i>');
+                    seenby = "Seen: " + data['results'][2]['seenby'].length.toString();
+                    $("#info-third .info-states .seen").html(seenby + '<i class="fa fa-eye"></i>');
+
+            },
+            error: function(data){
+            console.log(data);
+            }
+        });
+    });
+    </script>
 
   
 {% endblock %}
