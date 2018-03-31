@@ -45,7 +45,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="thumb-img-holder">
-                        <img src="" width="150" height="150">
+                        <a><img src="" width="150" height="150">></a>
                     </div>
 
                     <div class="info-states">
@@ -125,6 +125,7 @@
                     $("#info-" + (j) + " h4").html(strperc);
                     photoItself = data['results'][j-1]['photoItself'];
                     $("#info-" + (j) + " .modal-body img").attr("src",photoItself);
+                    $("#info-" + (j) + " .modal-body a").attr("href",photoItself);
                     likes = "Likes: " + data['results'][j-1]['likes'].length.toString();
                     $("#info-" + (j) + " .info-states .likes").html(likes + '<i class="fa fa-heart"></i>');
                     seenby = "Seen: " + data['results'][j-1]['seenby'].length.toString();
