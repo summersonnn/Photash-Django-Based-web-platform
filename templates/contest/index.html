@@ -24,7 +24,7 @@
             </div>
             </div>
             <hr>
-            <div id="1" class="row contest-list-item">
+            <div id="1" class="row contest-list-item" style="visibility: hidden">
 
                     <div class="col-lg-3">
                         <div class="contest-img-wrap">
@@ -83,10 +83,11 @@
                 {% if ongoing %}'ongoing': {{ ongoing }}, {% endif %}
                 {% if finished %}'finished': {{ finished }}, {% endif %}
                 {% if upcoming %}'upcoming': {{ upcoming }}, {% endif %}
-                    //Since there is one contest already created in the HTML, even if there is no contest, the div will be created (with no content)
            },
            dataType: 'JSON',
            success: function(result){
+               if (result['count'] > 0 )
+                $("#1").css({'visibility': 'visible'});
 
                for(var i=2; i<=result['count']; i++){
                    var clonedDiv = $( "#1" ).clone().appendTo( "#indexcontainer" );
