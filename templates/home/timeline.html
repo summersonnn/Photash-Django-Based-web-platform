@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Rankings{% endblock %}
+
+{% block body %}
+    <div class="container" style="margin-top: 100px; text-align:center;">
+
+        <div class="containerHome" style="text-align:center;">
+            <div class="row timeline-news-item">
+
+                <!--This div will be used for icon and contest name-->
+                <div class="row" style="padding:0% 3%;">
+                    <a>There will be icon and contest name here</a>
+                </div>
+                <br>
+                <!--This  div will be used for text-->
+                <div class="row" style="padding:0% 3%;">
+                    <a>There will be text here</a>
+                </div>
+                <!--This  div will be used for image-->
+                <div class="row" style="padding:0% 3%;">
+                    <img src="{% static 'images/mainBg.jpeg' %}" style="height: 100%; width: 100%; object-fit:contain">
+                </div>
+            </div>
+            <hr>
+            <div class="row timeline-news-item">
+
+                <!--This div will be used for icon and contest name-->
+                <div class="row" style="padding:0% 3%;">
+                    <a>dwfedgersgh</a>
+                </div>
+                <br>
+                <!--This  div will be used for text-->
+                <div class="row" style="padding:0% 3%;">
+                    <a>dwfedgersgh</a>
+                </div>
+                <!--This  div will be used for image-->
+                <div class="row" style="padding:0% 3%;">
+                    <img src="{% static 'images/mainBg.jpeg' %}" style="height: 100%; width: 100%; object-fit:contain">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

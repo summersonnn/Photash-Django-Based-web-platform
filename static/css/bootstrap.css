@@ -633,11 +633,14 @@ pre code {
 }
 
 .container {
-  width: 70%;
+  width: 100%;
   padding-right: 10px;
   padding-left:  10px;
   margin-right: auto;
   margin-left: auto;
+}
+.container div {
+  display: inline-block;
 }
 
 @media (min-width: 576px) {
@@ -663,6 +666,37 @@ pre code {
     max-width: 1278px;
   }
 }
+/*------------Container for home page (smaller container)*/
+.containerHome {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: #e2e2e2; !important;
+}
+
+@media (min-width: 576px) {
+  .containerHome {
+    max-width: 270px;
+  }
+}
+
+@media (min-width: 768px) {
+  .containerHome {
+    max-width: 360px;
+  }
+}
+
+@media (min-width: 992px) {
+  .containerHome {
+    max-width: 480px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .containerHome {
+    max-width: 639px;
+  }
+}
 
 
 .container-fluid {
@@ -677,9 +711,7 @@ pre code {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
+  flex-wrap: wrap;
 }
 
 .no-gutters {
