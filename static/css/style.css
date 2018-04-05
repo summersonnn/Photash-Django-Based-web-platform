@@ -1108,52 +1108,10 @@ button {
   }
 }
 
-/* @media all and (max-width: 992px) {
-  #contest-list-result .search-form-wrap>.search-form>input.form-control {
-    width: 77%;
-  }
-
-  .search-form-wrap {
-    margin-top: 20px;
-  }
-
-  .contest-list-item .contest-detail-wrap p,
-  .contest-list-item .contest-item-icon {
-    font-size: 12px;
-  }
-
-  .contest-list-item .contest-detail-wrap button {
-    padding: 3px 10px;
-    font-size: 12px;
-  }
-
-  .contest-list-item .contest-prize-wrap p {
-    font-size: 18px;
-    margin: 12px 0;
-  }
-} */
-
-/* @media all and (max-width: 890px) {
-  .contest-list-item .contest-date-wrap p {
-    font-size: 11px;
-  }
+.timeline-news-item {
+  padding: 2% 0%;
+  margin-bottom: 15px;
 }
-
-@media all and (max-width: 872px) {
-  .contest-list-item .contest-item-icon {
-    font-size: 11px;
-  }
-}
-
-@media all and (max-width: 824px) {
-  .search-form-wrap .search-form {
-    text-align: center;
-  }
-
-  #contest-list-result .search-form-wrap>.search-form>input.btn {
-    margin-top: 10px;
-  }
-} */
 
 /* -------------------------------- 
   Contests-Detail Page
@@ -1586,6 +1544,22 @@ header h1 {
   position: relative;
   padding: 0;
   width: 100%;
+}
+
+.inner {
+  padding: 50px 0;
+}
+
+.inner-more {
+  padding: 120px 0;
+}
+
+.inner-top-sec {
+  padding: 120px 0 120px 0;
+}
+
+section.grey {
+  background-color: #eeeeee;
 }
 
 .section-title {

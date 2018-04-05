@@ -25,7 +25,7 @@ def login_view(request):
         else:
             login(request, user)
         username = User.objects.get(username=request.user)
-        url = reverse('user:detail_profile', kwargs={'username': username})
+        url = reverse('home')
         return HttpResponseRedirect(url)
     return render(request, 'accounts/form.html', {'form': form, 'title': 'Login'})
 

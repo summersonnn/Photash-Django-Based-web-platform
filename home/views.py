@@ -13,38 +13,41 @@ from django.dispatch.dispatcher import receiver
 from django.contrib.auth.models import Permission
 
 def home_view(request):
-    count = Contest.objects.count()
-    if count > 0:
-        random_index = randint(0,count-1)
-        random_contest = Contest.objects.all()[random_index]
+
+    if not request.user.is_authenticated:
+        count = Contest.objects.count()
+        if count > 0:
+            random_index = randint(0,count-1)
+            random_contest = Contest.objects.all()[random_index]
+        else:
+            random_contest = None
+
+        form = RegisterForm(data=request.POST or None)
+        if form.is_valid():
+            user = form.save(commit=False)
+            password = form.cleaned_data.get('password1')
+            user.set_password(password)
+            user.save()
+            # mail verification
+            token = account_activation_token.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk)).decode()
+            send_mail(
+                'Please confirm your photash account',
+                'Click the link belox \n http://127.0.0.1:8000/user/activate/{}/{}'.format(uid, token),
+                'photashtest@gmail.com',
+                [user.email, ],
+                fail_silently=False,
+            )
+            new_user = authenticate(username=user.username, password=password)
+            login(request, new_user)
+
+        context={
+            'form': form,
+            'random_contest': random_contest
+        }
+        return render(request, 'home/home.html', context)
     else:
-        random_contest = None
-
-    form = RegisterForm(data=request.POST or None)
-    if form.is_valid():
-        user = form.save(commit=False)
-        password = form.cleaned_data.get('password1')
-        user.set_password(password)
-        user.save()
-        # mail verification
-        token = account_activation_token.make_token(user)
-        uid = urlsafe_base64_encode(force_bytes(user.pk)).decode()
-        send_mail(
-            'Please confirm your photash account',
-            'Click the link belox \n http://127.0.0.1:8000/user/activate/{}/{}'.format(uid, token),
-            'altunerism@gmail.com',
-            [user.email, ],
-            fail_silently=False,
-        )
-        new_user = authenticate(username=user.username, password=password)
-        login(request, new_user)
-        return redirect('home')
-
-    context={
-        'form': form,
-        'random_contest': random_contest
-    }
-    return render(request, 'home/home.html', context)
+        return render(request, 'home/timeline.html')
 
 def catalogue_view(request):
     return render(request, 'home/catalogue.html')

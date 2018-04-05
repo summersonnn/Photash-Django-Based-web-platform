@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Rankings{% endblock %}
+
+{% block css %}
+      <link rel="stylesheet" type="text/css" href="{% static 'css/timeline_style.css' %}"/>
+{% endblock %}
+
+{% block body %}
+    
+    <section class="grey">
+        <div class="inner-top-sec">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-xl-3 col-md-5 sidebar-left">
+                         <div class="post-popular-sidebar-wrap">
+                            <div class="sidebar-title-wrap">
+                                <h3>Most Popular Contests</h3>
+                            </div>
+
+                            <div class="post-item">
+                                <div class="contest-meta">
+                                    <div class="contest-icon-holder">
+                                        <img src="{% static 'images/home-images/1.jpg' %}" />
+                                    </div>
+                                    <div class="contest-text">
+                                        <h4>Contest Name</h4>
+                                        <ul class="tags-list">
+                                            <li>#got</li>
+                                            <li>#popular</li>
+                                            <li>#random</li>
+                                            <li>#good</li>
+                                            <li>#justcheck</li>
+                                        </ul>
+                                        <a href="#" class="contest-link">Enter Now</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                             <div class="post-item">
+                                <div class="contest-meta">
+                                    <div class="contest-icon-holder">
+                                        <img src="{% static 'images/home-images/9.jpg' %}" />
+                                    </div>
+                                    <div class="contest-text">
+                                        <h4>Contest Name</h4>
+                                        <ul class="tags-list">
+                                            <li>#nature</li>
+                                            <li>#popular</li>
+                                            <li>#random</li>
+                                        </ul>
+                                        <a href="#" class="contest-link">Enter Now</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="post-item">
+                                <div class="contest-meta">
+                                    <div class="contest-icon-holder">
+                                        <img src="{% static 'images/home-images/8.jpg' %}" />
+                                    </div>
+                                    <div class="contest-text">
+                                        <h4>Contest Name</h4>
+                                        <ul class="tags-list">
+                                            <li>#got</li>
+                                            <li>#popular</li>
+                                            <li>#good</li>
+                                            <li>#justcheck</li>
+                                        </ul>
+                                        <a href="#" class="contest-link">Enter Now</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="post-item">
+                                <div class="contest-meta">
+                                    <div class="contest-icon-holder">
+                                        <img src="{% static 'images/home-images/3.jpg' %}" />
+                                    </div>
+                                    <div class="contest-text">
+                                        <h4>Contest Name</h4>
+                                        <ul class="tags-list">
+                                            <li>#nature</li>
+                                            <li>#popular</li>
+                                            <li>#random</li>
+                                        </ul>
+                                        <a href="#" class="contest-link">Enter Now</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-md-7 col-sm-12">
+                        <div class="post-main-wrap">
+                            <div class="post-item">
+                                <div class="contest-meta">
+                                    <div class="contest-icon-holder">
+                                        <img src="{% static 'images/home-images/1.jpg' %}" />
+                                    </div>
+                                    <div class="contest-text">
+                                        <h4>Contest Name</h4>
+                                        <p>2 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="contest-body">
+                                    <div class="contest-short-description">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident</p>
+                                    </div>
+                                    <div class="contest-image-holder">
+                                        <img src="{% static 'images/home-images/2.jpg' %}" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="post-item">
+                                <div class="contest-meta">
+                                    <div class="contest-icon-holder">
+                                        <img src="{% static 'images/home-images/4.jpg' %}" />
+                                    </div>
+                                    <div class="contest-text">
+                                        <h4>Contest Name 2</h4>
+                                        <p>10 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="contest-body">
+                                    <div class="contest-short-description">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi Excepteur sint occaecat cupidatat non proident</p>
+                                    </div>
+                                    <div class="contest-image-holder">
+                                        <img src="{% static 'images/home-images/9.jpg' %}" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3 sidebar-right">
+                         <div class="post-suggested-sidebar-wrap">
+                            <div class="sidebar-title-wrap">
+                                <h3>Suggested Contests</h3>
+                            </div>
+
+                            <div class="post-item">
+                                <div class="contest-meta">
+                                    <div class="contest-icon-holder">
+                                        <img src="{% static 'images/home-images/1.jpg' %}" />
+                                    </div>
+                                    <div class="contest-text">
+                                        <h4>Contest Name</h4>
+                                        <p>10 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="contest-body">
+                                    <div class="contest-shorter-description">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                    </div>
+                                     <a href="#" class="contest-link">Enter Now</a>
+                                </div>
+                            </div>
+
+                            <div class="post-item">
+                                <div class="contest-meta">
+                                    <div class="contest-icon-holder">
+                                        <img src="{% static 'images/home-images/2.jpg' %}" />
+                                    </div>
+                                    <div class="contest-text">
+                                        <h4>Contest Name Any</h4>
+                                        <p>2 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="contest-body">
+                                    <div class="contest-shorter-description">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.,
+                                        tempor incididunt ut labore et dolore magna aliqua.</p>
+                                    </div>
+                                     <a href="#" class="contest-link">Enter Now</a>
+                                </div>
+                            </div>
+
+                            <div class="post-item">
+                                <div class="contest-meta">
+                                    <div class="contest-icon-holder">
+                                        <img src="{% static 'images/home-images/3.jpg' %}" />
+                                    </div>
+                                    <div class="contest-text">
+                                        <h4>Contest Name</h4>
+                                        <p>10 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="contest-body">
+                                    <div class="contest-shorter-description">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+                                    </div>
+                                     <a href="#" class="contest-link">Enter Now</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+{% endblock %}
