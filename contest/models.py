@@ -14,7 +14,7 @@ class Tag(models.Model):
     adden_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     popular_at = models.CharField(max_length=280) # location it is most popular at, for feature business stuff.
-    slug = models.SlugField()
+    slug = models.SlugField(default="smth")
 
     class Meta:
         ordering = ('-id', )

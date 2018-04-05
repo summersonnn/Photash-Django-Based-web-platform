@@ -639,9 +639,6 @@ pre code {
   margin-right: auto;
   margin-left: auto;
 }
-.container div {
-  display: inline-block;
-}
 
 @media (min-width: 576px) {
   .container {

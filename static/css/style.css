@@ -1546,6 +1546,22 @@ header h1 {
   width: 100%;
 }
 
+.inner {
+  padding: 50px 0;
+}
+
+.inner-more {
+  padding: 120px 0;
+}
+
+.inner-top-sec {
+  padding: 120px 0 120px 0;
+}
+
+section.grey {
+  background-color: #eeeeee;
+}
+
 .section-title {
   position: relative;
 }

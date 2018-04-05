@@ -1,0 +1,140 @@
+
+/* ------------------------------------------
+	Timeline CSS
+--------------------------------------------*/
+
+/*---------------- Main Items (center)  ------------------*/
+
+.post-item {
+	background-color: #fff;
+	padding: 20px;
+}
+
+.post-item:not(:last-child) {
+	margin-bottom: 10px;
+}
+
+.contest-icon-holder {
+	display: inline-block;
+	float: left;
+}
+
+.contest-icon-holder>img{
+	object-fit: cover;
+	width: 55px;
+	height: 55px;
+	border-radius: 50px;
+}
+
+.contest-meta>.contest-text {
+	padding: 9px 0px;
+	margin-left: 15px;
+	display: inline-block;
+}
+
+.contest-meta>.contest-text>h4 {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.contest-meta>.contest-text>p {
+	margin: 0;
+	font-size: 12px;
+	color: #a2a2a2;
+}
+
+.post-item>.contest-body>.contest-short-description,
+.post-item>.contest-body>.contest-shorter-description {
+	padding: 15px 0;
+}
+
+.post-item>.contest-body>.contest-short-description>p,
+.post-item>.contest-body>.contest-shorter-description>p {
+	font-size: 14px;
+	color: #7f7f7f;
+	margin: 0;
+}
+
+.post-item>.contest-body>.contest-image-holder>img {
+	min-width: 100%;
+	max-width: 100%;
+}
+
+
+/*---------------- Popular Contests (left)  ------------------*/
+
+.sidebar-title-wrap {
+	border-bottom: 2px solid #e5bb30;
+	margin-bottom: 20px;
+}
+
+.sidebar-title-wrap>h3 {
+	font-weight: 600;
+	font-size: 15px;
+	color: #e5bb30;
+}
+
+.post-popular-sidebar-wrap,
+.post-suggested-sidebar-wrap {
+	padding: 15px;
+	background-color: #fff;
+}
+
+.post-popular-sidebar-wrap>.post-item,
+.post-suggested-sidebar-wrap>.post-item {
+	padding: 0;
+	background-color: transparent;
+}
+
+.post-popular-sidebar-wrap>.post-item:not(:last-child),
+.post-suggested-sidebar-wrap>.post-item:not(:last-child) {
+	border-bottom: 1px solid #dedede;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+}
+
+.post-popular-sidebar-wrap>.post-item .contest-icon-holder>img,
+.post-suggested-sidebar-wrap>.post-item .contest-icon-holder>img {
+	width: 40px;
+	height: 40px;
+}
+
+.post-item .tags-list {
+	list-style: none;
+	padding: 0;
+	margin: 0 0 3px 0;
+}
+
+.post-item .tags-list>li {
+	display: inline-block;
+	font-size: 12px;
+	color: #a2a2a2;
+}
+
+.post-popular-sidebar-wrap>.post-item .contest-meta>.contest-text,
+.post-suggested-sidebar-wrap>.post-item .contest-meta>.contest-text {
+	max-width: 170px;
+	padding: 0;
+	line-height: 15px;
+}
+
+.post-popular-sidebar-wrap>.post-item .contest-meta>.contest-text>h4 {
+	font-size: 14px;
+	margin-bottom: 3px;
+}
+
+.post-item .contest-link {
+	font-size: 12px;
+	font-weight: 700;
+	color: #e5bb30;
+}
+
+
+/*---------------- Suggested Contests (left)  ------------------*/
+
+.post-item>.contest-body>.contest-shorter-description>p {
+	font-size: 12px;
+	max-height: 85px;
+	overflow: hidden;
+}
