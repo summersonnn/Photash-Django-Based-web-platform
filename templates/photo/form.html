@@ -3,6 +3,10 @@
 
 {% block title %} Photo upload {% endblock %}
 
+{% block first_scripts %}
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+{% endblock %}
+
 {% block body %}
 
     <div class="container">
@@ -12,7 +16,7 @@
                     {% csrf_token %}
                     <h3>Choose your photo.</h3>
                     {{ form|crispy }} <!--altı çizi olması pycharm kaynaklı-->
-                      <div class="form-check">
+                    <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="exampleCheck1" name="show">
                         <label class="form-check-label" for="exampleCheck1">I want this photo to be shown on my profile.</label>
                     </div>

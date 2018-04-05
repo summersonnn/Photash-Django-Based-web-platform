@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'reportedPhotos',
     #3. parti uygulamalar
     'crispy_forms',
-    'captcha',
+    'snowpenguin.django.recaptcha2',
     'bootstrap3',
     'rest_framework',
     'allauth',
@@ -170,8 +170,8 @@ STAR_RATINGS_RANGE = 10
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-RECAPTCHA_PUBLIC_KEY  = '6LcPxzwUAAAAAP1Oz-VlEtxrBaUAo8J9NsVmyHFZ'
-RECAPTCHA_PRIVATE_KEY = '6LcPxzwUAAAAANQU8KLT5z4xfoR5kzrTAXSf85pY'
+RECAPTCHA_PUBLIC_KEY  = '6LfzKVEUAAAAAB4E8diF-ZWKheEW2HEJ8MTOB6n7'
+RECAPTCHA_PRIVATE_KEY = '6LfzKVEUAAAAADnsmnFoz6NQ7yY-b8R8dxEedmUe'
 
 # şirket maili aldıktan sonra değiştirilecek, şimdilik kendi mailimi yazdım.
 EMAIL_USE_TLS = True
