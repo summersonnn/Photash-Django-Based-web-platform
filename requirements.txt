@@ -64,3 +64,4 @@ Werkzeug==0.12.2
 WTForms==2.1
 django_rest_framework
 django-allauth
+django-recaptcha2
