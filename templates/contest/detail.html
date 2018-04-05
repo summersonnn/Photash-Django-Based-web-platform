@@ -87,7 +87,7 @@
                                   <input class="btn btn-fill" type="submit" value="Photopool">
                               </form>
                               <form action='{% url 'contest:rankings' slug=contest.slug %}'>
-                                  <input class="btn btn-fill" type="submit" value="Rankings">
+                                  <input id ="rankings" class="btn btn-fill" type="submit" value="Rankings" data-toggle="tooltip" title="Rankings will be visible after the contest ends">
                               </form>
                       </div>
                       <div class="contest-tags-wrap">
@@ -126,13 +126,16 @@
 <script>
 
     $(document).ready( function(){
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $('#rankings').on("click",function(e){
+            e.preventDefault();
+        });
+
         $.ajax({
             url: '{% url 'contest_api:detail' slug=contest.slug %}',
             type: 'get',
             success: function(value){
-                console.log(value);
-                console.log(value["contest_name"]);
-
                 $(".cname").text(value["contest_name"]);
 
                 var tagAsStr = '';
