@@ -87,7 +87,7 @@
                                   <input class="btn btn-fill" type="submit" value="Photopool">
                               </form>
                               <form action='{% url 'contest:rankings' slug=contest.slug %}'>
-                                  <input id ="rankings" class="btn btn-fill" type="submit" value="Rankings" data-toggle="tooltip" title="Rankings will be visible after the contest ends">
+                                  <input id="rankings" class="btn btn-fill" type="submit" value="Rankings" data-toggle="tooltip" title="Rankings will be visible after the contest ends">
                               </form>
                       </div>
                       <div class="contest-tags-wrap">
@@ -126,11 +126,8 @@
 <script>
 
     $(document).ready( function(){
-        $('[data-toggle="tooltip"]').tooltip();
-
-        $('#rankings').on("click",function(e){
-            e.preventDefault();
-        });
+        $("#rankings").attr("disabled", "true");
+        //$('[data-toggle="tooltip"]').tooltip(); Tooltip does not work on disabled elements, find a way to make it work then uncomment.
 
         $.ajax({
             url: '{% url 'contest_api:detail' slug=contest.slug %}',
