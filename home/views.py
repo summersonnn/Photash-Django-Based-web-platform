@@ -34,13 +34,12 @@ def home_view(request):
             send_mail(
                 'Please confirm your photash account',
                 'Click the link belox \n http://127.0.0.1:8000/user/activate/{}/{}'.format(uid, token),
-                'altunerism@gmail.com',
+                'photashtest@gmail.com',
                 [user.email, ],
                 fail_silently=False,
             )
             new_user = authenticate(username=user.username, password=password)
             login(request, new_user)
-            return redirect('home')
 
         context={
             'form': form,
