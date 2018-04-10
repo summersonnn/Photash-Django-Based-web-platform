@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+ADMINS = [('Kubilay', 'kyazogluu@gmail.com')]
+
 
 # Application definition
 
@@ -176,8 +178,8 @@ RECAPTCHA_PRIVATE_KEY = '6LfzKVEUAAAAADnsmnFoz6NQ7yY-b8R8dxEedmUe'
 # şirket maili aldıktan sonra değiştirilecek, şimdilik kendi mailimi yazdım.
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = '' # yourmail
-EMAIL_HOST_PASSWORD = '' # yourpassword
+EMAIL_HOST_USER = 'photashtest@gmail.com' # yourmail
+EMAIL_HOST_PASSWORD = 'premium111' # yourpassword
 EMAIL_PORT = 587
 
 REST_FRAMEWORK = {
@@ -215,4 +217,5 @@ COMMON_URLS = (
     r'^api/photo/(?P<slug>[\w-]+)/index$',
 
 )
+
 
