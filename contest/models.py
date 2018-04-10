@@ -97,7 +97,12 @@ class Contender(models.Model):
         if penalty_points[1] > MAX_ALLOWED_AVG_PEN_POINTS:
             honest_voting_criteria = False
             message = "Username: " + str(self.user) + '\n' + "Contest: " + str(self.contest) + '\n' + "Penalty Point: " + str(penalty_points[1]) + '\n' + "Average Penalty Points(Per voted photos): " + str(penalty_points[0]) + '\n'
-            mail_admins(subject="Penalty Point limit exceeded", message=message, fail_silently=False, connection=None, html_message=None)
+            mail_admins(
+                subject="Penalty Point limit exceeded",
+                message=message,
+                fail_silently=False,
+                connection=None,
+                html_message=None)
 
         if seen_count_criteria and honest_voting_criteria:
             return True
