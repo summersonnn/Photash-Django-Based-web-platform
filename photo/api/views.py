@@ -11,6 +11,7 @@ from contest.models import Contest
 from django.shortcuts import get_object_or_404
 from user.models import Profile
 from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.models import Permission
 
 class PhotoListAPIView(ListAPIView):
     serializer_class = PhotoSerializer
