@@ -10,7 +10,14 @@ class ProfileAdmin(admin.ModelAdmin):
     class Meta:
         model = Profile
 
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ['user', 'msg', 'date']
+    list_display_links = ['msg']
+
+    class Meta:
+        model = Notification
+
 
 admin.site.register(Profile, ProfileAdmin)
-admin.site.register(Notification)
+admin.site.register(Notification, NotificationAdmin)
 

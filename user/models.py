@@ -8,6 +8,7 @@ from django.db.models import Sum
 from reportedPhotos.models import ReportedPhotos
 from photo.models import Photo
 from contest.models import Tag
+from django.contrib.auth.models import Permission
 
 
 class Profile(models.Model):
@@ -76,3 +77,21 @@ class Notification(models.Model):
 
     def __str__(self):
         return self.msg
+
+@receiver(post_save, sender=User)
+def add_default_permissions(sender, **kwargs):
+    permission1 = Permission.objects.get(name='Can add new photos?')
+    permission2 = Permission.objects.get(name='Can vote photos?')
+    user = kwargs["instance"]
+    if kwargs["created"]:
+        user.user_permissions.add(permission1)
+        user.user_permissions.add(permission2)
+
+@receiver(post_save, sender=User)
+def create_welcoming_notification(sender, instance, created, **kwargs):
+    if created:
+        welcome = Notification(user = instance, msg="Thank you for joining Photash " + str(instance) + '!')
+        welcome.save()
+
+
+
