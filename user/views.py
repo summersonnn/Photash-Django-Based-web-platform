@@ -28,16 +28,8 @@ def login_view(request):
             login(request, user)
         username = User.objects.get(username=request.user)
         url = reverse('home')
-        callforIP(request)
         return HttpResponseRedirect(url)
     return render(request, 'accounts/form.html', {'form': form, 'title': 'Login'})
-
-def callforIP(request):
-    client = geoip2.webservice.Client(132292, '9uNrE6xTWGHX')
-    response = client.country('176.240.19.15')
-    print(response.country.iso_code)
-    print(socket.gethostbyname(socket.gethostname()))
-    return None
 
 
 '''def register_view(request):
