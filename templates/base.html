@@ -23,11 +23,16 @@
 </head>
 <body>
 
-{% if user.profile.languagePreference == "en" %}
+{% if not user.is_authenticated %}
     {% include 'header.html' %}
 {% endif %}
-{% if user.profile.languagePreference != "en" %}
-    {% include 'header-tr.html' %}
+{% if user.is_authenticated %}
+    {% if user.profile.languagePreference == "en" %}
+        {% include 'header.html' %}
+    {% endif %}
+    {% if user.profile.languagePreference != "en" %}
+        {% include 'header-tr.html' %}
+    {% endif %}
 {% endif %}
 
 {% include 'messages.html' %}

@@ -26,8 +26,12 @@ def login_view(request):
             login(request, user)
         username = User.objects.get(username=request.user)
         url = reverse('home')
+        nothing = callforIP(request)
         return HttpResponseRedirect(url)
     return render(request, 'accounts/form.html', {'form': form, 'title': 'Login'})
+
+def callforIP(request):
+    return None
 
 
 '''def register_view(request):
