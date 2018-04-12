@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} Photo upload {% endblock %}
+
+{% block first_scripts %}
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="inner-more">
+            <div class="col-sm-6 offset-3">
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h3>Fotoğraf Seç.</h3>
+                    {{ form|crispy }} <!--altı çizi olması pycharm kaynaklı-->
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="show">
+                        <label class="form-check-label" for="exampleCheck1">Bu fotoğrafın profilimde görünmesini istiyorum</label>
+                    </div>
+
+                    <input class="btn btn-primary" type="submit" value="Yükle">
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+

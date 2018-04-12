@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Rankings{% endblock %}
+  {% block css %}
+      <link rel="stylesheet" type="text/css" href="{% static 'css/ranking_style.css' %}"/>
+  {% endblock %}
+
+{% block body %}
+   
+    <section class="podium-section">
+        <div class="inner">
+            <div class="container">
+                <div class="podium-wrap">
+                    <div class="podium left">
+                        <h3>Name Second</h3>
+                        <p>2</p>
+                        <a href="" class="pod-more-btn" data-toggle="modal" data-target="#info-2">İstatistikler</a>
+                    </div><!--
+                 --><div class="podium center">
+                        <img src="{% static 'images/ranking-images/trophy.png' %}">
+                        <h3>Name First</h3>
+                        <p>1</p>
+                        <a href="" class="pod-more-btn" data-toggle="modal" data-target="#info-1">İstatistikler</a>
+                    </div><!--
+                 --><div class="podium right">
+                        <h3>Name Third</h3>
+                        <p>3</p>
+                        <a href="" class="pod-more-btn" data-toggle="modal" data-target="#info-3">İstatistikler</a>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </section>
+
+     <!-- Pop Up Modal -->
+    <div class="modal fade more-info-pop" id="info-1" role="dialog">
+        <div class="modal-dialog">
+        <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="winning-percent"><i></i></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="thumb-img-holder">
+                        <a><img src="" width="150" height="150">></a>
+                    </div>
+
+                    <div class="info-states">
+                        <p class="likes"></p>
+                        <p class="seen"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--List Section-->
+    <section class="winner-table-section">
+        <div class="inner">
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="table table-striped winners-table">
+                        <tbody>
+                            <tr id="4">
+                                <td class="no">4</td>
+                                <td class="winning-percent">%44.<i>56</i></td>
+                                <td class="user-name-td">Summerson</td>
+                                <td><button class="pop-more-btn" data-toggle="modal" data-target="#info-4">İstatisikler</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+    $(document).ready(function(){
+        var url = "{% url 'contest_api:rankings' slug=contest.slug %}";
+        $.ajax({
+            url: url,
+            type: 'get',
+            success: function(data){
+                var objectCount = data['results'].length;
+
+                //Placing basic info of podium elements
+                for(var y=0; y<=2; y++){
+                    username = data['results'][y]['username'];
+                    if (y===0)
+                        $(".center h3").html(username);
+                    else if(y===1)
+                        $(".left h3").html(username);
+                    else if(y===2)
+                        $(".right h3").html(username);
+                }
+
+                //Creating more list items and placing basic info of list items
+                for(var i=4; i<=objectCount; i++){
+                    if(i!==4){
+                        var clonedListElement = $( ".table-striped tbody #4" ).clone().appendTo( ".table-striped tbody" );
+                        clonedListElement.attr("id", i);
+                        $( ".table-striped tbody #" + i + ' .pop-more-btn').attr("data-target","#info-" + i);
+                    }
+
+                    perc = data['results'][i-1]['like_percentage'];
+                    strperc = '%'+ (Math.round(perc*100)/100).toString();
+                    $(".table-striped tbody #"+(i) +' .winning-percent').html(strperc);
+                    username = data['results'][i-1]['username'];
+                    $(".table-striped tbody #"+(i) +" .user-name-td").html(username);
+                    $(".table-striped tbody #"+(i) +" .no").html(i);
+                }
+
+                //Creating more modal boxes and placing modalbox info of all (podium+list) elements
+                for(var j=1; j<=objectCount; j++){
+                    if(j!==1){
+                        var clonedModalBox = $( "#info-1" ).clone().appendTo( "body" );
+                        clonedModalBox.attr("id", "info-" + (j));
+                    }
+
+                    perc = data['results'][j-1]['like_percentage'];
+                    strperc = '%'+ (Math.round(perc*100)/100).toString();
+                    $("#info-" + (j) + " h4").html(strperc);
+                    photoItself = data['results'][j-1]['photoItself'];
+                    $("#info-" + (j) + " .modal-body img").attr("src",photoItself);
+                    $("#info-" + (j) + " .modal-body a").attr("href",photoItself);
+                    likes = "Beğeniler: " + data['results'][j-1]['likes'].length.toString();
+                    $("#info-" + (j) + " .info-states .likes").html(likes + '<i class="fa fa-heart"></i>');
+                    seenby = "Görülmeler: " + data['results'][j-1]['seenby'].length.toString();
+                    $("#info-" + (j) + " .info-states .seen").html(seenby + '<i class="fa fa-eye"></i>');
+                }
+
+
+            },
+            error: function(data){
+            console.log(data);
+            }
+        });
+    });
+    </script>
+
+  
+{% endblock %}

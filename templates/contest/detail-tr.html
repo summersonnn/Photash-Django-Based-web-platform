@@ -21,19 +21,19 @@
                       <table class="table table-hover">
                           <tbody>
                               <tr>
-                                  <th>Contest Name</th>
+                                  <th>Yarışma İsmi</th>
                                       <td id="cname">value["contest_name"]</td>
                               </tr>
                               <tr>
-                                  <th>Start Date</th>
+                                  <th>Başlangıç Tarihi</th>
                                       <td class="contest-start-date"> contestStartDate </td>
                               </tr>
                               <tr>
-                                  <th>End Date</th>
+                                  <th>Bitiş Tarihi</th>
                                       <td class="contest-end-date">contestEndtDate</td>
                               </tr>
                               <tr>
-                                  <th>Price Distribution</th>
+                                  <th>Ödül Dağılımı</th>
                                       <td>
                                           <button id="prize-open-btn" class="btn-txt-only"><i class="fa fa-chevron-down"></i></button>
                                               <ul class="prize-list">
@@ -45,7 +45,7 @@
                                       </td>
                               </tr>
                               <tr class="tr-btn-wrap">
-                                  <th>Details</th>
+                                  <th>Ayrıntılar</th>
                                       <td><button id="mini-detail-open-btn" class="btn-txt-only"><i class="fa fa-chevron-down"></i></button></td>
                               </tr>
 
@@ -55,15 +55,15 @@
                           <table class="table table-mini-details">
                               <tbody>
                                   <tr>
-                                      <th>Minimum number of photos you must see</th>
+                                      <th>Görmeniz gereken minimum fotoğraf sayısı</th>
                                           <td id="min-must-votes">value["min_must_votes"]</td>
                                   </tr>
                                   <tr>
-                                      <th>Number of photos in the photopool</th>
+                                      <th>Havuzdaki fotoğraf sayısı</th>
                                           <td id="how-many-photos"></td>
                                   </tr>
                                   <tr>
-                                      <th>Maximum number of photos you can upload</th>
+                                      <th>Yükleyebileceğiniz maksimum fotoğraf sayısı</th>
                                           <td id="max-photos">value["max_photos_per_Reguser"]</td>
                                   </tr>
                               </tbody>
@@ -72,21 +72,21 @@
                       <div class="button-wrap">
                           {% if request.user.is_authenticated %}
                               <form action='{% url 'contest:photo_upload' slug=contest.slug %}'>
-                                  <input class="btn btn-fill" type="submit" value="Send Photo">
+                                  <input class="btn btn-fill" type="submit" value="Yükle">
                               </form>
                           {% endif %}
                               <form action='{% url 'contest:photopool' slug=contest.slug %}'>
-                                  <input class="btn btn-fill" type="submit" value="Photopool">
+                                  <input class="btn btn-fill" type="submit" value="Havuz">
                               </form>
                               <form action='{% url 'contest:rankings' slug=contest.slug %}'>
-                                  <input id="rankings" class="btn btn-fill" type="submit" value="Rankings" data-toggle="tooltip" title="Rankings will be visible after the contest ends">
+                                  <input id="rankings" class="btn btn-fill" type="submit" value="Sıralamalar" data-toggle="tooltip" title="Rankings will be visible after the contest ends">
                               </form>
                       </div>
                       <div class="contest-tags-wrap">
                           <div class="tags-wrap"></div>
                               <button class="btn-txt-only"><i class="fa fa-chevron-down"></i></button>
                                   <form class="form-report" onclick="report('{{ contest.id }}')">
-                                      <input class="btn-report" type="submit" value="Report">
+                                      <input class="btn-report" type="submit" value="Rapor et">
                                   </form>
                       </div>
                   </div>
@@ -99,7 +99,7 @@
 <section style="margin-bottom: 50px;" class="examples">
     <div class="container">
         <div class="examples-top">
-            <h3>Random Photos from Photopool</h3>
+            <h3>Havuzdan Rastgele Fotoğraflar</h3>
         </div>
         <div class="examples-content">
             <div class="row">

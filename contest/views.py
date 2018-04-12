@@ -16,11 +16,26 @@ def contest_index(request):
         context['finished'] = request.GET['finished']
     if request.GET.get('upcoming'):
         context['upcoming'] = request.GET['upcoming']
+
+    if request.user.is_authenticated:
+        if request.user.profile.languagePreference == "en":
+            return render(request, "contest/index.html", context)
+        else:
+            return render(request, "contest/index-tr.html", context)
     return render(request, "contest/index.html", context)
 
 
+
 def contest_detail(request, slug):
-    return render(request, "contest/detail.html", context={'contest': Contest.objects.get(slug=slug)})
+    context = {'contest': Contest.objects.get(slug=slug)}
+
+    if request.user.is_authenticated:
+        if request.user.profile.languagePreference == "en":
+            return render(request, "contest/detail.html", context)
+        else:
+            return render(request, "contest/detail-tr.html", context)
+    return render(request, "contest/detail.html", context)
+
 
 @permission_required('photo.ekle_photo')
 def photo_upload(request, slug):
@@ -68,6 +83,11 @@ def photo_upload(request, slug):
             'form': form,
         }
 
+        if request.user.is_authenticated:
+            if request.user.profile.languagePreference == "en":
+                return render(request, 'photo/form.html', context)
+            else:
+                return render(request, 'photo/form-tr.html', context)
         return render(request, 'photo/form.html', context)
 
 def contest_photopool(request, slug):
@@ -79,8 +99,12 @@ def contest_photopool(request, slug):
         if int(query) in [photo.id for photo in Photo.objects.filter(contest=contest)]:
             context['query'] = query
 
+    if request.user.is_authenticated:
+        if request.user.profile.languagePreference == "en":
+            return render(request, "contest/photopool.html", context)
+        else:
+            return render(request, "contest/photopool-tr.html", context)
     return render(request, "contest/photopool.html", context)
-
 
 def contest_delete(request, id):
     contest = get_object_or_404(Contest, id=id)
@@ -94,5 +118,10 @@ def contest_rankings(request, slug):
     if timezone.now() < contest.end_date:  # if contest is still in progress
         return render(request, "contest/contest_still_in_progress.html", context)
 
+    if request.user.is_authenticated:
+        if request.user.profile.languagePreference == "en":
+            return render(request, "contest/rankings.html", context)
+        else:
+            return render(request, "contest/rankings-tr.html", context)
     return render(request, "contest/rankings.html", context)
 

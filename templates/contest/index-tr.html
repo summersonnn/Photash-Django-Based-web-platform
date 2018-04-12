@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Contests{% endblock %}
+
+{% block body %}
+
+
+<section id="contest-list-result">
+    <div class="inner-more">
+        <div id="indexcontainer" class="container">
+            <div class="feed-title-wrap row">
+                <div class="links-wrap col-lg-8 col-sm-12">
+                  <a href="{% if query %}?q={{ query }}&{% else %}?{% endif %}upcoming=true">Yaklaşanlar</a>
+                  <a href="{% if query %}?q={{ query }}&{% else %}?{% endif %}ongoing=true">Devam edenler</a>
+                  <a href="{% if query %}?q={{ query }}&{% else %}?{% endif %}finished=true">Bitenler</a>
+                </div>
+            <div class="search-form-wrap col-lg-4 col-sm-12">
+                <form class="search-form" method="GET" action="">
+                    <input type="text" class="form-control" name="q" placeholder="Yarışma ara" value="{{ request.GET.q }}"/>
+                    <input class="btn btn-fill" type="submit" value="Ara"/>
+                </form>
+            </div>
+            </div>
+            <hr>
+            <div id="1" class="row contest-list-item" style="visibility: hidden">
+
+                    <div class="col-lg-3">
+                        <div class="contest-img-wrap">
+                            {% if request.user.is_authenticated %}
+                                <div class="overlay">
+                                    <form action="">
+                                        <input class="btn btn-fill" type="submit" value="Şimdi Katıl">
+                                    </form>
+                                </div>
+                            {% endif %}
+                            <img class="topic-photo" src="">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="contest-detail-wrap">
+                            <h5></h5>
+                            <p>Everybody wants to see your new photos only images uploaded.</p>
+                            <span class="contest-tags"> </span>
+                            <div class="button-wrap">
+                                <a href="" class="btn btn-fill">Ayrıntılar</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-sm-4">
+                        <div class="contest-date-wrap">
+                            <span class="contest-item-icon"><img src="{% static 'images/icons/calender.png' %}">Bitiş Tarihi</span>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-sm-4">
+                        <div class="contest-photo-count-wrap">
+                            <span class="contest-item-icon"><img src="{% static 'images/icons/album.png' %}">Fotoğraflar</span>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-sm-4">
+                        <div class="contest-prize-wrap">
+                        <span class="contest-item-icon"><img src="{% static 'images/icons/trophy.png' %}">Ödül Havuzu</span>
+                        <p></p>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready( function(){
+
+
+       $.ajax({
+           url: '{% url "contest_api:index" %}',
+           type: 'GET',
+           data: {
+                {% if query %}'q': '{{ query }}', {% endif %}
+                {% if ongoing %}'ongoing': {{ ongoing }}, {% endif %}
+                {% if finished %}'finished': {{ finished }}, {% endif %}
+                {% if upcoming %}'upcoming': {{ upcoming }}, {% endif %}
+           },
+           dataType: 'JSON',
+           success: function(result){
+               if (result['count'] > 0 )
+                $("#1").css({'visibility': 'visible'});
+
+               for(var i=2; i<=result['count']; i++){
+                   var clonedDiv = $( "#1" ).clone().appendTo( "#indexcontainer" );
+                   clonedDiv.attr("id", i);
+               }
+                var idholder = 1;
+                $.each(result['results'], function(index, value){ //contestler dönüyor
+                  var getContestDate = new Date(value["end_date"]);  // Get Contest End Date in ISO Format
+                  var tagAsStr = '';
+
+                  $.each(value['tag'], function(index, data){ //taglar dönüyor
+                      tagAsStr += "#" + data.title + "<br>";
+                  });
+
+                  year = getContestDate.getFullYear();
+                  month = getContestDate.getMonth();
+                  dt = getContestDate.getDate();
+
+                  //add 0 if date,months are not 2 digits
+                  if (dt<10) {
+                    dt = '0' + dt;
+                  }
+
+                  var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];  //Change month number to String
+                  contestEndDate = dt + '/' + monthNames[month] + '/' + year;  //COnverted to Short Date Format
+
+
+                $("#"+idholder+" .topic-photo").attr("src",value['topic_photo']);
+                $("#"+idholder+" h5").html(value['contest_name']);
+                $("#"+idholder+" .contest-tags").html(tagAsStr);
+                $("#"+idholder+" .contest-date-wrap p").html(contestEndDate);
+                $("#"+idholder+" .contest-photo-count-wrap p").html(value['photo_count']);
+                $("#"+idholder+" .contest-prize-wrap p").html(value['prize_pool']+'$');
+                $("#"+idholder+" form").attr("action","../" + value['slug'] + '/upload/');
+                $("#"+idholder+" .button-wrap a").attr("href","../" + value['slug']);
+                idholder++;
+                });
+
+           },
+           error: function(data){
+               console.log("Error");
+           }
+       });
+
+    });
+</script>
+
+
+{% endblock %}

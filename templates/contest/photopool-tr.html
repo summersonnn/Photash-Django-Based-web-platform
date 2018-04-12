@@ -1,0 +1,260 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load checkandincrease %}
+
+
+{% block title %}Photo pool{% endblock %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.fancybox.min.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/owl.carousel.min.css' %}"/>
+{% endblock %}
+
+
+{% block body %}
+
+<section>
+    <div class="inner-more">
+        <div class="container">
+            <div class="photopool-main-wrapper">
+                <div class="photopool-slider-wrapper">
+                    <div class="photopool-slider-control" id="photopool-control-1"></div>
+                    <div class="owl-carousel photopool-slider">
+                </div>
+               </div>
+            </div>
+        </div>
+  </div>
+</section>
+
+
+<script>
+
+    var global_owl = "";
+    $(document).ready(function(){
+        getPhotos(null);
+        var owl = $('.owl-carousel').owlCarousel();
+            var alreadySeen = [];
+            owl.on('changed.owl.carousel', function(event){
+                var index = event.relatedTarget.current()+1;
+                var current = $(".owl-item:nth-child(" + index + ")" + " .photopool-img-wrapper");
+
+                if(jQuery.inArray(current.attr('id'), alreadySeen) < 0){
+                    console.log(current.attr('id'))
+                    seen(current.attr('id'));
+                    alreadySeen.push(current.attr('id'));
+                }
+
+                var itemIndex = event.item.index + 1;
+                if(photoCount === 10){
+                    itemIndex += 3;
+                }else{
+                    lastItemIndex = totalPhotoCount - 3;
+                }
+                if(itemIndex === (lastItemIndex)){
+                    //owl.trigger('destroy.owl.carousel');
+                    //owl.trigger('add.owl.carousel', [jQuery("<div class='card-body'>You have reached the end. Reorganizing photos.</div>")]);
+                    getPhotos(next);
+                }
+                
+            });
+            global_owl = owl;
+
+        $.ajax({
+           url: '{% url "user_api:notification" %}',
+           type: 'GET',
+           dataType: 'JSON',
+           success: function(result){
+               console.log("XXXX")
+               console.log(result);
+           }, error: function(data){
+                   console.log("Error");
+           }
+        });
+    });
+
+
+    function report(photoId, event){
+        var url = "http://127.0.0.1:8000/api/report-photo/" + photoId;
+        event.preventDefault();
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function(result){
+                alert('Fotoğraf başarıyla rapor edildi.');
+            },
+            error: function(result){
+                alert('error' + result);
+            }
+        })
+    }
+
+
+        var lastItemIndex = 0; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
+        var photoCount = 0; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
+        var next = ""; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
+        var totalPhotoCount = 0; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
+        var photosSeen = []; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
+        function writeResults(result, owl){
+            $.each(result['results'], function(index, value){
+                console.log(value);
+                if(!photosSeen.includes(value['id'])){
+                    owl.trigger('add.owl.carousel', [jQuery("<div class=\"photopool-img-wrapper\" id='" + value["id"] + "'>\n" +
+                   "           <a href='" + value['photoItself'] + "' data-fancybox data-caption=\"Fotoğraf yazım\">\n" +
+                   "            <img class=\"\" src='" + value['photoItself'] + "'>\n" +
+                   "           </a></div>\n" +
+                   "            <div class=\"photopool-content\">\n" +
+                   "                    <div class=\"report-btn-wrap\">\n"+
+                   "                       <button class=\"btn-txt-only\">&hellip;</button> \n" +
+                   "                       <form class=\"form-report\" onclick=\"report('"+ value['id'] + "', event)\">\n" +
+                   "                          <input class=\"btn-report\" type=\"submit\" value=\"Rapor et\" >\n" +
+                   "                       </form>\n" +
+                   "                    </div>\n"+
+                   "                <div class=\"photopool-item-title-wrap\">Fotoğraf açıklaması\n" +
+                   "                    <p>I m moving moving</p>\n"+
+                   "                    <h4 class=\"photo-title\">" + value['summary'] + "</h4>\n"+
+                   "                    <hr>\n" +
+                   "                    <div class=\"photopool-item-btn-wrap\">\n" +
+                   "                        <a class=\"btn btn-fill like-btn\" onclick=\"like("+ value['id'] +")\">Oy ver</a>\n"+
+                   "                    </div>\n" +
+                   "                </div>\n" +
+                   "                <div class=\"photopool-item-tags-wrap\">\n"+
+                   "                    <p id=\"compete-in\">Şu yarışmada yarışıyor: </p>\n"+
+                   "                    <p id=\"contest-name\">" +  value['contest']['contest_name']+ "</p>\n" +
+                   "                    <div class=\"tags-wrap\"></div>\n" +
+                   "                </div>\n" +
+                   "            </div>\n" +
+                   "       </div>")]);
+                            $(document).ready(function(){
+                              var val = 1;
+                              $(".photopool-slider-wrapper .photopool-content .report-btn-wrap>.btn-txt-only").click(function(){
+                                  if (val=== 1) {
+                                      $(this).siblings('.form-report').show();
+                                      val = 0;
+                                      console.log("Success 1");
+                                  }
+                                  else {
+                                      val = 1;
+                                      $(this).siblings('.form-report').hide();
+                                      console.log("Success 1");
+                                  }
+                                  return false;
+                              });
+                           });
+                        }
+                  photosSeen.push(value['id']);
+
+            });
+        }
+
+        function getPhotos(Url){
+            var url = "";
+            //alert("get this: " + Url);
+            if(Url === null){
+                url = '{% url "photo_api:index_api" slug=contest.slug %}';
+            }else{
+                url = Url;
+            }
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function(result){
+                    var count = result["count"];
+                    next = result["next"];
+                    var pre = result["previous"];
+                    lastItemIndex += result['results'].length;
+                    photoCount = result['results'].length;
+                    totalPhotoCount = result['count'];
+                    var owl = $('.owl-carousel').owlCarousel({items:2, nav:true, loop: false, lazyLoad: true});
+                    writeResults(result, owl);
+                    owl.trigger('refresh.owl.carousel', {nav: false, loop:true});
+
+
+                var contest = result['results'][0]['contest'];
+                var tagAsStr = '';
+                $.each(contest['tag'], function(index, data){ //iterating over tags
+
+
+                      tagAsStr += "#" + data.title + " ";
+                });
+                $(".tags-wrap").html(tagAsStr);
+
+                },
+                error: function(result){
+                    console.log(result);
+                }
+            });
+        }
+
+        function like(id){
+            var url = "/api/photo/like/";
+            $.ajax({
+                url: url,
+                data : {'id': id},
+                type: "post",
+                success: function(data){
+                    global_owl.trigger('next.owl.carousel');
+                },
+                error: function (data) {
+                    alert(data);
+
+                }
+
+            });
+
+        }
+
+        function seen(id){
+            var url = "/api/photo/seen/";
+            $.ajax({
+                url: url,
+                data : {'id': id},
+                type: "post",
+                success: function(data){
+                    console.log("Başarılı");
+                },
+                error: function (data) {
+                    console.log("Başarısız");
+
+                }
+
+            });
+
+        }
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            console.log(cookieValue);
+            console.log("yukardaki cookie");
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+</script>
+
+    {% block scripts %}
+        <script type="text/javascript" src="{% static 'js/owl.carousel.min.js'%}"></script>
+    {% endblock %}
+{% endblock %}

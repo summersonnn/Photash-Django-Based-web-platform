@@ -46,6 +46,11 @@ def home_view(request):
         return render(request, 'home/timeline.html')
 
 def catalogue_view(request):
+    if request.user.is_authenticated:
+        if request.user.profile.languagePreference == "en":
+            return render(request, 'home/catalogue.html')
+        else:
+            return render(request, 'home/catalogue-tr.html')
     return render(request, 'home/catalogue.html')
 
 

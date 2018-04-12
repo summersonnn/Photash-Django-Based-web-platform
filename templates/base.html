@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{% block title %}{% endblock %}</title>
 
+    <link rel="alternate" href="http://alercelik.pythonanywhere.com/" hreflang="en" />   <!--Domain ismi değişir. Ve sadece base'de değil her sayfada eklemek gerekebilir -->
     <link rel="stylesheet" href="{% static 'fonts/fontawesome/css/font-awesome.min.css' %} "/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
@@ -22,7 +23,13 @@
 </head>
 <body>
 
-{% include 'header.html' %}
+{% if user.profile.languagePreference == "en" %}
+    {% include 'header.html' %}
+{% endif %}
+{% if user.profile.languagePreference != "en" %}
+    {% include 'header-tr.html' %}
+{% endif %}
+
 {% include 'messages.html' %}
     <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.fancybox.min.js'%}"></script>
