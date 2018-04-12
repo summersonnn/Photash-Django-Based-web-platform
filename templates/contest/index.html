@@ -112,7 +112,7 @@
                   }
 
                   var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];  //Change month number to String
-                  contestEndDate = dt + '/' + monthNames[month] + '/' + year;  //COnverted to Short Date Format
+                  contestEndDate = monthNames[month] + ' ' + dt + 'th  ' + year;  //COnverted to Short Date Format
 
 
                 $("#"+idholder+" .topic-photo").attr("src",value['topic_photo']);

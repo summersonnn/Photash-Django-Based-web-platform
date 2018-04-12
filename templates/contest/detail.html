@@ -144,13 +144,13 @@
                 }
 
                 var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];  //Change month number to String
-                contestStartDate = dt[0] + '/' + monthNames[month[0]] + '/' + year[0];  //COnverted to Short Date Format,
-                contestEndtDate = dt[1] + '/' + monthNames[month[1]] + '/' + year[1];  //COnverted to Short Date Format
+                contestStartDate = monthNames[month[0]] + ' ' + dt[0] + 'th  ' + year[0];  //COnverted to Short Date Format,
+                contestEndDate = monthNames[month[1]] + ' ' + dt[1] + 'th  ' + year[1];  //COnverted to Short Date Format
 
                 $("#topic-photo").attr("src",value['topic_photo']);
                 $("#cname").html(value['contest_name']);
                 $(".contest-start-date").html(contestStartDate);
-                $(".contest-end-date").html(contestEndtDate);
+                $(".contest-end-date").html(contestEndDate);
                 $("#min-must-votes").html(value['min_must_votes']);
                 $("#min-avg").html(value['min_avg']);
                 $("#min-stddev").html(value['min_stddev']);
