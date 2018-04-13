@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
-from .forms import LoginForm, RegisterForm, ProfileForm
+from .forms import LoginForm, RegisterForm, ProfileForm, LanguageSelectionForm
 from .tokens import account_activation_token
 from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login, logout
@@ -73,7 +73,16 @@ def logout_view(request):
 
 # --------------------------------------------------------------------------------------------
 def profile_view(request):
-    return render(request, 'user/profile.html')
+
+    #Dil seçimi
+    form = LanguageSelectionForm(data=request.POST or None)
+    if form.is_valid():
+        selection = form.cleaned_data.get('status')
+        request.user.profile.languagePreference=selection
+        request.user.profile.save()
+
+    context = {'form': form,}
+    return render(request, 'user/profile.html', context)
 
 def myprofileview(request, username):
     profile = Profile.objects.get(user = request.user)

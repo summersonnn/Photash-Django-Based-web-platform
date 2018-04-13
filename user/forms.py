@@ -45,3 +45,7 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('location', 'aboutme')
+
+
+class LanguageSelectionForm(forms.Form):
+    status = forms.ChoiceField(choices=Profile.LANGUAGE_CHOICES, label="", initial="", widget=forms.Select(), required=True)
