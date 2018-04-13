@@ -12,7 +12,6 @@ from django.db import transaction
 from django.urls import reverse
 from django.contrib import messages
 from .models import Profile
-import geoip2.webservice
 
 def login_view(request):
     form = LoginForm(request.POST or None)
@@ -26,26 +25,8 @@ def login_view(request):
             login(request, user)
         username = User.objects.get(username=request.user)
         url = reverse('home')
-
-        client = geoip2.webservice.Client(132292, '9uNrE6xTWGHX')
-        ip = get_ip(request)
-        response = client.city('51.255.87.75') #Uzak server'a yüklendiğinde burdaki harcoded ip yerine ip yazılacak. Şu an yazılınca 127.0.0.1 hata çıkartıyor o yüzden yazılmadı
-        print(response.country.iso_code)
-
         return HttpResponseRedirect(url)
     return render(request, 'accounts/form.html', {'form': form, 'title': 'Login'})
-
-def get_ip(request):
-
-    try:
-        x_forward = request.META.get("HTTP_X_FORWARDED_FOR")
-        if x_forward:
-            ip = x_forward.split(",")[0]
-        else:
-            ip = request.META.get("REMOTE_ADDR")
-    except:
-            ip=""
-    return ip
 
 
 '''def register_view(request):

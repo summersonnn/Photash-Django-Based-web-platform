@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from django.core.mail import send_mail
+import geoip2.webservice
 
 def home_view(request):
 
@@ -24,6 +25,16 @@ def home_view(request):
             password = form.cleaned_data.get('password1')
             user.set_password(password)
             user.save()
+
+            #setting language by the IP
+            client = geoip2.webservice.Client(132292, '9uNrE6xTWGHX')
+            ip = get_ip(request)
+            response = client.city(
+                '176.240.19.15')  # Uzak server'a yüklendiğinde burdaki harcoded ip yerine ip yazılacak. Şu an yazılınca 127.0.0.1 hata çıkartıyor o yüzden yazılmadı
+            if (response.country.iso_code == "TR"):
+                user.profile.languagePreference ="tr"
+                user.save()
+
             # mail verification
             token = account_activation_token.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk)).decode()
@@ -52,6 +63,18 @@ def catalogue_view(request):
         else:
             return render(request, 'home/catalogue-tr.html')
     return render(request, 'home/catalogue.html')
+
+
+def get_ip(request):
+    try:
+        x_forward = request.META.get("HTTP_X_FORWARDED_FOR")
+        if x_forward:
+            ip = x_forward.split(",")[0]
+        else:
+            ip = request.META.get("REMOTE_ADDR")
+    except:
+        ip = ""
+    return ip
 
 
 

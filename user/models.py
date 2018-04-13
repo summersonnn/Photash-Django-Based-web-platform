@@ -10,7 +10,6 @@ from photo.models import Photo
 from contest.models import Tag
 from django.contrib.auth.models import Permission
 
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Username")
     location = models.CharField(max_length=30, blank=True, verbose_name="Location")
@@ -93,6 +92,9 @@ def create_welcoming_notification(sender, instance, created, **kwargs):
     if created:
         welcome = Notification(user = instance, msg="Thank you for joining Photash " + str(instance) + '!')
         welcome.save()
+
+
+
 
 
 
