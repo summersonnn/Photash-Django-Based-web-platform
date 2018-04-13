@@ -12,6 +12,7 @@ from django.shortcuts import get_object_or_404
 from user.models import Profile
 from django.contrib.auth.decorators import permission_required
 
+
 class PhotoListAPIView(ListAPIView):
     serializer_class = PhotoSerializer
     queryset = Photo.objects.all()

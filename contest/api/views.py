@@ -11,6 +11,7 @@ from .serializers import ContestSerializer, TagSerializer
 from photo.api.serializers import PhotoSerializer
 from photo.models import Photo
 from user.models import Profile
+from user.api.serializers import ProfileSerializer
 
 from django.utils import timezone
 
@@ -164,9 +165,9 @@ class VotersListAPIView(RetrieveAPIView):
     lookup_url_kwarg = 'slug'
     lookup_field = 'slug'
 
-    '''def retrieve(self, request, *args, **kwargs):
+    def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        if timezone.now() > instance.end_date:
+        if timezone.now() < instance.end_date:
             return Response({'error': 'This contest has not come to an end yet! End date is {}'.format(instance.end_date)})
         try:
             _ = Contender.objects.get(contest=instance, user=request.user)
@@ -179,18 +180,14 @@ class VotersListAPIView(RetrieveAPIView):
         photos = Photo.objects.filter(contest=instance, ownername=request.user)
 
         for photo in photos:
-            for rating_info in Rating.objects.filter(object_id=photo.id):
-                if rating_info.content_object == photo:
-                    rating = rating_info
-                    break
+            user_list = []
+            for user in photo.likes.all():
+                user_list.append(ProfileSerializer(Profile.objects.get(user=user)).data)
             photo_data = PhotoSerializer(photo).data
-            photo_data['rating'] = RatingSerializer(rating).data
-            photo_data['voters'] = UserRatingSerializer(UserRating.objects.filter(rating=rating), many=True).data
-            photo_data.pop('contest', None)
-            photo_data.pop('ownername', None)
+            photo_data['liked_users'] = user_list
             data['photos'].append(photo_data)
 
-        return Response(data, status=status.HTTP_200_OK)'''
+        return Response(data, status=status.HTTP_200_OK)
 
 
 class FeedAPIView(APIView):
