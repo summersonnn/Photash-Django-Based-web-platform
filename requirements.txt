@@ -65,3 +65,4 @@ WTForms==2.1
 django_rest_framework
 django-allauth
 django-recaptcha2
+geoip2

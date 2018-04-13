@@ -19,6 +19,7 @@ from django.shortcuts import get_object_or_404
 from random import randint, shuffle, choice
 import operator
 
+
 def recommendation(queryset, user):
     user = Profile.objects.get(user=user)
     preferd_tags = user.prefered_tags.all()
@@ -52,27 +53,31 @@ class ContestListAPIView(ListAPIView):
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
-        if self.request.GET.get('q') or self.request.GET.get('ongoing') or self.request.GET.get('finished') or self.request.GET.get('upcoming'):
+        if self.request.GET.get('q') or self.request.GET.get('ongoing') or self.request.GET.get(
+                'finished') or self.request.GET.get('upcoming'):
             queryset = self.queryset.all()
             if self.request.GET.get('q'):
                 query = self.request.GET['q']
                 queryset = queryset.filter(contest_name__icontains=query)
 
-            if self.request.GET.get('ongoing') and not self.request.GET.get('finished') and not self.request.GET.get('upcoming'):
+            if self.request.GET.get('ongoing') and not self.request.GET.get('finished') and not self.request.GET.get(
+                    'upcoming'):
                 copy_queryset = queryset
                 queryset = []
                 for query in copy_queryset:
                     if not query.is_finished() == True and not query.is_finished() == None:
                         queryset.append(query)
 
-            elif self.request.GET.get('finished') and not self.request.GET.get('ongoing') and not self.request.GET.get('upcoming'):
+            elif self.request.GET.get('finished') and not self.request.GET.get('ongoing') and not self.request.GET.get(
+                    'upcoming'):
                 copy_queryset = queryset
                 queryset = []
                 for query in copy_queryset:
                     if query.is_finished() == True:
                         queryset.append(query)
 
-            elif self.request.GET.get('upcoming') and not self.request.GET.get('ongoing') and not self.request.GET.get('finished'):
+            elif self.request.GET.get('upcoming') and not self.request.GET.get('ongoing') and not self.request.GET.get(
+                    'finished'):
                 copy_queryset = queryset
                 queryset = []
                 for query in copy_queryset:
@@ -113,39 +118,42 @@ class ContestDetailAPIView(RetrieveAPIView):
     lookup_url_kwarg = 'slug'
     lookup_field = 'slug'
 
-    def get_context_data(self, *args, **kwargs):
+    def retrieve(self, request, *args, **kwargs):
         contest = self.get_object()
-        context = super(ContestDetailAPIView, self).get_context_data(*args, **kwargs)
         photos = Photo.objects.filter(contest=contest)
+        serializer = self.get_serializer(contest)
+        data = serializer.data
+
         count_photos = photos.count()
         if count_photos > 2:
-            context['examples'] = []
-            random_index = randint(0, count_photos-1)
+            data['examples'] = []
+            random_index = randint(0, count_photos - 1)
             while True:
                 random_index2 = randint(0, count_photos - 1)
                 random_index3 = randint(0, count_photos - 1)
-                if (random_index2 != random_index and random_index3!= random_index and random_index2 != random_index3):
+                if (
+                        random_index2 != random_index and random_index3 != random_index and random_index2 != random_index3):
                     break
 
+            data['examples'].append(PhotoSerializer(photos[random_index]).data)
+            data['examples'].append(PhotoSerializer(photos[random_index]).data)
+            data['examples'].append(PhotoSerializer(photos[random_index]).data)
 
-            context['examples'].append(photos[random_index])
-            context['examples'].append(photos[random_index2])
-            context['examples'].append(photos[random_index3])
+            data['photo_count'] = Photo.objects.filter(contest=contest.id).count()
+            data['is_finished'] = contest.is_finished()
 
-
-            context['photo_count'] = Photo.objects.filter(contest=contest.id).count()
-
-        if self.request.user.is_authenticated:
-            context['vote_count'], context['vote_avg'], context['vote_stddev'] = self.request.user.get_vote_count_avg_stddev_for_contest(contest)
+        if request.user.is_authenticated:
+            # data['vote_count'], data['vote_avg'], data['vote_stddev'] = request.user.get_vote_count_avg_stddev_for_contest(contest)
             try:  # if there is not any Contender object, get() will raise an exception
-                contender = Contender.objects.get(user=self.request.user, contest=self.get_object())
+                contender = Contender.objects.get(user=request.user, contest=self.get_object())
                 # context['contender'] = contender
-                context['num_of_uploaded_photos'] = contender.get_number_of_photos_uploaded()
+                data['num_of_uploaded_photos'] = contender.get_number_of_photos_uploaded()
                 # context['is_uploaded'] = 1  # True
             except Contender.DoesNotExist:
-                context['num_of_uploaded_photos'] = 0
+                data['num_of_uploaded_photos'] = 0
                 # context['is_uploaded'] = 0  # False
-        return context
+
+        return Response(data, status=status.HTTP_200_OK)
 
 
 class VotersListAPIView(RetrieveAPIView):
@@ -187,7 +195,7 @@ class VotersListAPIView(RetrieveAPIView):
 
 class FeedAPIView(APIView):
     authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
     http_method_names = [u'get', ]
     queryset = Contest.objects.all()
     paginate_by = 10
@@ -210,7 +218,7 @@ class FeedAPIView(APIView):
         return queryset
 
     def get(self, request, format=None):
-        data = ContestSerializer(self.get_queryset(), many=True).data 
+        data = ContestSerializer(self.get_queryset(), many=True).data
 
         for contest_data in data:
             contest = Contest.objects.get(id=contest_data['id'])
@@ -233,7 +241,7 @@ class AskForTags(ListAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     authentication_classes = (SessionAuthentication, TokenAuthentication)
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         queryset = super(AskForTags, self).get_queryset()
@@ -241,10 +249,9 @@ class AskForTags(ListAPIView):
 
 
 class ContestRankingAPIView(ListAPIView):
-
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
-    authentication_classes = (SessionAuthentication, )
+    authentication_classes = (SessionAuthentication,)
 
     def get_queryset(self):
         sorted_queryset = {}
@@ -259,8 +266,8 @@ class ContestRankingAPIView(ListAPIView):
             if not contender.check_conditions_for_rankings():
                 excluded_contender_ids.append(contender.id)'''
 
-        photos = queryset\
-            .filter(contest=contest)\
+        photos = queryset \
+            .filter(contest=contest) \
             .exclude(ownername__contender__id__in=excluded_contender_ids)
 
         for photo in photos:
@@ -314,6 +321,6 @@ class TagDetailAPIView(RetrieveAPIView):
 
 
 
-        
-        
+
+
 
