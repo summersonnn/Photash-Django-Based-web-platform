@@ -22,7 +22,11 @@ class Profile(models.Model):
     all_time_average = models.FloatField(blank=False, default=0.00, verbose_name='All Time Average')
     voted_x_times = models.IntegerField(blank=False, default=0, verbose_name='X kere oylandı (bütün fotoğrafları)')
     prefered_tags = models.ManyToManyField(Tag)
-    languagePreference = models.CharField (max_length=10, blank=False, default="en")
+    LANGUAGE_CHOICES = (
+        ('en', 'English'),
+        ('tr', 'Türkçe'),
+    )
+    languagePreference = models.CharField(max_length=2, choices=LANGUAGE_CHOICES, default='en')
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
