@@ -36,15 +36,19 @@ def activate_account(request, uidb64, token):
     if user is not None and not account_activation_token.check_token(user, token):
         return HttpResponseRedirect('/')
 
+    #Email verification in database
     profile = user.profile
     profile.email_verified = True
     profile.save()
 
+    #Giving permissions
     permission1 = Permission.objects.get(name='Can add new photos?')
     permission2 = Permission.objects.get(name='Can vote photos?')
     user.user_permissions.add(permission1)
     user.user_permissions.add(permission2)
-    return HttpResponseRedirect('/')
+
+    login(request,user,backend='django.contrib.auth.backends.ModelBackend')
+    return render(request, 'user/verification_done.html')
 
 
 def logout_view(request):
