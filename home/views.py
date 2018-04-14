@@ -12,6 +12,8 @@ import geoip2.webservice
 def home_view(request):
 
     if not request.user.is_authenticated:
+
+        #Getting a random contest to be used in steps section
         count = Contest.objects.count()
         if count > 0:
             random_index = randint(0,count-1)
@@ -19,6 +21,7 @@ def home_view(request):
         else:
             random_contest = None
 
+        #Sign up form
         form = RegisterForm(data=request.POST or None)
         if form.is_valid():
             user = form.save(commit=False)
@@ -29,8 +32,7 @@ def home_view(request):
             #setting language by the IP
             client = geoip2.webservice.Client(132292, '9uNrE6xTWGHX')
             ip = get_ip(request)
-            response = client.city(
-                '176.240.19.15')  # Uzak server'a yüklendiğinde burdaki harcoded ip yerine ip yazılacak. Şu an yazılınca 127.0.0.1 hata çıkartıyor o yüzden yazılmadı
+            response = client.city('176.240.19.15')  # Uzak server'a yüklendiğinde burdaki harcoded ip yerine ip yazılacak. Şu an yazılınca 127.0.0.1 hata çıkartıyor o yüzden yazılmadı
             if (response.country.iso_code == "TR"):
                 user.profile.languagePreference ="tr"
                 user.save()
@@ -48,11 +50,21 @@ def home_view(request):
             new_user = authenticate(username=user.username, password=password)
             login(request, new_user)
 
+
         context={
             'form': form,
             'random_contest': random_contest
         }
-        return render(request, 'home/home.html', context)
+
+        # Guestler için session kontrolü
+        # Session'da language belirlenmemiş ise önce belirleyelim
+        if "language" not in request.session:
+            set_session_for_language_according_to_IP(request)
+
+        if (request.session['language'] == "tr"):
+            return render(request, 'home/home-tr.html', context)
+        else:
+            return render(request, 'home/home.html', context)
     else:
         return render(request, 'home/timeline.html')
 
@@ -62,7 +74,16 @@ def catalogue_view(request):
             return render(request, 'home/catalogue.html')
         else:
             return render(request, 'home/catalogue-tr.html')
-    return render(request, 'home/catalogue.html')
+
+    #Guestler için session kontrolü
+    # Session'da language belirlenmemiş ise önce belirleyelim
+    if "language" not in request.session:
+        set_session_for_language_according_to_IP(request)
+
+    if (request.session['language'] == "tr"):
+        return render(request, 'home/catalogue-tr.html')
+    else:
+        return render(request, 'home/catalogue.html')
 
 
 def get_ip(request):
@@ -75,6 +96,17 @@ def get_ip(request):
     except:
         ip = ""
     return ip
+
+def set_session_for_language_according_to_IP(request):
+    # Setting the language according to the IP of the guest
+    client = geoip2.webservice.Client(132292, '9uNrE6xTWGHX')
+    ip = get_ip(request)
+    response = client.city('195.175.89.86')  # Uzak server'a yüklendiğinde burdaki harcoded ip yerine ip yazılacak. Şu an yazılınca 127.0.0.1 hata çıkartıyor o yüzden yazılmadı
+    if (response.country.iso_code == "TR"):
+        request.session['language'] = "tr"
+    else:
+        request.session['language'] = "en"
+    return None
 
 
 

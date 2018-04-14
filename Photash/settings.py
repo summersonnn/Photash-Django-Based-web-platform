@@ -215,6 +215,7 @@ COMMON_URLS = (
     r'^oauth/facebook/login/token',
     r'^static/(?P<path>.*)$',
     r'^api/photo/(?P<slug>[\w-]+)/index$',
+    r'^home/catalogue/$',
 
 )
 

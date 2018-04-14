@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.contrib import messages
 from .forms import PhotoForm
 from django.contrib.auth.decorators import permission_required
+from home.views import set_session_for_language_according_to_IP
 
 def contest_index(request):
     context = {}
@@ -22,7 +23,15 @@ def contest_index(request):
             return render(request, "contest/index.html", context)
         else:
             return render(request, "contest/index-tr.html", context)
-    return render(request, "contest/index.html", context)
+
+    # Guestler için session kontrolü
+    # Session'da language belirlenmemiş ise önce belirleyelim
+    if "language" not in request.session:
+        set_session_for_language_according_to_IP(request)
+    if (request.session['language'] == "tr"):
+        return render(request, "contest/index-tr.html", context)
+    else:
+        return render(request, "contest/index.html", context)
 
 
 
@@ -34,7 +43,16 @@ def contest_detail(request, slug):
             return render(request, "contest/detail.html", context)
         else:
             return render(request, "contest/detail-tr.html", context)
-    return render(request, "contest/detail.html", context)
+
+    # Guestler için session kontrolü
+    # Session'da language belirlenmemiş ise önce belirleyelim
+    if "language" not in request.session:
+        set_session_for_language_according_to_IP(request)
+    if (request.session['language'] == "tr"):
+        return render(request, "contest/detail-tr.html", context)
+    else:
+        return render(request, "contest/detail.html", context)
+
 
 
 @permission_required('photo.ekle_photo')
@@ -88,7 +106,16 @@ def photo_upload(request, slug):
                 return render(request, 'photo/form.html', context)
             else:
                 return render(request, 'photo/form-tr.html', context)
-        return render(request, 'photo/form.html', context)
+
+        # Guestler için session kontrolü
+        # Session'da language belirlenmemiş ise önce belirleyelim
+        if "language" not in request.session:
+            set_session_for_language_according_to_IP(request)
+        if (request.session['language'] == "tr"):
+            return render(request, 'photo/form-tr.html', context)
+        else:
+            return render(request, 'photo/form.html', context)
+
 
 def contest_photopool(request, slug):
     # O contest'e ait fotoğrafları contestid'sinden tanıyıp, ayrıştırıp öyle veriyoruz photo/index.html dosyasına.
@@ -104,7 +131,16 @@ def contest_photopool(request, slug):
             return render(request, "contest/photopool.html", context)
         else:
             return render(request, "contest/photopool-tr.html", context)
-    return render(request, "contest/photopool.html", context)
+
+    # Guestler için session kontrolü
+    # Session'da language belirlenmemiş ise önce belirleyelim
+    if "language" not in request.session:
+        set_session_for_language_according_to_IP(request)
+    if (request.session['language'] == "tr"):
+        return render(request, "contest/photopool-tr.html", context)
+    else:
+        return render(request, "contest/photopool.html", context)
+
 
 def contest_delete(request, id):
     contest = get_object_or_404(Contest, id=id)
@@ -123,5 +159,14 @@ def contest_rankings(request, slug):
             return render(request, "contest/rankings.html", context)
         else:
             return render(request, "contest/rankings-tr.html", context)
-    return render(request, "contest/rankings.html", context)
+
+    # Guestler için session kontrolü
+    # Session'da language belirlenmemiş ise önce belirleyelim
+    if "language" not in request.session:
+        set_session_for_language_according_to_IP(request)
+    if (request.session['language'] == "tr"):
+        return render(request, "contest/rankings-tr.html", context)
+    else:
+        return render(request, "contest/rankings.html", context)
+
 

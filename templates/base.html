@@ -23,9 +23,13 @@
 </head>
 <body>
 
-{% if not user.is_authenticated %}
+{% if not user.is_authenticated and "en" == request.session.language  %}
     {% include 'header.html' %}
 {% endif %}
+{% if not user.is_authenticated and "en" != request.session.language %}
+    {% include 'header-tr.html' %}
+{% endif %}
+
 {% if user.is_authenticated %}
     {% if user.profile.languagePreference == "en" %}
         {% include 'header.html' %}

@@ -28,30 +28,6 @@ def login_view(request):
         return HttpResponseRedirect(url)
     return render(request, 'accounts/form.html', {'form': form, 'title': 'Login'})
 
-
-'''def register_view(request):
-    form = RegisterForm(request.POST or None)
-    if form.is_valid():
-        user = form.save(commit=False)
-        password = form.cleaned_data.get('password1')
-        user.set_password(password)
-        user.save()
-        # mail verification
-        token = account_activation_token.make_token(user)
-        uid = urlsafe_base64_encode(force_bytes(user.pk)).decode()
-        send_mail(
-            'Please confirm your photash account',
-            'Click the link belox \n http://127.0.0.1:8000/user/activate/{}/{}'.format(uid, token),
-            'altunerism@gmail.com',
-            [user.email, ],
-            fail_silently=False,
-        )
-        new_user = authenticate(username=user.username, password=password)
-        login(request, new_user)
-        return redirect('home')
-    return render(request, 'accounts/form.html', {'form': form, 'title': 'Sign up'})'''
-
-
 @login_required
 def activate_account(request, uidb64, token):
     uid = urlsafe_base64_decode(uidb64).decode()
