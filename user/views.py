@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 from .forms import LoginForm, RegisterForm, ProfileForm, LanguageSelectionForm
 from .tokens import account_activation_token
 from django.core.mail import send_mail
@@ -32,6 +32,10 @@ def login_view(request):
 def activate_account(request, uidb64, token):
     uid = urlsafe_base64_decode(uidb64).decode()
     user = get_object_or_404(User, id=uid)
+
+    #Önceden aktive edildiyse 404 verelim
+    if user.profile.email_verified == True:
+        return HttpResponseNotFound('<h1>No Page Here</h1>')
 
     if user is not None and not account_activation_token.check_token(user, token):
         return HttpResponseRedirect('/')
