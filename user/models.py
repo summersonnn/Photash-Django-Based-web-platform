@@ -8,7 +8,6 @@ from django.db.models import Sum
 from reportedPhotos.models import ReportedPhotos
 from photo.models import Photo
 from contest.models import Tag
-from django.contrib.auth.models import Permission
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Username")
@@ -39,23 +38,6 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 
-def get_vote_count_avg_stddev_for_contest(self, contest):
-    Contender = apps.get_model('contest.Contender')
-    votes = self.votes.filter(rating__photos__contest=contest)
-    vote_count = votes.count()
-
-    if vote_count == 0:
-        return 0, 0.0, 0.0
-
-    vote_sum = votes.aggregate(Sum('score'))['score__sum']
-    vote_average = float(vote_sum) / vote_count
-
-    return votes.count(), vote_average, Contender.get_stddev(votes, vote_count, vote_average)
-
-
-User.add_to_class('get_vote_count_avg_stddev_for_contest', get_vote_count_avg_stddev_for_contest)
-
-
 def get_name_or_username(self):
     if not self.first_name:
         return self.username
@@ -82,14 +64,6 @@ class Notification(models.Model):
     def __str__(self):
         return self.msg
 
-@receiver(post_save, sender=User)
-def add_default_permissions(sender, **kwargs):
-    permission1 = Permission.objects.get(name='Can add new photos?')
-    permission2 = Permission.objects.get(name='Can vote photos?')
-    user = kwargs["instance"]
-    if kwargs["created"]:
-        user.user_permissions.add(permission1)
-        user.user_permissions.add(permission2)
 
 @receiver(post_save, sender=User)
 def create_welcoming_notification(sender, instance, created, **kwargs):

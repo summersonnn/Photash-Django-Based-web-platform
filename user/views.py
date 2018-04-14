@@ -12,6 +12,7 @@ from django.db import transaction
 from django.urls import reverse
 from django.contrib import messages
 from .models import Profile
+from django.contrib.auth.models import Permission
 
 def login_view(request):
     form = LoginForm(request.POST or None)
@@ -28,17 +29,21 @@ def login_view(request):
         return HttpResponseRedirect(url)
     return render(request, 'accounts/form.html', {'form': form, 'title': 'Login'})
 
-@login_required
 def activate_account(request, uidb64, token):
     uid = urlsafe_base64_decode(uidb64).decode()
     user = get_object_or_404(User, id=uid)
 
-    if request.user != user or not account_activation_token.check_token(user, token):
+    if user is not None and not account_activation_token.check_token(user, token):
         return HttpResponseRedirect('/')
 
     profile = user.profile
     profile.email_verified = True
     profile.save()
+
+    permission1 = Permission.objects.get(name='Can add new photos?')
+    permission2 = Permission.objects.get(name='Can vote photos?')
+    user.user_permissions.add(permission1)
+    user.user_permissions.add(permission2)
     return HttpResponseRedirect('/')
 
 
