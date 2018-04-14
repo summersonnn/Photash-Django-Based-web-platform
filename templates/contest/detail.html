@@ -56,7 +56,7 @@
                               <tbody>
                                   <tr>
                                       <th>Minimum number of photos you must see</th>
-                                          <td id="min-must-votes">value["min_must_votes"]</td>
+                                          <td id="min-seen-photos"></td>
                                   </tr>
                                   <tr>
                                       <th>Number of photos in the photopool</th>
@@ -64,7 +64,7 @@
                                   </tr>
                                   <tr>
                                       <th>Maximum number of photos you can upload</th>
-                                          <td id="max-photos">value["max_photos_per_Reguser"]</td>
+                                          <td id="max-photos"></td>
                                   </tr>
                               </tbody>
                           </table>
@@ -103,13 +103,21 @@
         </div>
         <div class="examples-content">
             <div class="row">
-                {% for example in examples %}
                     <div class="col-sm-4">
-                        <div class="card" style="border-color: black;">
-                            <img src="{{ example.photoItself.url }}" alt="Example Photo" style="width: 350px; height: 200px;">
+                        <div id="card1" class="card" style="border-color: black;">
+                            <img src="" alt="Example Photo" style="width: 350px; height: 200px;">
                         </div>
                     </div>
-                {% endfor %}
+                    <div id="card2" class="col-sm-4">
+                        <div class="card" style="border-color: black;">
+                            <img src="" alt="Example Photo" style="width: 350px; height: 200px;">
+                        </div>
+                    </div>
+                    <div id="card3" class="col-sm-4">
+                        <div class="card" style="border-color: black;">
+                            <img src="" alt="Example Photo" style="width: 350px; height: 200px;">
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
@@ -118,13 +126,12 @@
 <script>
 
     $(document).ready( function(){
-        $("#rankings").attr("disabled", "true");
-        //$('[data-toggle="tooltip"]').tooltip(); Tooltip does not work on disabled elements, find a way to make it work then uncomment.
 
         $.ajax({
             url: '{% url 'contest_api:detail' slug=contest.slug %}',
             type: 'get',
             success: function(value){
+                console.log(value)
                 $(".cname").text(value["contest_name"]);
 
                 var tagAsStr = '';
@@ -151,14 +158,17 @@
                 $("#cname").html(value['contest_name']);
                 $(".contest-start-date").html(contestStartDate);
                 $(".contest-end-date").html(contestEndDate);
-                $("#min-must-votes").html(value['min_must_votes']);
-                $("#min-avg").html(value['min_avg']);
-                $("#min-stddev").html(value['min_stddev']);
+                $("#min-seen-photos").html(value['min_seen_photos']);
+                $("#how-many-photos").html(value['photo_count']);
                 $("#max-photos").html(value['max_photos_per_Reguser']);
                 $(".tags-wrap").html(tagAsStr);
-                $("#how-many-photos").html(value['photo_count']);
 
+                if(value['is_finished']!=true)
+                    $("#rankings").attr("disabled", "true");
 
+                $("#card1 img").attr("src",value['examples'][0]['photoItself']);
+                $("#card2 img").attr("src",value['examples'][1]['photoItself']);
+                $("#card3 img").attr("src",value['examples'][2]['photoItself']);
 
 
                 $(document).ready(function(){

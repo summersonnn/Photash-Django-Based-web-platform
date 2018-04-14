@@ -19,6 +19,7 @@ from django.shortcuts import get_object_or_404
 
 from random import randint, shuffle, choice
 import operator
+import math
 
 
 def recommendation(queryset, user):
@@ -128,23 +129,18 @@ class ContestDetailAPIView(RetrieveAPIView):
         count_photos = photos.count()
         if count_photos > 2:
             data['examples'] = []
-            random_index = randint(0, count_photos - 1)
-            while True:
-                random_index2 = randint(0, count_photos - 1)
-                random_index3 = randint(0, count_photos - 1)
-                if (
-                        random_index2 != random_index and random_index3 != random_index and random_index2 != random_index3):
-                    break
+            random_index = randint(0, math.floor(count_photos/3)-1)
+            random_index2 = randint(math.floor(count_photos/3), math.floor(2*count_photos/3)-1)
+            random_index3 = randint(math.floor(2*count_photos/3), count_photos-1)
 
             data['examples'].append(PhotoSerializer(photos[random_index]).data)
-            data['examples'].append(PhotoSerializer(photos[random_index]).data)
-            data['examples'].append(PhotoSerializer(photos[random_index]).data)
+            data['examples'].append(PhotoSerializer(photos[random_index2]).data)
+            data['examples'].append(PhotoSerializer(photos[random_index3]).data)
 
-            data['photo_count'] = Photo.objects.filter(contest=contest.id).count()
-            data['is_finished'] = contest.is_finished()
+        data['photo_count'] = count_photos
+        data['is_finished'] = contest.is_finished()
 
         if request.user.is_authenticated:
-            # data['vote_count'], data['vote_avg'], data['vote_stddev'] = request.user.get_vote_count_avg_stddev_for_contest(contest)
             try:  # if there is not any Contender object, get() will raise an exception
                 contender = Contender.objects.get(user=request.user, contest=self.get_object())
                 # context['contender'] = contender
