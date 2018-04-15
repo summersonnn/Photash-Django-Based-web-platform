@@ -32,42 +32,39 @@
     var global_owl = "";
     $(document).ready(function(){
         getPhotos(null);
+
         var owl = $('.owl-carousel').owlCarousel();
-            var alreadySeen = [];
-            owl.on('changed.owl.carousel', function(event){
-                var index = event.relatedTarget.current()+1;
-                var current = $(".owl-item:nth-child(" + index + ")" + " .photopool-img-wrapper");
+        var alreadySeen = [];
+        owl.on('changed.owl.carousel', function(event){
+            var index = event.relatedTarget.current()+1;
+            var current = $(".owl-item:nth-child(" + index + ")" + " .photopool-img-wrapper");
 
-                if(jQuery.inArray(current.attr('id'), alreadySeen) < 0){
-                    console.log(current.attr('id'))
-                    seen(current.attr('id'));
-                    alreadySeen.push(current.attr('id'));
-                }
+            if(jQuery.inArray(current.attr('id'), alreadySeen) < 0){
+                seen(current.attr('id'));
+                alreadySeen.push(current.attr('id'));
+            }
 
-                var itemIndex = event.item.index + 1;
-                if(photoCount === 10){
-                    itemIndex += 3;
-                }else{
-                    lastItemIndex = totalPhotoCount - 3;
-                }
-                if(itemIndex === (lastItemIndex)){
-                    //owl.trigger('destroy.owl.carousel');
-                    //owl.trigger('add.owl.carousel', [jQuery("<div class='card-body'>You have reached the end. Reorganizing photos.</div>")]);
-                    getPhotos(next);
-                }
-                
-            });
-            global_owl = owl;
+            var itemIndex = event.item.index + 1;
+            if(photoCount === 10){
+                itemIndex += 3;
+            }else{
+                lastItemIndex = totalPhotoCount - 3;
+            }
+            if(itemIndex === (lastItemIndex)){
+                getPhotos(next);
+            }
 
-        $.ajax({
+        });
+        global_owl = owl;
+
+
+    $.ajax({
            url: '{% url "user_api:notification" %}',
            type: 'GET',
            dataType: 'JSON',
            success: function(result){
-               console.log("XXXX")
-               console.log(result);
+
            }, error: function(data){
-                   console.log("Error");
            }
         });
     });
@@ -96,7 +93,6 @@
         var photosSeen = []; //THESE ARE IMPORTANT PLEASE DO NOT CHANGE
         function writeResults(result, owl){
             $.each(result['results'], function(index, value){
-                console.log(value);
                 if(!photosSeen.includes(value['id'])){
                     owl.trigger('add.owl.carousel', [jQuery("<div class=\"photopool-img-wrapper\" id='" + value["id"] + "'>\n" +
                    "           <a href='" + value['photoItself'] + "' data-fancybox data-caption=\"Fotoğraf yazım\">\n" +
@@ -130,12 +126,10 @@
                                   if (val=== 1) {
                                       $(this).siblings('.form-report').show();
                                       val = 0;
-                                      console.log("Success 1");
                                   }
                                   else {
                                       val = 1;
                                       $(this).siblings('.form-report').hide();
-                                      console.log("Success 1");
                                   }
                                   return false;
                               });
@@ -158,6 +152,12 @@
                 url: url,
                 type: "GET",
                 success: function(result){
+                    //Gelen fotoğraf yoksa false döndürüp çıksın (ilk fotoğraf çekiş için bu)
+                    if(Url===null && result['results'].length === 0){
+                        $(".photopool-main-wrapper").empty();
+                        $(".photopool-main-wrapper").append("<p style='text-align:center'> Gösterilecek fotoğraf yok. Ya havuzdakilerin hepsini oyladınız ya da havuz şu an boş. </p>");
+                    }
+;
                     var count = result["count"];
                     next = result["next"];
                     var pre = result["previous"];
@@ -169,18 +169,16 @@
                     owl.trigger('refresh.owl.carousel', {nav: false, loop:true});
 
 
-                var contest = result['results'][0]['contest'];
-                var tagAsStr = '';
-                $.each(contest['tag'], function(index, data){ //iterating over tags
+                    var contest = result['results'][0]['contest'];
+                    var tagAsStr = '';
+                    $.each(contest['tag'], function(index, data){ //iterating over tags
 
 
-                      tagAsStr += "#" + data.title + " ";
-                });
-                $(".tags-wrap").html(tagAsStr);
-
+                          tagAsStr += "#" + data.title + " ";
+                    });
+                    $(".tags-wrap").html(tagAsStr);
                 },
                 error: function(result){
-                    console.log(result);
                 }
             });
         }
@@ -210,10 +208,8 @@
                 data : {'id': id},
                 type: "post",
                 success: function(data){
-                    console.log("Başarılı");
                 },
                 error: function (data) {
-                    console.log("Başarısız");
 
                 }
 
@@ -233,8 +229,6 @@
                     }
                 }
             }
-            console.log(cookieValue);
-            console.log("yukardaki cookie");
             return cookieValue;
         }
         var csrftoken = getCookie('csrftoken');
