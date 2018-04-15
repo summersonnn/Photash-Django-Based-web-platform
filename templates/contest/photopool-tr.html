@@ -152,7 +152,6 @@
                 url: url,
                 type: "GET",
                 success: function(result){
-                    //Gelen fotoğraf yoksa false döndürüp çıksın (ilk fotoğraf çekiş için bu)
                     if(Url===null && result['results'].length === 0){
                         $(".photopool-main-wrapper").empty();
                         $(".photopool-main-wrapper").append("<p style='text-align:center'> Gösterilecek fotoğraf yok. Ya havuzdakilerin hepsini oyladınız ya da havuz şu an boş. </p>");
