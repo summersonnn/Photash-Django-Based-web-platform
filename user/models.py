@@ -69,6 +69,8 @@ class Notification(models.Model):
 def create_welcoming_notification(sender, instance, created, **kwargs):
     if created:
         welcome = Notification(user = instance, msg="Thank you for joining Photash " + str(instance) + '!')
+        please_verify = Notification(user = instance, msg="We have sent a confirmation link to " + str(instance.email) + "\n You can explore the photos but you can't vote or upload a photo until you verify your account.")
+        please_verify.save()
         welcome.save()
 
 

@@ -13,6 +13,7 @@ from django.urls import reverse
 from django.contrib import messages
 from .models import Profile
 from django.contrib.auth.models import Permission
+from user.models import Notification
 
 def login_view(request):
     form = LoginForm(request.POST or None)
@@ -50,6 +51,10 @@ def activate_account(request, uidb64, token):
     permission2 = Permission.objects.get(name='Can vote photos?')
     user.user_permissions.add(permission1)
     user.user_permissions.add(permission2)
+
+    #Creating a notification for letting the user know he verified.
+    verified = Notification(user=user, msg="You have successfully verified your account. You can now upload photos to a contest as well as vote the photos of others.")
+    verified.save()
 
     login(request,user,backend='django.contrib.auth.backends.ModelBackend')
     return render(request, 'user/verification_done.html')
