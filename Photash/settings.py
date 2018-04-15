@@ -207,6 +207,7 @@ COMMON_URLS = (
     r'^api/(?P<slug>[\w-]+)/index/$', #Contest photopool (api)
     r'^contest/index/$',            #Contest index
     r'^contest/(?P<slug>[\w-]+)/$', #Contest detail
+    r'^api/contest/(?P<slug>[\w-]+)/detail/$', #Contest detail api
     r'^photo/(?P<id>\d+)/$', #Photo detail
     r'^media/(?P<path>.*)$',
     r'^oauth/twitter/login/',

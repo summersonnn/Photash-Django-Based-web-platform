@@ -127,6 +127,7 @@
             url: '{% url 'contest_api:detail' slug=contest.slug %}',
             type: 'get',
             success: function(value){
+                console.log(value);
                 $(".cname").text(value["contest_name"]);
 
                 var tagAsStr = '';
