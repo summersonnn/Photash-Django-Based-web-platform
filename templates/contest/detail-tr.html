@@ -84,10 +84,6 @@
                       </div>
                       <div class="contest-tags-wrap">
                           <div class="tags-wrap"></div>
-                              <button class="btn-txt-only"><i class="fa fa-chevron-down"></i></button>
-                                  <form class="form-report" onclick="report('{{ contest.id }}')">
-                                      <input class="btn-report" type="submit" value="Rapor et">
-                                  </form>
                       </div>
                   </div>
               </div>
@@ -99,7 +95,7 @@
 <section style="margin-bottom: 50px;" class="examples">
     <div class="container">
         <div class="examples-top">
-            <h3>Random Photos from Photopool</h3>
+            <h3>Havuzdan örnek fotoğraflar</h3>
         </div>
         <div class="examples-content">
             <div class="row">
@@ -164,6 +160,7 @@
 
                 if(value['is_finished']!=true)
                     $("#rankings").attr("disabled", "true");
+
 
                 $("#card1 img").attr("src",value['examples'][0]['photoItself']);
                 $("#card2 img").attr("src",value['examples'][1]['photoItself']);
