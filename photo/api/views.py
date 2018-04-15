@@ -100,14 +100,17 @@ def api_photo_delete(request, id):
 
 @api_view(['POST'])
 @authentication_classes((SessionAuthentication,  ))
-#@permission_classes((IsAuthenticated, ))
+@permission_classes((IsAuthenticated, ))
 def api_increase_seen_by_one(request):
     id = int(request.data['id'])
     photo = get_object_or_404(Photo, id=id)
     if request.user not in photo.seenby.all():
-        photo.seenby.add(request.user)
-        photo.save()
-        return Response({'success': 'Photo is seen by another person.'}, status=status.HTTP_200_OK)
+        if request.user.profile.email_verified is True:
+            photo.seenby.add(request.user)
+            photo.save()
+            return Response({'success': 'Photo is seen by another person.'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'You have not verified your email.'}, status=status.HTTP_403_FORBIDDEN)
 
     return Response({'error': 'You have already seen this photo'}, status=status.HTTP_403_FORBIDDEN)
 
