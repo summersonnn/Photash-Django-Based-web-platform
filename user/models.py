@@ -17,11 +17,11 @@ class Profile(models.Model):
     achievements = models.TextField(blank=True)
     aboutme = models.TextField(blank=True)
     is_premium = models.BooleanField(blank=False, default=False, verbose_name='Premium status')
-    reported_photos = models.ManyToManyField(ReportedPhotos)
-    photos_will_be_shown = models.ManyToManyField(Photo, related_name='photos_will_be_shown')
+    reported_photos = models.ManyToManyField(ReportedPhotos, blank=True)
+    photos_will_be_shown = models.ManyToManyField(Photo, blank=True, related_name='photos_will_be_shown')
     all_time_average = models.FloatField(blank=False, default=0.00, verbose_name='All Time Average')
     voted_x_times = models.IntegerField(blank=False, default=0, verbose_name='X kere oylandı (bütün fotoğrafları)')
-    prefered_tags = models.ManyToManyField(Tag)
+    prefered_tags = models.ManyToManyField(Tag, blank=True)
     LANGUAGE_CHOICES = (
         ('en', 'English'),
         ('tr', 'Türkçe'),
