@@ -8,6 +8,7 @@ from django.db.models import Sum
 from reportedPhotos.models import ReportedPhotos
 from photo.models import Photo
 from contest.models import Tag
+import allauth
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Username")
@@ -36,6 +37,11 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+    #Eğer sosyal hesap ise email onayı gerekmesin. Onaylanmış kabul ediyoruz.
+    if instance.socialaccount_set.all:
+        instance.profile.email_verified = True
+        instance.profile.save()
 
 
 def get_name_or_username(self):
@@ -68,10 +74,14 @@ class Notification(models.Model):
 @receiver(post_save, sender=User)
 def create_welcoming_notification(sender, instance, created, **kwargs):
     if created:
-        welcome = Notification(user = instance, msg="Thank you for joining Photash " + str(instance) + '!')
-        please_verify = Notification(user = instance, msg="We have sent a confirmation link to " + str(instance.email) + "\n You can explore the photos but you can't vote or upload a photo until you verify your account.")
-        please_verify.save()
+        welcome = Notification(user=instance, msg="Thank you for joining Photash " + str(instance) + '!')
         welcome.save()
+
+        #Sosyal hesap değilse (normal hesap ise) email gönderdik bildirimi oluşturuyoruz
+        if not instance.socialaccount_set.all:
+            please_verify = Notification(user = instance, msg="We have sent a confirmation link to " + str(instance.email) + "\n You can explore the photos but you can't vote or upload a photo until you verify your account.")
+            please_verify.save()
+
 
 
 

@@ -33,7 +33,7 @@ class LoginRequiredMiddleware:
         if path == 'user/logout/':
             logout(request)
 
-        #Kullanıcı girişi yapıldıysa ve url muaf url'ler arasındaysa
+        #Kullanıcı girişi yapıldıysa ve url muaf url'ler arasındaysa (saece logged in userların girebileceği bir url ise)
         if request.user.is_authenticated and url_is_exempt:
             return redirect(settings.LOGIN_REDIRECT_URL)
         #Logged in - Muaf değil  veya  Logged out - Muaf  Bu durumlar istenmeyen durumlar değildir
