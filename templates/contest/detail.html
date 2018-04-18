@@ -37,10 +37,10 @@
                                       <td>
                                           <button id="prize-open-btn" class="btn-txt-only"><i class="fa fa-chevron-down"></i></button>
                                               <ul class="prize-list">
-                                                  <li><span>1</span> <strong>500$</strong> <span>Hawaii Vacation</span></li>
-                                                  <li><span>2</span> <strong>100$</strong> <span>Bosphorus Tour</span></li>
-                                                  <li><span>3</span> <strong>50$</strong> <span></span></li>
-                                                  <li><span>4-20</span> <strong>10$</strong> <span></span></li>
+                                                  <li></li>
+                                                  <li></li>
+                                                  <li></li>
+                                                  <li></li>
                                               </ul>
                                       </td>
                               </tr>
@@ -159,9 +159,18 @@
                 $("#max-photos").html(value['max_photos_per_Reguser']);
                 $(".tags-wrap").html(tagAsStr);
 
+                //Prize distribution string manipulation and placing
+                var arr = value['prize_distributions'].split("\n");
+                $(".prize-list li:nth-child(1)").html(arr[0]);
+                $(".prize-list li:nth-child(2)").html(arr[1]);
+                $(".prize-list li:nth-child(3)").html(arr[2]);
+                $(".prize-list li:nth-child(4)").html(arr[3]);
+
+                //Checking if the contest is ended or not in order to decide to disable rankings button
                 if(value['is_finished']!=true)
                     $("#rankings").attr("disabled", "true");
 
+                //Arranging random photos from photopool
                 $("#card1 img").attr("src",value['examples'][0]['photoItself']);
                 $("#card2 img").attr("src",value['examples'][1]['photoItself']);
                 $("#card3 img").attr("src",value['examples'][2]['photoItself']);
