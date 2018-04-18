@@ -43,6 +43,8 @@ def contest_detail(request, slug):
             return render(request, "contest/detail.html", context)
         else:
             return render(request, "contest/detail-tr.html", context)
+    else:
+        messages.error(request, 'You logged in as a guest. Log in to your account in order to upload a photo or vote for photos',extra_tags="alert-warning")
 
     # Guestler için session kontrolü
     # Session'da language belirlenmemiş ise önce belirleyelim
@@ -71,18 +73,17 @@ def photo_upload(request, slug):
             photo.isChecked = False
             photo.isDeleted = False
             photo.save()
+            messages.success(request, "Successfully uploaded to photopool", extra_tags="alert-success" )
 
             # User'ın o conteste yükleyeceği İlk fotoğraf ise böyle contender objesi yoktur, o objeyi oluşturalım.
             if not Contender.objects.filter(user=request.user, contest=contest_record).exists():
                 contender = Contender(user=request.user, contest=contest_record)
                 contender.save()
 
-            # Mesaj ve redirection işlemleri
-            messages.success(request, 'You have succesfully sent a photo to photo pool')
             return HttpResponseRedirect(contest_record.get_absolute_url())
 
         else:  # user entered an invalid captcha
-            messages.error(request, 'Invalid input for reCaptcha. Please make sure you enter the correct letters')
+            messages.error(request, 'Invalid input for reCaptcha. Please make sure you enter the correct letters', extra_tags="alert-danger")
             return HttpResponseRedirect(request.path_info)  # redirect to the same page
 
     else:  # GET

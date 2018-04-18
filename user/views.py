@@ -27,6 +27,7 @@ def login_view(request):
             login(request, user)
         username = User.objects.get(username=request.user)
         url = reverse('home')
+        messages.success(request, "Welcome again " + str(username) + "!", extra_tags="alert-success")
         return HttpResponseRedirect(url)
     return render(request, 'accounts/form.html', {'form': form, 'title': 'Login'})
 
@@ -62,6 +63,7 @@ def activate_account(request, uidb64, token):
 
 def logout_view(request):
     logout(request)
+    messages.success(request, "See you next time fella!",  extra_tags="alert-danger")
     return redirect('home')
 
 

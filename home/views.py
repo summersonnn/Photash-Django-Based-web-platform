@@ -8,6 +8,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from django.core.mail import send_mail
 import geoip2.webservice
+from django.contrib import messages
 
 def home_view(request):
 
@@ -28,6 +29,7 @@ def home_view(request):
             password = form.cleaned_data.get('password1')
             user.set_password(password)
             user.save()
+            messages.success(request, "Thank you for joining our community. Explore the best photos on Photash!", extra_tags="alert-success")
 
             #setting language by the IP
             client = geoip2.webservice.Client(132292, '9uNrE6xTWGHX')
