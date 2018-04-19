@@ -14,3 +14,4 @@ def photo_detail(request, id):
 
 def photo_delete(request, id):
     return HttpResponseRedirect('api/photo/{}/delete'.format(id))
+

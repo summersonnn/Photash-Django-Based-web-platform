@@ -15,6 +15,7 @@
                 <form method="POST" action="" enctype="multipart/form-data">
                     {% csrf_token %}
                     <h3>Choose your photo.</h3>
+                    <h6>Max allowed file size: <strong>2 MB</strong></h6>
                     {{ form|crispy }} <!--altı çizi olması pycharm kaynaklı-->
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="exampleCheck1" name="show">

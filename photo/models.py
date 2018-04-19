@@ -5,15 +5,22 @@ from django.urls import reverse
 from django.db.models.signals import pre_delete  #R eceive the pre_delete signal and delete the file associated with the model instance.
 from django.dispatch.dispatcher import receiver
 import os
+from django.core.exceptions import ValidationError
+
 
 def get_upload_path(instance, filename):
     return 'photopool/contest_{0}/{1}'.format(instance.contest.slug, filename)
+
+def file_size(value): # add this to some file where you can import it from
+    limit = 2 * 1024 * 1024
+    if value.size > limit:
+        raise ValidationError('File too large. Size should not exceed 2 MiB.')
 
 # Create your models here.
 class Photo(models.Model):
     # Aynı fotoğraf farklı contestlerde farklı id'ye sahip olacağından tek primary key photoid (belki bunu değiştirebilirim)
     id = models.IntegerField(primary_key=True, verbose_name='Photo id')
-    photoItself = models.ImageField(upload_to=get_upload_path, default='blog/static/manzara.jpg', verbose_name='Photo')
+    photoItself = models.ImageField(upload_to=get_upload_path, validators=[file_size], default='blog/static/manzara.jpg', verbose_name='Photo')
     ownername = models.ForeignKey('auth.User', verbose_name='Name of the owner of the photo', on_delete=models.CASCADE, related_name='photos')
     contest = models.ForeignKey('contest.Contest', verbose_name='Contest name', on_delete=models.CASCADE, related_name='photos')
     likes = models.ManyToManyField ('auth.User', blank=True, related_name="photo_likes")
@@ -51,4 +58,7 @@ class Photo(models.Model):
 @receiver(pre_delete, sender=Photo)
 def mymodel_delete(sender, instance, **kwargs):
     instance.photoItself.delete(False)
+
+
+
 

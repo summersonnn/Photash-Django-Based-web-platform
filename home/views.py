@@ -34,7 +34,7 @@ def home_view(request):
             #setting language by the IP
             client = geoip2.webservice.Client(132292, '9uNrE6xTWGHX')
             ip = get_ip(request)
-            response = client.city('176.240.19.15')  # Uzak server'a yüklendiğinde burdaki harcoded ip yerine ip yazılacak. Şu an yazılınca 127.0.0.1 hata çıkartıyor o yüzden yazılmadı
+            response = client.city('46.218.85.101')  # Uzak server'a yüklendiğinde burdaki harcoded ip yerine ip yazılacak. Şu an yazılınca 127.0.0.1 hata çıkartıyor o yüzden yazılmadı
             if (response.country.iso_code == "TR"):
                 user.profile.languagePreference ="tr"
                 user.save()
@@ -103,7 +103,7 @@ def set_session_for_language_according_to_IP(request):
     # Setting the language according to the IP of the guest
     client = geoip2.webservice.Client(132292, '9uNrE6xTWGHX')
     ip = get_ip(request)
-    response = client.city('195.175.89.86')  # Uzak server'a yüklendiğinde burdaki harcoded ip yerine ip yazılacak. Şu an yazılınca 127.0.0.1 hata çıkartıyor o yüzden yazılmadı
+    response = client.city('46.218.85.101')  # Uzak server'a yüklendiğinde burdaki harcoded ip yerine ip yazılacak. Şu an yazılınca 127.0.0.1 hata çıkartıyor o yüzden yazılmadı
     if (response.country.iso_code == "TR"):
         request.session['language'] = "tr"
     else:

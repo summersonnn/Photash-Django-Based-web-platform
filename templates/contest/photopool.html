@@ -109,9 +109,11 @@
                    "                    <p>I m moving moving</p>\n"+
                    "                    <h4 class=\"photo-title\">" + value['summary'] + "</h4>\n"+
                    "                    <hr>\n" +
+                        {% if user.is_authenticated %}
                    "                    <div class=\"photopool-item-btn-wrap\">\n" +
-                   "                        <a class=\"btn btn-fill like-btn\" onclick=\"like("+ value['id'] +")\">Vote</a>\n"+
+                   "                        <a class=\"btn btn-fill like-btn\" onclick=\"like("+ value['id'] +")\">Like </a>\n"+
                    "                    </div>\n" +
+                        {% endif %}
                    "                </div>\n" +
                    "                <div class=\"photopool-item-tags-wrap\">\n"+
                    "                    <p id=\"compete-in\">Currently competing in: </p>\n"+

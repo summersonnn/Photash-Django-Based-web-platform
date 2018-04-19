@@ -83,7 +83,7 @@ def photo_upload(request, slug):
             return HttpResponseRedirect(contest_record.get_absolute_url())
 
         else:  # user entered an invalid captcha
-            messages.error(request, 'Invalid input for reCaptcha. Please make sure you enter the correct letters', extra_tags="alert-danger")
+            messages.error(request, 'Big file size or Invalid Captcha.', extra_tags="alert-danger")
             return HttpResponseRedirect(request.path_info)  # redirect to the same page
 
     else:  # GET

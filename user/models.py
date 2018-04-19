@@ -9,6 +9,7 @@ from reportedPhotos.models import ReportedPhotos
 from photo.models import Photo
 from contest.models import Tag
 import allauth
+from django.contrib.auth.models import Permission
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Username")
@@ -42,6 +43,12 @@ def save_user_profile(sender, instance, **kwargs):
     if instance.socialaccount_set.all:
         instance.profile.email_verified = True
         instance.profile.save()
+
+        # Giving permissions
+        permission1 = Permission.objects.get(name='Can add new photos?')
+        permission2 = Permission.objects.get(name='Can vote photos?')
+        instance.user_permissions.add(permission1)
+        instance.user_permissions.add(permission2)
 
 
 def get_name_or_username(self):
