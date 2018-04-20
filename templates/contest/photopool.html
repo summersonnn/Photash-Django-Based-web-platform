@@ -95,7 +95,7 @@
             $.each(result['results'], function(index, value){
                 if(!photosSeen.includes(value['id'])){
                     owl.trigger('add.owl.carousel', [jQuery("<div class=\"photopool-img-wrapper\" id='" + value["id"] + "'>\n" +
-                   "           <a href='" + value['photoItself'] + "' data-fancybox data-caption=\"My caption\">\n" +
+                   "           <a href='" + value['photoItself'] + "' data-fancybox data-caption=\""+ value['photo_caption'] +"\">\n" +
                    "            <img class=\"\" src='" + value['photoItself'] + "'>\n" +
                    "           </a></div>\n" +
                    "            <div class=\"photopool-content\">\n" +
@@ -106,7 +106,7 @@
                    "                       </form>\n" +
                    "                    </div>\n"+
                    "                <div class=\"photopool-item-title-wrap\">Photo Caption\n" +
-                   "                    <p>I m moving moving</p>\n"+
+                   "                    <p>" + value['photo_caption'] + "</p>\n"+
                    "                    <h4 class=\"photo-title\">" + value['summary'] + "</h4>\n"+
                    "                    <hr>\n" +
                         {% if user.is_authenticated %}
@@ -192,7 +192,7 @@
                 type: "post",
                 success: function(data){
                     global_owl.trigger('next.owl.carousel');
-                    }
+
                 },
                 error: function (data) {
                     alert(data);
