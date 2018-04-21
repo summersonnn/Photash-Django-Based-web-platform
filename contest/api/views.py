@@ -111,6 +111,7 @@ class ContestListAPIView(ListAPIView):
         for x in data:
             x['photo_count'] = Photo.objects.filter(contest=Contest.objects.get(id=int(x['id']))).count()
 
+
         return Response(data)
 
 

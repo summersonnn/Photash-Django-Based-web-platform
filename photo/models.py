@@ -1,7 +1,6 @@
 from django.db import models
 from datetime import datetime
 from django.urls import reverse
-#from django_resized import ResizedImageField  ----> önceden Imagefield yerine ResizedImagefield kullanıyordum. Ama o sekılde orijinal boyutlarıyla upload etmiyordu. Degıstırdım. Kutuphanesi hala burada.
 from django.db.models.signals import pre_delete  #R eceive the pre_delete signal and delete the file associated with the model instance.
 from django.dispatch.dispatcher import receiver
 import os
@@ -10,7 +9,7 @@ from django.core.exceptions import ValidationError
 def get_upload_path(instance, filename):
     return 'photopool/contest_{0}/{1}'.format(instance.contest.slug, filename)
 
-def file_size(value): # add this to some file where you can import it from
+def file_size(value):
     limit = 2 * 1024 * 1024
     if value.size > limit:
         raise ValidationError('File too large. Size should not exceed 2 MiB.')

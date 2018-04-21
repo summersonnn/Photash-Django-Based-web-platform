@@ -66,14 +66,13 @@
                         <p></p>
                         </div>
                     </div>
-            </div>
         </div>
+
     </div>
 </section>
 
 <script>
     $(document).ready( function(){
-
 
        $.ajax({
            url: '{% url "contest_api:index" %}',
@@ -86,13 +85,22 @@
            },
            dataType: 'JSON',
            success: function(result){
+               console.log(result);
                if (result['count'] > 0 )
                 $("#1").css({'visibility': 'visible'});
 
-               for(var i=2; i<=result['count']; i++){
+               //Cloning divs
+               for(var i=2; i<=result['results'].length; i++){
                    var clonedDiv = $( "#1" ).clone().appendTo( "#indexcontainer" );
                    clonedDiv.attr("id", i);
                }
+
+               //Creating pagination div
+               $( "<div class='paginator' >Buraya pagination navigation eklenecek</div>" ).appendTo( ".container" );
+
+
+
+
                 var idholder = 1;
                 $.each(result['results'], function(index, value){ //contestler dönüyor
                   var getContestDate = new Date(value["end_date"]);  // Get Contest End Date in ISO Format

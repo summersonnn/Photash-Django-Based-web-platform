@@ -28,11 +28,9 @@
 
 
 <script>
-
     var global_owl = "";
     $(document).ready(function(){
         getPhotos(null);
-
         var owl = $('.owl-carousel').owlCarousel();
         var alreadySeen = [];
         owl.on('changed.owl.carousel', function(event){
