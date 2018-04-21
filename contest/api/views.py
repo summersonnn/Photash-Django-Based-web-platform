@@ -307,8 +307,10 @@ class TagDetailAPIView(RetrieveAPIView):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         data = serializer.data
-        contests = [contest for contest in Contest.objects.all() if instance in contest.tag.all()]
-        data['contests'] = ContestSerializer(contests, many=True).data
+        all_contests = Contest.objects.all()
+        results = [contest for contest in all_contests if instance in contest.tag.all()]
+        data['results'] = ContestSerializer(results, many=True).data
+        data['count'] = len(results)
 
         return Response(data, status=status.HTTP_200_OK)
 

@@ -33,6 +33,25 @@ def contest_index(request):
     else:
         return render(request, "contest/index.html", context)
 
+def tag_search_list(request, slug):
+    context = {'slug': slug}
+
+
+    if request.user.is_authenticated:
+        if request.user.profile.languagePreference == "en":
+            return render(request, "contest/tag_search_results.html", context)
+        else:
+            return render(request, "contest/tag_search_results-tr.html", context)
+
+    # Guestler için session kontrolü
+    # Session'da language belirlenmemiş ise önce belirleyelim
+    if "language" not in request.session:
+        set_session_for_language_according_to_IP(request)
+    if (request.session['language'] == "tr"):
+        return render(request, "contest/tag_search_results-tr.html", context)
+    else:
+        return render(request, "contest/tag_search_results.html", context)
+
 
 
 def contest_detail(request, slug):
@@ -54,8 +73,6 @@ def contest_detail(request, slug):
         return render(request, "contest/detail-tr.html", context)
     else:
         return render(request, "contest/detail.html", context)
-
-
 
 @permission_required('photo.ekle_photo')
 def photo_upload(request, slug):
