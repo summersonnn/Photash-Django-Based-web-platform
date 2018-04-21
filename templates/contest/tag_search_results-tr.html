@@ -83,7 +83,7 @@
                   var tagAsStr = '';
 
                   $.each(value['tag'], function(index, data){ //taglar dönüyor
-                      tagAsStr += "#" + data.title + "<br>";
+                      tagAsStr += "<a href='{% url 'contest:tag_search_list' slug='beyaz' %}'>" + "#" + data.title + "</a>" + "<br>";
                   });
 
                   year = getContestDate.getFullYear();
